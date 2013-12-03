@@ -48,6 +48,11 @@ public class Similarity {
         double similarity = 0;
         double[] valueWeightsFirst = first.getValueWeights();
         double[] valueWeightsSecond = second.getValueWeights();
+        
+        if (valueWeightsFirst == null || valueWeightsSecond == null) {
+            throw new IllegalArgumentException(
+                    "Attribute weights are not initialized : " + first.id() +  " "  + second.id() );
+        }
 
         if (valueWeightsFirst.length != valueWeightsSecond.length) {
             throw new IllegalArgumentException(
