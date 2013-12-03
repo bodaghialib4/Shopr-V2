@@ -12,7 +12,8 @@ public class Sex extends GenericAttribute {
     public enum Value implements AttributeValue {
         FEMALE("Female"),
         MALE("Male"),
-        UNISEX("Unisex");
+        UNISEX("Unisex"),
+        UNKNOWN("Unknown");
 
         String mDescriptor;
 
@@ -53,6 +54,9 @@ public class Sex extends GenericAttribute {
         }
         else if ("Beide".equals(value)) {
             setWeights(Sex.Value.UNISEX);
+        }
+        else{
+        	setWeights(Sex.Value.UNKNOWN);
         }
     }
 

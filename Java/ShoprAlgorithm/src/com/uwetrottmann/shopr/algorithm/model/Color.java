@@ -57,7 +57,8 @@ public class Color extends GenericAttribute {
         BLACK("Black"),
         TURQUOISE("Turquoise"),
         WHITE("White"),
-        BEIGE("Beige");
+        BEIGE("Beige"),
+        UNKNOWN("Unknown");
 
         String mDescriptor;
 
@@ -134,6 +135,9 @@ public class Color extends GenericAttribute {
         }
         else if ("Beige".equals(value)) {
             setWeights(Color.Value.BEIGE);
+        }
+        else {
+        	setWeights(Color.Value.UNKNOWN);
         }
     }
 

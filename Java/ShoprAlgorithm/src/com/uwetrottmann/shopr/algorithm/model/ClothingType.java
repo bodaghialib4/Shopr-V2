@@ -52,7 +52,8 @@ public class ClothingType extends GenericAttribute {
         SKIRT("Skirt"),
         SHORTS("Shorts"),
         CARDIGAN("Cardigan"), // Strickjacke
-        TOP("Top/T-Shirt");
+        TOP("Top/T-Shirt"),
+        UNKNOWN("Unknown");
 
         String mDescriptor;
 
@@ -120,6 +121,9 @@ public class ClothingType extends GenericAttribute {
         }
         else if ("Shorts".equals(name)) {
             setWeights(Value.SHORTS);
+        }
+        else {
+        	setWeights(Value.UNKNOWN);
         }
     }
 
