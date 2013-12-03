@@ -109,7 +109,7 @@ public class Color extends GenericAttribute {
         else if ("Grau".equals(value)) {
             setWeights(Color.Value.GREY);
         }
-        else if ("Grün".equals(value)) {
+        else if ("Grün".equals(value) || "Gr�n".equals(value)) {
             setWeights(Color.Value.GREEN);
         }
         else if ("Orange".equals(value)) {
@@ -124,13 +124,13 @@ public class Color extends GenericAttribute {
         else if ("Schwarz".equals(value)) {
             setWeights(Color.Value.BLACK);
         }
-        else if ("Türkis".equals(value)) {
+        else if ("Türkis".equals(value) || "T�rkis".equals(value)) {
             setWeights(Color.Value.TURQUOISE);
         }
         else if ("Violett".equals(value)) {
             setWeights(Color.Value.PURPLE);
         }
-        else if ("Weiß".equals(value)) {
+        else if ("Weiß".equals(value) || "Wei�".equals(value)) {
             setWeights(Color.Value.WHITE);
         }
         else if ("Beige".equals(value)) {
