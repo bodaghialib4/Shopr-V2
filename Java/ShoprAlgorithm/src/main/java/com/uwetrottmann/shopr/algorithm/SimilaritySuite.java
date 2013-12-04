@@ -10,7 +10,7 @@ import com.uwetrottmann.shopr.algorithm.model.Color;
 
 import org.junit.Test;
 
-public class SimilarityTest {
+public class SimilaritySuite {
 
     @Test
     public void testSimilarity() {

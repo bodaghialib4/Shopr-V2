@@ -13,7 +13,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
-public class UtilsTest {
+public class UtilsSuite {
 
     @Test
     public void testSortBySimilarityToQuery() {

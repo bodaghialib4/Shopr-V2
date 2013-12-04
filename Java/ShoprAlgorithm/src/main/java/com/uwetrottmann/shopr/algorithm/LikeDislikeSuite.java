@@ -10,7 +10,7 @@ import com.uwetrottmann.shopr.algorithm.model.Price;
 
 import org.junit.Test;
 
-public class LikeDislikeTest {
+public class LikeDislikeSuite {
 
     @Test
     public void testLikeValue() {
