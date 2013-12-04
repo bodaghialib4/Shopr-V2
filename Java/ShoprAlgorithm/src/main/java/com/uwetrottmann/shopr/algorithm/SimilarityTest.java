@@ -1,5 +1,5 @@
 
-package com.uwetrottmann.shopr.algorithm.test;
+package com.uwetrottmann.shopr.algorithm;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
