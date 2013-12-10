@@ -44,6 +44,12 @@ public class ShoprContract {
 
         String TASK_TYPE = "stats_tasktype";
     }
+    
+    interface FavouritesColumns {
+        String ITEM_ID = "favourites_item_id";
+        
+        String TIMESTAMP = "favourites_date";
+    }
 
     private static final Uri BASE_CONTENT_URI = Uri.parse("content://"
             + CONTENT_AUTHORITY);
@@ -53,6 +59,8 @@ public class ShoprContract {
     public static final String PATH_SHOPS = "shops";
 
     public static final String PATH_STATS = "stats";
+    
+    public static final String PATH_FAVOURITES= "favourites";
 
     /**
      * Represents clothing items.
@@ -119,6 +127,29 @@ public class ShoprContract {
         }
 
         public static String getStatId(Uri uri) {
+            return uri.getLastPathSegment();
+        }
+    }
+    
+    /**
+     * Represents user's favourite items, selected at recommendation sessions.
+     */
+    public static class Favourites implements FavouritesColumns, BaseColumns {
+        public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon()
+                .appendPath(PATH_FAVOURITES).build();
+
+        /** Use if multiple items get returned */
+        public static final String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.shopr.favourites";
+
+        /** Use if a single item is returned */
+        public static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/vnd.shopr.favourites";
+
+        public static Uri buildStatUri(int favouriteId) {
+            return CONTENT_URI.buildUpon().appendPath(String.valueOf(favouriteId))
+                    .build();
+        }
+
+        public static String getFavouriteId(Uri uri) {
             return uri.getLastPathSegment();
         }
     }

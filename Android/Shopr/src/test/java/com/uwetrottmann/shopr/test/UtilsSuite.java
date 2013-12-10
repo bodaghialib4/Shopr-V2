@@ -7,7 +7,7 @@ import com.uwetrottmann.shopr.utils.Utils;
 
 import org.junit.Test;
 
-public class UtilsTest {
+public class UtilsSuite {
 
     @Test
     public void testExtractFirstUrl() {

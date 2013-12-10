@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.uwetrottmann.shopr.provider.ShoprContract.Favourites;
 import com.uwetrottmann.shopr.provider.ShoprContract.Items;
 import com.uwetrottmann.shopr.provider.ShoprContract.Shops;
 import com.uwetrottmann.shopr.provider.ShoprContract.Stats;
@@ -21,6 +22,12 @@ public class ShoprDatabase extends SQLiteOpenHelper {
     public static final int DBVER_STATS = 3;
 
     public static final int DATABASE_VERSION = DBVER_STATS;
+    
+    public interface Clauses {
+    	String DEFAULT = "DEFAULT";
+    	
+    	String CURRENT_TIMESTAMP = "CURRENT_TIMESTAMP";
+    }
 
     public interface Tables {
         String ITEMS = "items";
@@ -28,10 +35,14 @@ public class ShoprDatabase extends SQLiteOpenHelper {
         String SHOPS = "shops";
 
         String STATS = "stats";
+        
+        String FAVOURITES = "favourites";
     }
 
     public interface References {
         String SHOP_ID = "REFERENCES " + Tables.SHOPS + "(" + Shops._ID + ")";
+        
+        String ITEM_ID = "REFERENCES " + Tables.ITEMS + "(" + Items._ID + ")";
     }
 
     private static final String CREATE_ITEMS_TABLE = "CREATE TABLE "
@@ -84,6 +95,17 @@ public class ShoprDatabase extends SQLiteOpenHelper {
             + Stats.TASK_TYPE + " TEXT"
 
             + ");";
+    
+    private static final String CREATE_FAVOURITES_TABLE = "CREATE TABLE "
+            + Tables.FAVOURITES + " ("
+
+            + Favourites._ID + " INTEGER PRIMARY KEY,"
+
+            + Favourites.ITEM_ID + " INTEGER " + References.SHOP_ID + ","
+            
+            + Favourites.TIMESTAMP + " TEXT " + Clauses.DEFAULT + " " + Clauses.CURRENT_TIMESTAMP
+
+            + ");";
 
     private static final String TAG = "ShoprDatabase";
 
@@ -99,6 +121,8 @@ public class ShoprDatabase extends SQLiteOpenHelper {
         db.execSQL(CREATE_ITEMS_TABLE);
 
         db.execSQL(CREATE_STATS_TABLE);
+        
+        db.execSQL(CREATE_FAVOURITES_TABLE);
     }
 
     @Override
@@ -116,7 +140,8 @@ public class ShoprDatabase extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + Tables.ITEMS);
         db.execSQL("DROP TABLE IF EXISTS " + Tables.SHOPS);
         db.execSQL("DROP TABLE IF EXISTS " + Tables.STATS);
-
+        db.execSQL("DROP TABLE IF EXISTS " + Tables.FAVOURITES);
+        
         onCreate(db);
     }
 
