@@ -3,6 +3,7 @@
 
     <string name="app_name">Shopr</string>
     <string name="action_settings">Settings</string>
+    <string name="title_favourites">Favourites</string>
     <string name="title_list">Items</string>
     <string name="title_map">Shops</string>
     <string name="reason_empty">Close to you, store open</string>
@@ -20,6 +21,7 @@
     <string name="sex">Sex</string>
     <string name="action_restart">Start over</string>
     <string name="getting_your_location">Getting your location…</string>
+    <string name="loading_your_favourites">Loading your favourites…</string>
     <string name="has_x_recommendations">sells %s recommended item</string>
     <string name="title_activity_importer">ImporterActivity</string>
     <string name="import_items">Import items</string>
