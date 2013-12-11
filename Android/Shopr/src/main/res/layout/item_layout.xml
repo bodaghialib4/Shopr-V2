@@ -94,6 +94,17 @@
             android:background="@drawable/selectable_background_shopr"
             android:contentDescription="@string/dislike"
             android:src="@drawable/ic_action_dontlike" />
+        
+        <ImageButton
+            android:id="@+id/imageButtonItemFavourite"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@drawable/selectable_background_shopr"
+            android:contentDescription="@string/favourite"
+            android:src="@drawable/ic_action_star_10" />
+
     </LinearLayout>
 
     <TextView

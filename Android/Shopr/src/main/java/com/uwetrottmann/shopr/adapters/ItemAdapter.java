@@ -1,6 +1,9 @@
 
 package com.uwetrottmann.shopr.adapters;
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,9 +22,6 @@ import com.uwetrottmann.shopr.algorithm.model.Color;
 import com.uwetrottmann.shopr.algorithm.model.Item;
 import com.uwetrottmann.shopr.utils.ValueConverter;
 
-import java.text.NumberFormat;
-import java.util.Locale;
-
 public class ItemAdapter extends ArrayAdapter<Item> {
 
     private static final int LAYOUT = R.layout.item_layout;
@@ -31,6 +31,8 @@ public class ItemAdapter extends ArrayAdapter<Item> {
     private OnItemCritiqueListener mCritiqueListener;
 
     private OnItemDisplayListener mItemListener;
+    
+    private OnItemFavouriteListener mFavouriteListener;
 
     public interface OnItemCritiqueListener {
         public void onItemCritique(Item item, boolean isLike);
@@ -39,13 +41,18 @@ public class ItemAdapter extends ArrayAdapter<Item> {
     public interface OnItemDisplayListener {
         public void onItemDisplay(Item item);
     }
+    
+    public interface OnItemFavouriteListener {
+        public void onItemFavourite(Item item);
+    }
 
     public ItemAdapter(Context context, OnItemCritiqueListener critiqueListener,
-            OnItemDisplayListener itemListener) {
+            OnItemDisplayListener itemListener, OnItemFavouriteListener favouriteListener) {
         super(context, LAYOUT);
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mCritiqueListener = critiqueListener;
         mItemListener = itemListener;
+        mFavouriteListener = favouriteListener;
     }
 
     @Override
@@ -63,6 +70,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
             holder.buttonLike = (ImageButton) convertView.findViewById(R.id.imageButtonItemLike);
             holder.buttonDislike = (ImageButton) convertView
                     .findViewById(R.id.imageButtonItemDislike);
+            holder.buttonFavourite = (ImageButton) convertView.findViewById(R.id.imageButtonItemFavourite);
             holder.lastCritiqueTag = convertView.findViewById(R.id.textViewItemLastCritiqueLabel);
 
             convertView.setTag(holder);
@@ -95,12 +103,22 @@ public class ItemAdapter extends ArrayAdapter<Item> {
             }
         });
         CheatSheet.setup(holder.buttonDislike, R.string.dislike);
+        
+        holder.buttonFavourite.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mFavouriteListener != null) {
+                	mFavouriteListener.onItemFavourite(item);
+                }
+            }
+        });
+        CheatSheet.setup(holder.buttonFavourite, R.string.favourite);
 
         holder.pictureContainer.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mItemListener != null) {
-                    mItemListener.onItemDisplay(item);
+                	mItemListener.onItemDisplay(item);
                 }
             }
         });
@@ -132,6 +150,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
         TextView price;
         ImageButton buttonLike;
         ImageButton buttonDislike;
+        ImageButton buttonFavourite;
         View lastCritiqueTag;
     }
 

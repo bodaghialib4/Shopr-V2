@@ -2,7 +2,9 @@
 package com.uwetrottmann.shopr.ui;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
@@ -17,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.uwetrottmann.androidutils.Maps;
@@ -24,11 +27,16 @@ import com.uwetrottmann.shopr.R;
 import com.uwetrottmann.shopr.adapters.ItemAdapter;
 import com.uwetrottmann.shopr.adapters.ItemAdapter.OnItemCritiqueListener;
 import com.uwetrottmann.shopr.adapters.ItemAdapter.OnItemDisplayListener;
+import com.uwetrottmann.shopr.adapters.ItemAdapter.OnItemFavouriteListener;
 import com.uwetrottmann.shopr.algorithm.AdaptiveSelection;
 import com.uwetrottmann.shopr.algorithm.Query;
 import com.uwetrottmann.shopr.algorithm.model.Item;
+import com.uwetrottmann.shopr.eval.ResultsActivity;
+import com.uwetrottmann.shopr.eval.Statistics;
 import com.uwetrottmann.shopr.loaders.ItemLoader;
+import com.uwetrottmann.shopr.provider.ShoprContract.Stats;
 import com.uwetrottmann.shopr.ui.MainActivity.LocationUpdateEvent;
+import com.uwetrottmann.shopr.utils.FavouriteItemUtils;
 
 import de.greenrobot.event.EventBus;
 
@@ -40,7 +48,7 @@ import java.util.Map;
  * vote button.
  */
 public class ItemListFragment extends Fragment implements LoaderCallbacks<List<Item>>,
-        OnItemCritiqueListener, OnItemDisplayListener {
+        OnItemCritiqueListener, OnItemDisplayListener, OnItemFavouriteListener {
 
     public static final String TAG = "Item List";
 
@@ -73,7 +81,7 @@ public class ItemListFragment extends Fragment implements LoaderCallbacks<List<I
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mAdapter = new ItemAdapter(getActivity(), this, this);
+        mAdapter = new ItemAdapter(getActivity(), this, this, this);
 
         mGridView.setAdapter(mAdapter);
 
@@ -193,6 +201,28 @@ public class ItemListFragment extends Fragment implements LoaderCallbacks<List<I
                 CritiqueActivity.InitBundle.IS_POSITIVE_CRITIQUE, isLike)
                 .putExtra(CritiqueActivity.InitBundle.ITEM_ID, item.id()), REQUEST_CODE);
     }
+    
+	@Override
+	public void onItemFavourite(Item item) {
+		Context context = this.getActivity();
+		// finish task, store stats to database
+        Uri statUri = Statistics.get().finishTask(context);
+        if (statUri == null) {
+            Toast.makeText(context, "Task was not started.", Toast.LENGTH_LONG).show();
+            return;
+        }
+        
+        FavouriteItemUtils.addToFavourites(context, item);
+
+        // display results
+        Intent intent = new Intent(context, ResultsActivity.class);
+        intent.putExtra(ResultsActivity.InitBundle.STATS_ID,
+                Integer.valueOf(Stats.getStatId(statUri)));
+        intent.putExtra(ResultsActivity.InitBundle.ITEM_ID, item.id());
+        startActivity(intent);
+		
+		//FavouriteItemUtils.addToFavourites(this.getActivity(), item);
+	}
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
