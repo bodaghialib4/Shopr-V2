@@ -1,7 +1,6 @@
 package com.uwetrottmann.shopr.ui;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -29,6 +28,7 @@ import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.maps.model.LatLng;
+import com.uwetrottmann.androidutils.Maps;
 import com.uwetrottmann.shopr.R;
 import com.uwetrottmann.shopr.eval.TestSetupActivity;
 import com.uwetrottmann.shopr.importer.ImporterActivity;
@@ -207,7 +207,7 @@ public class MainActivity extends FragmentActivity implements
 		}
 		
 		private Map<Integer, Tuple<Fragment, String>> toMap(List<Tuple<Fragment, String>> fragmentSections){
-			Map<Integer, Tuple<Fragment, String>> fragmentSectionMap = new HashMap<Integer, Tuple<Fragment,String>>();
+			Map<Integer, Tuple<Fragment, String>> fragmentSectionMap = Maps.newHashMap();
 			
 			int index = 0;
 			for(Tuple<Fragment, String> fragmentSection : fragmentSections){

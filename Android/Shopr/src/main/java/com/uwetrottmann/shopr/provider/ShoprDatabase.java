@@ -21,12 +21,14 @@ public class ShoprDatabase extends SQLiteOpenHelper {
 
     public static final int DBVER_STATS = 3;
 
-    public static final int DATABASE_VERSION = DBVER_STATS;
+    public static final int DATABASE_VERSION = 4;
     
     public interface Clauses {
     	String DEFAULT = "DEFAULT";
     	
     	String CURRENT_TIMESTAMP = "CURRENT_TIMESTAMP";
+    	
+    	String CREATE_TABLE = "CREATE TABLE ";
     }
 
     public interface Tables {
@@ -45,7 +47,7 @@ public class ShoprDatabase extends SQLiteOpenHelper {
         String ITEM_ID = "REFERENCES " + Tables.ITEMS + "(" + Items._ID + ")";
     }
 
-    private static final String CREATE_ITEMS_TABLE = "CREATE TABLE "
+    private static final String CREATE_ITEMS_TABLE = Clauses.CREATE_TABLE
             + Tables.ITEMS + " ("
 
             + Items._ID + " INTEGER PRIMARY KEY,"
@@ -66,7 +68,7 @@ public class ShoprDatabase extends SQLiteOpenHelper {
 
             + ");";
 
-    private static final String CREATE_SHOPS_TABLE = "CREATE TABLE "
+    private static final String CREATE_SHOPS_TABLE = Clauses.CREATE_TABLE
             + Tables.SHOPS + " ("
 
             + Shops._ID + " INTEGER PRIMARY KEY,"
@@ -81,7 +83,7 @@ public class ShoprDatabase extends SQLiteOpenHelper {
 
             + ");";
 
-    private static final String CREATE_STATS_TABLE = "CREATE TABLE "
+    private static final String CREATE_STATS_TABLE = Clauses.CREATE_TABLE
             + Tables.STATS + " ("
 
             + Stats._ID + " INTEGER PRIMARY KEY,"
@@ -96,12 +98,12 @@ public class ShoprDatabase extends SQLiteOpenHelper {
 
             + ");";
     
-    private static final String CREATE_FAVOURITES_TABLE = "CREATE TABLE "
+    private static final String CREATE_FAVOURITES_TABLE = Clauses.CREATE_TABLE
             + Tables.FAVOURITES + " ("
 
             + Favourites._ID + " INTEGER PRIMARY KEY,"
 
-            + Favourites.ITEM_ID + " INTEGER " + References.SHOP_ID + ","
+            + Favourites.ITEM_ID + " INTEGER " + References.ITEM_ID + ","
             
             + Favourites.TIMESTAMP + " TEXT " + Clauses.DEFAULT + " " + Clauses.CURRENT_TIMESTAMP
 
@@ -115,6 +117,8 @@ public class ShoprDatabase extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+    	Log.w(TAG, "Creating databases");
+    	
         db.execSQL(CREATE_SHOPS_TABLE);
 
         // items refs shop ids, so create shops table first

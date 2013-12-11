@@ -10,6 +10,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.util.Log;
 
+import com.uwetrottmann.shopr.provider.ShoprContract.Favourites;
 import com.uwetrottmann.shopr.provider.ShoprContract.Items;
 import com.uwetrottmann.shopr.provider.ShoprContract.Shops;
 import com.uwetrottmann.shopr.provider.ShoprContract.Stats;
@@ -30,6 +31,9 @@ public class ShoprProvider extends ContentProvider {
 
     private static final int STATS = 300;
     private static final int STAT_ID = 301;
+    
+    private static final int FAVOURITES = 400;
+    private static final int FAVOURITE_ID = 401;
 
     private static final String TAG = "ShoprProvider";
 
@@ -54,6 +58,10 @@ public class ShoprProvider extends ContentProvider {
         // Stats
         matcher.addURI(authority, ShoprContract.PATH_STATS, STATS);
         matcher.addURI(authority, ShoprContract.PATH_STATS + "/*", STAT_ID);
+        
+        // Favourites
+        matcher.addURI(authority, ShoprContract.PATH_FAVOURITES, FAVOURITES);
+        matcher.addURI(authority, ShoprContract.PATH_FAVOURITES + "/*", FAVOURITE_ID);
 
         return matcher;
     }
@@ -84,6 +92,10 @@ public class ShoprProvider extends ContentProvider {
                 return Stats.CONTENT_TYPE;
             case STAT_ID:
                 return Stats.CONTENT_ITEM_TYPE;
+            case FAVOURITES:
+                return Favourites.CONTENT_TYPE;
+            case FAVOURITE_ID:
+                return Favourites.CONTENT_ITEM_TYPE;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -129,6 +141,11 @@ public class ShoprProvider extends ContentProvider {
                 getContext().getContentResolver().notifyChange(uri, null);
                 return Stats.buildStatUri((int) id);
             }
+            case FAVOURITES: {
+                long id = db.insertOrThrow(Tables.FAVOURITES, null, values);
+                getContext().getContentResolver().notifyChange(uri, null);
+                return Stats.buildStatUri((int) id);
+            }
             default: {
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
             }
@@ -156,6 +173,11 @@ public class ShoprProvider extends ContentProvider {
             }
             case STATS: {
                 numValues = bulkInsertHelper(Tables.STATS, values);
+                getContext().getContentResolver().notifyChange(uri, null);
+                break;
+            }
+            case FAVOURITES: {
+                numValues = bulkInsertHelper(Tables.FAVOURITES, values);
                 getContext().getContentResolver().notifyChange(uri, null);
                 break;
             }
@@ -235,6 +257,13 @@ public class ShoprProvider extends ContentProvider {
             case STAT_ID: {
                 final String id = Stats.getStatId(uri);
                 return builder.table(Tables.STATS).where(Stats._ID + "=?", id);
+            }
+            case FAVOURITES: {
+                return builder.table(Tables.FAVOURITES);
+            }
+            case FAVOURITE_ID: {
+                final String id = Stats.getStatId(uri);
+                return builder.table(Tables.FAVOURITES).where(Favourites._ID + "=?", id);
             }
             default: {
                 throw new UnsupportedOperationException("Unknown uri: " + uri);

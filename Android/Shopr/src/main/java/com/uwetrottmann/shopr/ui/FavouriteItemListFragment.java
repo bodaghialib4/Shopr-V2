@@ -1,4 +1,3 @@
-
 package com.uwetrottmann.shopr.ui;
 
 import java.util.List;
@@ -18,14 +17,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+import android.widget.TextView;
 
-import com.google.android.gms.maps.model.LatLng;
 import com.uwetrottmann.androidutils.Maps;
 import com.uwetrottmann.shopr.R;
 import com.uwetrottmann.shopr.adapters.FavouriteItemAdapter;
 import com.uwetrottmann.shopr.adapters.FavouriteItemAdapter.OnFavouriteItemDisplayListener;
 import com.uwetrottmann.shopr.algorithm.model.Item;
-import com.uwetrottmann.shopr.loaders.ItemLoader;
+import com.uwetrottmann.shopr.loaders.FavouriteItemLoader;
 import com.uwetrottmann.shopr.ui.MainActivity.LocationUpdateEvent;
 
 import de.greenrobot.event.EventBus;
@@ -34,159 +33,161 @@ import de.greenrobot.event.EventBus;
  * Shows a list of clothing items the user can critique by tapping an up or down
  * vote button.
  */
-public class FavouriteItemListFragment extends Fragment implements LoaderCallbacks<List<Item>>,
-        OnFavouriteItemDisplayListener {
+public class FavouriteItemListFragment extends Fragment implements
+		LoaderCallbacks<List<Item>>, OnFavouriteItemDisplayListener {
 
-    public static final String TAG = "Favourite Item List";
+	public static final String TAG = "Favourite Item List";
 
-    // I = 9, T = 20
-    private static final int LOADER_ID = 920;
-    private static final int REQUEST_CODE = 12;
-    private GridView mGridView;
-    private FavouriteItemAdapter mAdapter;
+	// I = 9, T = 20
+	private static final int LOADER_ID = 920;
+	private static final int REQUEST_CODE = 12;
+	private GridView mGridView;
+	private FavouriteItemAdapter mAdapter;
+	private TextView emtpyView;
 
-    private boolean mIsInitialized;
+	private boolean mIsInitialized;
 
-    public static FavouriteItemListFragment newInstance() {
-        return new FavouriteItemListFragment();
-    }
+	public static FavouriteItemListFragment newInstance() {
+		return new FavouriteItemListFragment();
+	}
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_favourite_items_list, container, false);
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		View v = inflater.inflate(R.layout.fragment_favourite_items_list,
+				container, false);
 
-        mGridView = (GridView) v.findViewById(R.id.gridViewItemList);
-        View emtpyView = v.findViewById(R.id.textViewItemListEmpty);
-        mGridView.setEmptyView(emtpyView);
+		mGridView = (GridView) v.findViewById(R.id.gridViewItemList);
+		emtpyView = (TextView) v.findViewById(R.id.textViewItemListEmpty);
+		mGridView.setEmptyView(emtpyView);
 
-        return v;
-    }
+		return v;
+	}
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
 
-        mAdapter = new FavouriteItemAdapter(getActivity(), this);
+		mAdapter = new FavouriteItemAdapter(getActivity(), this);
 
-        mGridView.setAdapter(mAdapter);
+		mGridView.setAdapter(mAdapter);
 
-        Bundle args = new Bundle();
-        args.putBoolean("isinit", false);
-        getLoaderManager().initLoader(LOADER_ID, args, this);
+		Bundle args = new Bundle();
+		args.putBoolean("isinit", false);
+		getLoaderManager().initLoader(LOADER_ID, args, this);
 
-        setHasOptionsMenu(true);
-    }
+		setHasOptionsMenu(true);
+	}
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        EventBus.getDefault().registerSticky(this, LocationUpdateEvent.class);
-    }
+	@Override
+	public void onStart() {
+		super.onStart();
+		EventBus.getDefault().registerSticky(this, LocationUpdateEvent.class);
+	}
 
-    @Override
-    public void onStop() {
-        EventBus.getDefault().unregister(this);
-        super.onStop();
-    }
+	@Override
+	public void onStop() {
+		EventBus.getDefault().unregister(this);
+		super.onStop();
+	}
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.item_list, menu);
-    }
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		inflater.inflate(R.menu.item_list, menu);
+	}
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_restart:
-                onInitializeItems();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.action_restart:
+			onInitializeItems();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
 
-    @Override
-    public Loader<List<Item>> onCreateLoader(int loaderId, Bundle args) {
-        boolean isInit = false;
-        if (args != null) {
-            isInit = args.getBoolean("isinit");
-        }
-        LatLng location = ((MainActivity) getActivity()).getLastLocation();
-        return new ItemLoader(getActivity(), location, isInit);
-    }
+	@Override
+	public Loader<List<Item>> onCreateLoader(int loaderId, Bundle args) {
+		return new FavouriteItemLoader(getActivity());
+	}
 
-    @Override
-    public void onLoadFinished(Loader<List<Item>> loader, List<Item> data) {
-        mAdapter.clear();
-        mAdapter.addAll(data);
-        onUpdateShops(data);
-    }
+	@Override
+	public void onLoadFinished(Loader<List<Item>> loader, List<Item> data) {
+		mAdapter.clear();
+		mAdapter.addAll(data);
+		onUpdateShops(data);
 
-    public class ShopUpdateEvent {
-        /**
-         * Holds a list of shop ids and how many recommendations are shown for
-         * each shop.
-         */
-        Map<Integer, Integer> shopMap;
-    }
+		if (data.size() == 0) {
+			emtpyView.setText(R.string.favourite_list_empty);
+		}
+	}
 
-    /**
-     * Post {@link ShopUpdateEvent} based on current list of recommendations.
-     * 
-     * @param data
-     */
-    private void onUpdateShops(List<Item> data) {
-        ShopUpdateEvent event = new ShopUpdateEvent();
+	public class ShopUpdateEvent {
+		/**
+		 * Holds a list of shop ids and how many recommendations are shown for
+		 * each shop.
+		 */
+		Map<Integer, Integer> shopMap;
+	}
 
-        // get shops and number of items per shop
-        event.shopMap = Maps.newHashMap();
-        for (Item item : data) {
-            int shopId = item.shopId();
-            int count = 1;
+	/**
+	 * Post {@link ShopUpdateEvent} based on current list of recommendations.
+	 * 
+	 * @param data
+	 */
+	private void onUpdateShops(List<Item> data) {
+		ShopUpdateEvent event = new ShopUpdateEvent();
 
-            if (event.shopMap.containsKey(shopId)) {
-                count = event.shopMap.get(shopId);
-                count++;
-            }
+		// get shops and number of items per shop
+		event.shopMap = Maps.newHashMap();
+		for (Item item : data) {
+			int shopId = item.shopId();
+			int count = 1;
 
-            event.shopMap.put(shopId, count);
-        }
+			if (event.shopMap.containsKey(shopId)) {
+				count = event.shopMap.get(shopId);
+				count++;
+			}
 
-        EventBus.getDefault().postSticky(event);
-    }
+			event.shopMap.put(shopId, count);
+		}
 
-    @Override
-    public void onLoaderReset(Loader<List<Item>> loader) {
-        mAdapter.clear();
-    }
+		EventBus.getDefault().postSticky(event);
+	}
 
-    @Override
-    public void onItemDisplay(Item item) {
-        // display details
-        Intent intent = new Intent(getActivity(), ItemDetailsActivity.class);
-        intent.putExtra(ItemDetailsActivity.InitBundle.ITEM_ID, item.id());
-        startActivity(intent);
-    }
+	@Override
+	public void onLoaderReset(Loader<List<Item>> loader) {
+		mAdapter.clear();
+	}
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE) {
-            Log.d(TAG, "Received recommendation update, requerying");
-            getLoaderManager().restartLoader(LOADER_ID, null, this);
-        }
-    }
+	@Override
+	public void onItemDisplay(Item item) {
+		// display details
+		Intent intent = new Intent(getActivity(), ItemDetailsActivity.class);
+		intent.putExtra(ItemDetailsActivity.InitBundle.ITEM_ID, item.id());
+		startActivity(intent);
+	}
 
-    public void onEvent(LocationUpdateEvent event) {
-        if (!mIsInitialized) {
-            Log.d(TAG, "Received location update, requerying");
-            mIsInitialized = true;
-            onInitializeItems();
-        }
-    }
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE) {
+			Log.d(TAG, "Received recommendation update, requerying");
+			getLoaderManager().restartLoader(LOADER_ID, null, this);
+		}
+	}
 
-    private void onInitializeItems() {
-        Bundle args = new Bundle();
-        args.putBoolean("isinit", true);
-        getLoaderManager().restartLoader(LOADER_ID, args, this);
-    }
+	public void onEvent(LocationUpdateEvent event) {
+		if (!mIsInitialized) {
+			Log.d(TAG, "Received location update, requerying");
+			mIsInitialized = true;
+			onInitializeItems();
+		}
+	}
+
+	private void onInitializeItems() {
+		Bundle args = new Bundle();
+		args.putBoolean("isinit", true);
+		getLoaderManager().restartLoader(LOADER_ID, args, this);
+	}
 }

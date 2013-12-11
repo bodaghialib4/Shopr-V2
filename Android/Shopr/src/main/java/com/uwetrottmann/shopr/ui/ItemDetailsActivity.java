@@ -1,6 +1,10 @@
 
 package com.uwetrottmann.shopr.ui;
 
+import java.text.NumberFormat;
+import java.util.List;
+import java.util.Locale;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -23,11 +27,8 @@ import com.uwetrottmann.shopr.algorithm.model.Sex;
 import com.uwetrottmann.shopr.eval.ResultsActivity;
 import com.uwetrottmann.shopr.eval.Statistics;
 import com.uwetrottmann.shopr.provider.ShoprContract.Stats;
+import com.uwetrottmann.shopr.utils.FavouriteItemUtils;
 import com.uwetrottmann.shopr.utils.ValueConverter;
-
-import java.text.NumberFormat;
-import java.util.List;
-import java.util.Locale;
 
 public class ItemDetailsActivity extends Activity {
 
@@ -124,6 +125,8 @@ public class ItemDetailsActivity extends Activity {
             Toast.makeText(this, "Task was not started.", Toast.LENGTH_LONG).show();
             return;
         }
+        
+        FavouriteItemUtils.addToFavourites(this, mItem);
 
         // display results
         Intent intent = new Intent(this, ResultsActivity.class);
@@ -132,7 +135,7 @@ public class ItemDetailsActivity extends Activity {
         intent.putExtra(ResultsActivity.InitBundle.ITEM_ID, mItem.id());
         startActivity(intent);
     }
-
+    
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
