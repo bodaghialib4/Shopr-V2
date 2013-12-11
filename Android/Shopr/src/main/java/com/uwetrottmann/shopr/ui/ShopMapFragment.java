@@ -16,6 +16,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.uwetrottmann.androidutils.Lists;
 import com.uwetrottmann.shopr.R;
 import com.uwetrottmann.shopr.loaders.ShopLoader;
+import com.uwetrottmann.shopr.model.Constraints;
 import com.uwetrottmann.shopr.model.Shop;
 import com.uwetrottmann.shopr.settings.AppSettings;
 import com.uwetrottmann.shopr.ui.ItemListFragment.ShopUpdateEvent;
@@ -28,7 +29,6 @@ import java.util.Map;
 
 public class ShopMapFragment extends SupportMapFragment implements LoaderCallbacks<List<Shop>> {
 
-    private static final int RADIUS_METERS = 2000;
     private static final int ZOOM_LEVEL_INITIAL = 14;
     public static final String TAG = "Shops Map";
     private static final int LAODER_ID = 22;
@@ -81,7 +81,7 @@ public class ShopMapFragment extends SupportMapFragment implements LoaderCallbac
             // draw a circle around it
             getMap().addCircle(new CircleOptions()
                     .center(userPosition)
-                    .radius(RADIUS_METERS)
+                    .radius(Constraints.RADIUS_METERS)
                     .strokeColor(getResources().getColor(R.color.lilac))
                     .strokeWidth(4)
                     .fillColor(getResources().getColor(R.color.lilac_transparent)));

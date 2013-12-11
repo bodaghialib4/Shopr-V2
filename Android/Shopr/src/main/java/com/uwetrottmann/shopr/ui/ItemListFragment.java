@@ -127,7 +127,7 @@ public class ItemListFragment extends Fragment implements LoaderCallbacks<List<I
             isInit = args.getBoolean("isinit");
         }
         LatLng location = ((MainActivity) getActivity()).getLastLocation();
-        return new ItemLoader(getActivity(), location, isInit);
+        return new ItemLoader(getActivity(), this, location, isInit);
     }
 
     @Override
