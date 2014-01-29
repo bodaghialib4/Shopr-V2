@@ -33,11 +33,17 @@ public class Color extends GenericAttribute {
         sSimilarValues.addEdge(Value.RED, Value.PURPLE);
         sSimilarValues.addEdge(Value.RED, Value.PINK);
         sSimilarValues.addEdge(Value.YELLOW, Value.ORANGE);
+        sSimilarValues.addEdge(Value.YELLOW, Value.GOLD);
         sSimilarValues.addEdge(Value.BLACK, Value.GREY);
         sSimilarValues.addEdge(Value.WHITE, Value.BEIGE);
         sSimilarValues.addEdge(Value.WHITE, Value.GREY);
+        sSimilarValues.addEdge(Value.WHITE, Value.SILVER);
+        sSimilarValues.addEdge(Value.GREY, Value.SILVER);
         sSimilarValues.addEdge(Value.COLORED, Value.MIXED);
         sSimilarValues.addEdge(Value.BROWN, Value.BEIGE);
+        sSimilarValues.addEdge(Value.GREEN, Value.PETROL);
+        sSimilarValues.addEdge(Value.GREEN, Value.OLIVE);
+      
     }
 
     public static final String ID = "color";
@@ -58,6 +64,10 @@ public class Color extends GenericAttribute {
         TURQUOISE("Turquoise"),
         WHITE("White"),
         BEIGE("Beige"),
+        PETROL("Petrol"),
+        OLIVE("Olive"),
+        GOLD("Gold"),
+        SILVER("Silver"),
         UNKNOWN("Unknown");
 
         String mDescriptor;
@@ -135,6 +145,18 @@ public class Color extends GenericAttribute {
         }
         else if ("Beige".equals(value)) {
             setWeights(Color.Value.BEIGE);
+        }
+        else if ("Petrol".equals(value)) {
+            setWeights(Color.Value.PETROL);
+        }
+        else if ("Oliv".equals(value)) {
+            setWeights(Color.Value.OLIVE);
+        }
+        else if ("Gold".equals(value)) {
+            setWeights(Color.Value.GOLD);
+        }
+        else if ("Silber".equals(value)) {
+            setWeights(Color.Value.SILVER);
         }
         else {
         	setWeights(Color.Value.UNKNOWN);
