@@ -35,6 +35,13 @@ public class ClothingType extends GenericAttribute {
         sSimilarValues.addEdge(Value.CARDIGAN, Value.SWEATER);
         sSimilarValues.addEdge(Value.TOP, Value.SHIRT);
         sSimilarValues.addEdge(Value.TOP, Value.BLOUSE);
+        sSimilarValues.addEdge(Value.TOP, Value.TSHIRT);
+        sSimilarValues.addEdge(Value.TSHIRT, Value.SHIRT);
+        sSimilarValues.addEdge(Value.TSHIRT, Value.BLOUSE);
+        sSimilarValues.addEdge(Value.COAT, Value.JACKET);
+        sSimilarValues.addEdge(Value.SWIMSUIT, Value.TRUNKS);
+        sSimilarValues.addEdge(Value.SWIMSUIT, Value.BIKINI);
+        sSimilarValues.addEdge(Value.LONGSLEEVE, Value.SWEATSHIRT);
     }
 
     public static final String ID = "clothing-type";
@@ -52,9 +59,16 @@ public class ClothingType extends GenericAttribute {
         SKIRT("Skirt"),
         SHORTS("Shorts"),
         CARDIGAN("Cardigan"), // Strickjacke
-        TOP("Top/T-Shirt"),
+        TOP("Top"),
+        TSHIRT("T-Shirt"),
+        SWEATSHIRT("Sweatshirt"),
+        LONGSLEEVE("Longsleeve"),
+        BIKINI("Bikini"),
+        COAT("Coat"),
+        JACKET("Jacket"),
         UNKNOWN("Unknown");
 
+ 
         String mDescriptor;
 
         Value(String descriptor) {
@@ -121,6 +135,27 @@ public class ClothingType extends GenericAttribute {
         }
         else if ("Shorts".equals(name)) {
             setWeights(Value.SHORTS);
+        }
+        else if ("T-Shirt".equals(name)) {
+            setWeights(Value.TSHIRT);
+        }
+        else if ("Sweatshirt".equals(name)) {
+            setWeights(Value.SWEATSHIRT);
+        }
+        else if ("Sweatshirt".equals(name)) {
+            setWeights(Value.SWEATSHIRT);
+        }
+        else if ("Langarmshirt".equals(name)) {
+            setWeights(Value.LONGSLEEVE);
+        }
+        else if ("Bikini".equals(name)) {
+            setWeights(Value.BIKINI);
+        }
+        else if ("Mantel".equals(name)) {
+            setWeights(Value.COAT);
+        }
+        else if ("Jacke".equals(name)) {
+            setWeights(Value.JACKET);
         }
         else {
         	setWeights(Value.UNKNOWN);
