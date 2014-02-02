@@ -1,4 +1,3 @@
-
 package com.uwetrottmann.shopr.utils;
 
 import android.content.Context;

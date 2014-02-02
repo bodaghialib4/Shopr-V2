@@ -135,7 +135,6 @@ public class ItemLoader extends GenericSimpleLoader<List<Item>> {
 		return nearbyShops;
 	}
 
-	// STUB
 	private boolean isShopWithinRadiusInMeters(Shop shop, int radiusInMeters) {
 		LatLng userPosition = ((MainActivity) mFragment.getActivity()).getLastLocation();
 		

@@ -77,7 +77,7 @@ public class CsvImportTask extends AsyncTask<Void, Integer, String> {
             if (firstLine == null) {
                 return "No data.";
             }
-            if ((mType == Type.IMPORT_ITEMS && firstLine.length != 9) ||
+            if ((mType == Type.IMPORT_ITEMS && firstLine.length != 6) ||
                     mType == Type.IMPORT_SHOPS && firstLine.length != 9) {
                 Log.d(TAG, "Invalid column count.");
                 return "Invalid column count.";
@@ -88,9 +88,10 @@ public class CsvImportTask extends AsyncTask<Void, Integer, String> {
             String[] line;
             Random random = new Random(123456); // seed to get fixed
                                                 // distribution
+            int id = 1;
             while ((line = reader.readNext()) != null) {
                 ContentValues values = new ContentValues();
-
+                
                 switch (mType) {
                     case IMPORT_SHOPS:
                         // add values for one shop
@@ -102,20 +103,21 @@ public class CsvImportTask extends AsyncTask<Void, Integer, String> {
                         break;
                     case IMPORT_ITEMS:
                         // add values for one item
-                        values.put(Items._ID, line[0]);
+                        values.put(Items._ID, id);
                         values.put(Shops.REF_SHOP_ID, random.nextInt(129));
-                        values.put(Items.CLOTHING_TYPE, line[1]);
-                        values.put(Items.SEX, line[2]);
-                        values.put(Items.COLOR, line[3]);
-                        values.put(Items.BRAND, line[4]);
-                        values.put(Items.PRICE, line[5]);
+                        values.put(Items.CLOTHING_TYPE, line[0]);
+                        values.put(Items.SEX, line[1]);
+                        values.put(Items.COLOR, line[2]);
+                        values.put(Items.BRAND, line[3]);
+                        values.put(Items.PRICE, line[4]);
                         // extract first image
-                        String imageUrl = line[6];
+                        String imageUrl = line[5];
                         imageUrl = Utils.extractFirstUrl(imageUrl);
                         values.put(Items.IMAGE_URL, imageUrl);
                         break;
                 }
-
+                
+                id++;
                 newValues.add(values);
             }
         } catch (IOException e) {
