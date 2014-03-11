@@ -8,13 +8,12 @@ import com.uwetrottmann.shopr.algorithm.model.Attributes.Attribute;
 import com.uwetrottmann.shopr.algorithm.model.Attributes.AttributeValue;
 
 import java.util.Arrays;
-import java.util.Set;
 
 public abstract class GenericAttribute implements Attribute {
 
     private AttributeValue currentValue;
 
-    protected double[] mValueWeights;
+    double[] mValueWeights;
 
     public AttributeValue currentValue() {
         return currentValue;
@@ -52,7 +51,7 @@ public abstract class GenericAttribute implements Attribute {
      * Returns string for the given attribute having weight 1.0, e.g. only items
      * that have this value are recommended.
      */
-    private String getOnlyString(AttributeValue value) {
+    public String getOnlyString(AttributeValue value) {
         LocalizationModule localizer = AdaptiveSelection.get().getLocalizationModule();
         if (localizer != null) {
             return String.format(localizer.getOnlyString(),
@@ -67,7 +66,7 @@ public abstract class GenericAttribute implements Attribute {
      * that are avoided when recommending items (unless there are no other
      * options).
      */
-    private String getAvoidString() {
+    public String getAvoidString() {
         LocalizationModule localizer = AdaptiveSelection.get().getLocalizationModule();
         if (localizer != null) {
             return localizer.getAvoidString();
@@ -172,7 +171,7 @@ public abstract class GenericAttribute implements Attribute {
      * clamps to 1.0. Subtracts the difference evenly from other weights, clamps
      * them to zero if liked value weight is 1.0.
      */
-    protected void likeValue(int valueIndex, double[] weights) {
+    public void likeValue(int valueIndex, double[] weights) {
         // calculate weight increase based on number of other values
         double weightIncrease = 1.0 / (weights.length - 1);
         weights[valueIndex] += weightIncrease;
@@ -207,7 +206,7 @@ public abstract class GenericAttribute implements Attribute {
      * 
      * @return If the weight at the given index exceeded one.
      */
-    protected final static boolean bindExceedingWeight(int valueIndex, double[] weights) {
+    public static boolean bindExceedingWeight(int valueIndex, double[] weights) {
         // if liked value weight exceeds 1.0, sum exceeds 1.0
         if (weights[valueIndex] > 1.0) {
             // reset other weights to 0.0
@@ -222,7 +221,7 @@ public abstract class GenericAttribute implements Attribute {
      * Distributes overweight (above 1.0) onto all values until the sum is very
      * close to 1.0.
      */
-    protected static void ensureSumBound(double[] weights) {
+    public static void ensureSumBound(double[] weights) {
         // sum can not exceed 1.0
         double sum = getSum(weights);
         if (sum > 1.0) {
@@ -244,7 +243,7 @@ public abstract class GenericAttribute implements Attribute {
     /**
      * Calculates the sum of all the given values.
      */
-    protected static double getSum(double[] values) {
+    public static double getSum(double[] values) {
         double sum = 0;
         for (double d : values) {
             sum += d;
@@ -256,7 +255,7 @@ public abstract class GenericAttribute implements Attribute {
      * Sets the disliked values weight to zero, distributes its ex-weight evenly
      * to other weights.
      */
-    protected void dislikeValue(int valueIndex, double[] weights) {
+    public void dislikeValue(int valueIndex, double[] weights) {
         double dislikedWeight = weights[valueIndex];
 
         weights[valueIndex] = 0.0;
@@ -287,23 +286,4 @@ public abstract class GenericAttribute implements Attribute {
             }
         }
     }
-    
-    @Override
-    public void favorAttributeValuesOnQuery(Set<AttributeValue> values, Query query) {
-    	Attribute queryAttr = query.attributes().getAttributeById(id());
-    	if (queryAttr == null) {
-            query.attributes().initializeAttribute(this);
-        }
-    	
-    	double[] weights = query.attributes().getAttributeById(id()).getValueWeights();
-    	favorAttributeValues(values, weights);
-    }
-    
-    protected void favorAttributeValues(Set<AttributeValue> values, double[] weights) {
-    	double favorValue = 1.0 / values.size();
-    	Arrays.fill(weights, 0.0);
-    	for(AttributeValue value : values) 
-    		mValueWeights[value.index()] = favorValue;	
-    } 
-    
 }

@@ -2,7 +2,6 @@
 package com.uwetrottmann.shopr.algorithm.model;
 
 import com.uwetrottmann.shopr.algorithm.model.Attributes.AttributeValue;
-import com.uwetrottmann.shopr.algorithm.model.Sex.Value;
 
 import org.jgrapht.Graphs;
 import org.jgrapht.UndirectedGraph;
