@@ -1,5 +1,5 @@
 
-package com.uwetrottmann.shopr.algorithm;
+package com.uwetrottmann.shopr.algorithm.model;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
@@ -15,25 +15,26 @@ public class LikeDislikeSuite {
     @Test
     public void testLikeValue() {
         /*
-         * Using trunks because they have no similar types.
+         * Using specifically created UNKNOWN type because it has no similar types.
          */
+    	int index = ClothingType.Value.UNKNOWN.index();
         // all equal
         double[] actual = new double[] {
                 0.25, 0.25, 0.25, 0.25
         };
         double weightOthers = 0.25 - (1.0 / 3) / 3;
         double[] expected = new double[] {
-                weightOthers, 0.25 + 1.0 / 3, weightOthers, weightOthers
+        		0.25 + 1.0 / 3, weightOthers, weightOthers, weightOthers
         };
-        new ClothingType().likeValue(1, actual);
+        new ClothingType().likeValue(index, actual);
         assertThat(actual).isEqualTo(expected);
 
         // one getting bigger than zero
         expected = new double[] {
-                0.0, 1.0, 0.0, 0.0
+        		1.0, 0.0, 0.0, 0.0
         };
-        new ClothingType().likeValue(1, actual);
-        new ClothingType().likeValue(1, actual);
+        new ClothingType().likeValue(index, actual);
+        new ClothingType().likeValue(index, actual);
         assertThat(actual).isEqualTo(expected);
     }
 
@@ -138,25 +139,26 @@ public class LikeDislikeSuite {
     @Test
     public void testDislikeLikeValue() {
         /*
-         * Using trunks because they have no similar types.
+         * Using specifically created UNKNOWN type because it has no similar types.
          */
+    	int index = ClothingType.Value.UNKNOWN.index();
         // first dislike
         double[] actual = new double[] {
                 0.25, 0.25, 0.25, 0.25
         };
         double[] expected = new double[] {
-                0.25 + 0.25 / 3, 0.0, 0.25 + 0.25 / 3, 0.25 + 0.25 / 3
+        		0.0, 0.25 + 0.25 / 3, 0.25 + 0.25 / 3, 0.25 + 0.25 / 3
         };
-        new ClothingType().dislikeValue(1, actual);
+        new ClothingType().dislikeValue(index, actual);
         assertThat(actual).isEqualTo(expected);
 
         // then like again
         // liked value should have highest weight now
         double weightOthers = 0.25 + 0.25 / 3 - 1.0 / (3 * 3);
         expected = new double[] {
-                weightOthers, 1.0 / 3, weightOthers, weightOthers
+        		1.0 / 3, weightOthers, weightOthers, weightOthers
         };
-        new ClothingType().likeValue(1, actual);
+        new ClothingType().likeValue(index, actual);
         assertThat(actual).isEqualTo(expected);
 
         // liking with similars, make one non-similar zero

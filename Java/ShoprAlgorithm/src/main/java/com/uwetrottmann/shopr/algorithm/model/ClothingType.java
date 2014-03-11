@@ -2,6 +2,7 @@
 package com.uwetrottmann.shopr.algorithm.model;
 
 import com.uwetrottmann.shopr.algorithm.model.Attributes.AttributeValue;
+import com.uwetrottmann.shopr.algorithm.model.Sex.Value;
 
 import org.jgrapht.Graphs;
 import org.jgrapht.UndirectedGraph;
@@ -47,6 +48,7 @@ public class ClothingType extends GenericAttribute {
     public static final String ID = "clothing-type";
 
     public enum Value implements AttributeValue {
+    	UNKNOWN("Unknown"),
         SWIMSUIT("Swim suit"),
         TRUNKS("Trunks"),
         BLOUSE("Blouse"),
@@ -65,8 +67,8 @@ public class ClothingType extends GenericAttribute {
         LONGSLEEVE("Longsleeve"),
         BIKINI("Bikini"),
         COAT("Coat"),
-        JACKET("Jacket"),
-        UNKNOWN("Unknown");
+        JACKET("Jacket");
+        
 
  
         String mDescriptor;
@@ -180,7 +182,7 @@ public class ClothingType extends GenericAttribute {
     }
 
     @Override
-    public void likeValue(int indexLiked, double[] weights) {
+    protected void likeValue(int indexLiked, double[] weights) {
         Value[] values = Value.values();
         Value valueLiked = values[indexLiked];
         List<Value> similarValues = Graphs.neighborListOf(sSimilarValues, valueLiked);
