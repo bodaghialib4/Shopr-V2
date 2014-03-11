@@ -6,6 +6,7 @@
     <string name="title_favourites">Favourites</string>
     <string name="title_list">Items</string>
     <string name="title_map">Shops</string>
+    <string name="title_mind_map">Mind Map</string>
     <string name="reason_empty">Close to you, store open</string>
     <string name="like">I like something about this item</string>
     <string name="dislike">I dislike something this item</string>
@@ -98,5 +99,14 @@
     <string name="avoid">avoid %s</string>
     <string name="restart_test">Restart test</string>
     <string name="selection_hint">Select one or more</string>
-
+    
+    <string name="mind_map_definition">Below is my understanding of your <b>current preferences</b> that help me recommend you clothes.
+         You can <b>correct</b> me if I am wrong.</string>
+    
+    <string name="mind_map_section_color">Color</string>
+    <string name="mind_map_section_clothing_type">Clothing type</string>
+    <string name="mind_map_section_sex">Sex</string>
+    <string name="mind_map_section_brand">Brand</string>
+    <string name="mind_map_section_price_range">Price range</string>
+    
 </resources>

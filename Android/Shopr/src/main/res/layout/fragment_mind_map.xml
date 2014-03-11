@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin">
+    
+  <TextView
+	    android:id="@+id/textViewMindMapDefinition"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:text="@string/mind_map_definition"/>
+
+	<TextView
+	    android:id="@+id/textViewColorSection"
+	    style="?android:attr/listSeparatorTextViewStyle"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:text="@string/mind_map_section_color"/>
+
+ 	<TextView
+	    android:id="@+id/textViewColorPreference"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"/>
+ 	
+ 	<TextView
+	    android:id="@+id/textViewClothingTypeSection"
+	    style="?android:attr/listSeparatorTextViewStyle"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	     android:text="@string/mind_map_section_clothing_type"/>
+
+ 	<TextView
+	    android:id="@+id/textViewClothingTypePreference"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"/>
+ 	
+ 	 <TextView
+	    android:id="@+id/textViewSexSection"
+	    style="?android:attr/listSeparatorTextViewStyle"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:text="@string/mind_map_section_sex"/>
+
+ 	<TextView
+	    android:id="@+id/textViewSexPreference"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"/>
+ 	
+ 	 <TextView
+	    android:id="@+id/textViewBrandSection"
+	    style="?android:attr/listSeparatorTextViewStyle"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:text="@string/mind_map_section_brand"/>
+
+ 	<TextView
+	    android:id="@+id/textViewBrandPreference"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"/>
+ 	
+ 	 <TextView
+	    android:id="@+id/textViewPriceRangeSection"
+	    style="?android:attr/listSeparatorTextViewStyle"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:text="@string/mind_map_section_price_range"/>
+
+ 	<TextView
+	    android:id="@+id/textViewPriceRangePreference"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"/>
+ 	
+</LinearLayout>
