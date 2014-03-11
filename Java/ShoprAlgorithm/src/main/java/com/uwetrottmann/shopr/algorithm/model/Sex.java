@@ -49,7 +49,7 @@ public class Sex extends GenericAttribute {
         if ("Weiblich".equals(value)) {
             setWeights(Sex.Value.FEMALE);
         }
-        else if ("Männlich".equals(value) || "M�nnlich".equals(value)) {
+        else if ("Männlich".equals(value) || "M�nnlich".equals(value)) {
             setWeights(Sex.Value.MALE);
         }
         else if ("Beide".equals(value)) {
@@ -76,5 +76,4 @@ public class Sex extends GenericAttribute {
     public AttributeValue[] getValueSymbols() {
         return Value.values();
     }
-
 }
