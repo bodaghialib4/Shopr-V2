@@ -20,11 +20,20 @@
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
 	    android:text="@string/mind_map_section_color"/>
+	
+	 	<LinearLayout  
+        android:id="@+id/colorPreferenceChart"  
+        android:layout_width="match_parent"  
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >  
+    </LinearLayout> 
 
  	<TextView
 	    android:id="@+id/textViewColorPreference"
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"/>
+ 	
+
  	
  	<TextView
 	    android:id="@+id/textViewClothingTypeSection"

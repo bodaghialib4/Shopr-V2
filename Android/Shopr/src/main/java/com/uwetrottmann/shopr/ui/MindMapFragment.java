@@ -1,5 +1,7 @@
 package com.uwetrottmann.shopr.ui;
 
+import org.achartengine.GraphicalView;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -7,10 +9,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.uwetrottmann.shopr.R;
-import com.uwetrottmann.shopr.ui.MainActivity.LocationUpdateEvent;
 
 import de.greenrobot.event.EventBus;
 
@@ -24,6 +26,8 @@ public class MindMapFragment extends Fragment {
 	
 	private TextView colorPreferenceView, clothingTypePreferenceView,
 	sexPreferenceView, brandPreferenceView, priceRangePreferenceView;
+	
+	LinearLayout colorPreferenceChart; 
 
 	public static MindMapFragment newInstance() {
 		return new MindMapFragment();
@@ -41,6 +45,8 @@ public class MindMapFragment extends Fragment {
 		brandPreferenceView = (TextView) v.findViewById(R.id.textViewBrandPreference);
 		priceRangePreferenceView = (TextView) v.findViewById(R.id.textViewPriceRangePreference);
 		
+		colorPreferenceChart = (LinearLayout) v.findViewById(R.id.colorPreferenceChart); 
+		
 		initViews();
 
 		return v;
@@ -56,6 +62,8 @@ public class MindMapFragment extends Fragment {
 
 	private void initColorPreferenceSection() {
 		colorPreferenceView.setText("You are indifferent to colors");
+		GraphicalView chartView = PieChartView.getNewInstance(getActivity(), 200, 100);
+		colorPreferenceChart.addView(chartView);
 	}
 	
 	private void initClothingTypePreferenceSection() {
