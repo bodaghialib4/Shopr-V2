@@ -2,25 +2,26 @@ package com.uwetrottmann.shopr.ui;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
 
-import android.app.ActionBar;
 import android.app.Dialog;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.res.Configuration;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.android.gms.common.ConnectionResult;
@@ -28,7 +29,6 @@ import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.maps.model.LatLng;
-import com.uwetrottmann.androidutils.Maps;
 import com.uwetrottmann.shopr.R;
 import com.uwetrottmann.shopr.eval.TestSetupActivity;
 import com.uwetrottmann.shopr.importer.ImporterActivity;
@@ -37,9 +37,7 @@ import com.uwetrottmann.shopr.utils.Tuple;
 
 import de.greenrobot.event.EventBus;
 
-public class MainActivity extends FragmentActivity implements
-		ActionBar.TabListener, GooglePlayServicesClient.ConnectionCallbacks,
-		GooglePlayServicesClient.OnConnectionFailedListener {
+public class MainActivity extends FragmentActivity {
 
 	private static final String TAG = "Shopr";
 
@@ -49,34 +47,29 @@ public class MainActivity extends FragmentActivity implements
 	 */
 	public static final int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
 
-	/**
-	 * The {@link android.support.v4.view.PagerAdapter} that will provide
-	 * fragments for each of the sections. We use a
-	 * {@link android.support.v4.app.FragmentPagerAdapter} derivative, which
-	 * will keep every loaded fragment in memory. If this becomes too memory
-	 * intensive, it may be best to switch to a
-	 * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-	 */
-	SectionsPagerAdapter mSectionsPagerAdapter;
-
-	/**
-	 * The {@link ViewPager} that will host the section contents.
-	 */
-	ViewPager mViewPager;
-
 	private LocationClient mLocationClient;
 
 	private LatLng mLastLocation;
 
+	private DrawerLayout mDrawerLayout;
+	private ListView mDrawerList;
+	private ActionBarDrawerToggle mDrawerToggle;
+
+	private CharSequence mDrawerTitle;
+	private CharSequence mTitle;
+	private String[] mPlanetTitles = { "Home", "Favourites", "Mindmap" };
+	private List<Tuple<Fragment, String>> drawerSections;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		setContentView(R.layout.activity_main_drawer);
 
-		// Set up the action bar.
-		final ActionBar actionBar = getActionBar();
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+		setupDrawer(savedInstanceState);
+		setupLocationClientOrExitIfNoServiceExist();
+	}
 
+	public void setupLocationClientOrExitIfNoServiceExist() {
 		// Check if Google Play services is installed
 		if (!servicesConnected()) {
 			return;
@@ -86,38 +79,112 @@ public class MainActivity extends FragmentActivity implements
 		 * Create a new location client, using the enclosing class to handle
 		 * callbacks.
 		 */
-		mLocationClient = new LocationClient(this, this, this);
+		mLocationClient = new LocationClient(this,
+				new GoogleServicesConnectionCallbacks(),
+				GoogleServicesConnectionFailedListener.newInstance(this));
+	}
 
-		// Create the adapter that will return a fragment for each of the three
-		// primary sections of the app.
-		mSectionsPagerAdapter = new SectionsPagerAdapter(
-				getSupportFragmentManager());
+	public void setupDrawer(Bundle savedInstanceState) {
+		mTitle = mDrawerTitle = getTitle();
+		// mPlanetTitles = getResources().getStringArray(R.array.planets_array);
+		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+		// set a custom shadow that overlays the main content when the drawer
+		// opens
+		mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
+				GravityCompat.START);
 
-		// Set up the ViewPager with the sections adapter.
-		mViewPager = (ViewPager) findViewById(R.id.pager);
-		mViewPager.setAdapter(mSectionsPagerAdapter);
+		// enable ActionBar app icon to behave as action to toggle nav drawer
 
-		// When swiping between different sections, select the corresponding
-		// tab. We can also use ActionBar.Tab#select() to do this if we have
-		// a reference to the Tab.
-		mViewPager
-				.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-					@Override
-					public void onPageSelected(int position) {
-						actionBar.setSelectedNavigationItem(position);
-					}
-				});
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+		getActionBar().setHomeButtonEnabled(true);
 
-		// For each of the sections in the app, add a tab to the action bar.
-		for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
-			// Create a tab with text corresponding to the page title defined by
-			// the adapter. Also specify this Activity object, which implements
-			// the TabListener interface, as the callback (listener) for when
-			// this tab is selected.
-			actionBar.addTab(actionBar.newTab()
-					.setText(mSectionsPagerAdapter.getPageTitle(i))
-					.setTabListener(this));
+		// ActionBarDrawerToggle ties together the the proper interactions
+		// between the sliding drawer and the action bar app icon
+		mDrawerToggle = new ActionBarDrawerToggle(this, /* host Activity */
+		mDrawerLayout, /* DrawerLayout object */
+		R.drawable.ic_drawer, /* nav drawer image to replace 'Up' caret */
+		R.string.drawer_open, /* "open drawer" description for accessibility */
+		R.string.drawer_close /* "close drawer" description for accessibility */
+		) {
+			public void onDrawerClosed(View view) {
+				//getActionBar().setTitle(mTitle);
+				invalidateOptionsMenu(); // creates call to
+											// onPrepareOptionsMenu()
+			}
+
+			public void onDrawerOpened(View drawerView) {
+				getActionBar().setTitle(mDrawerTitle);
+				invalidateOptionsMenu(); // creates call to
+											// onPrepareOptionsMenu()
+			}
+		};
+		mDrawerLayout.setDrawerListener(mDrawerToggle);
+		setupDrawerSections();
+
+		if (savedInstanceState == null) {
+			selectItem(0);
 		}
+	}
+
+	private void setupDrawerSections() {
+		drawerSections = new ArrayList<Tuple<Fragment, String>>();
+
+		Tuple<Fragment, String> homeSection = new Tuple<Fragment, String>(
+				PageSlidingTabStripFragment.newInstance(),
+				getString(R.string.drawer_section_title_home));
+
+		Tuple<Fragment, String> favouritesSections = new Tuple<Fragment, String>(
+				FavouriteItemListFragment.newInstance(),
+				getString(R.string.drawer_section_title_favourites));
+
+		Tuple<Fragment, String> mindMapSection = new Tuple<Fragment, String>(
+				MindMapFragment.newInstance(), getString(R.string.drawer_section_title_mind_map));
+
+		drawerSections.add(homeSection);
+		drawerSections.add(favouritesSections);
+		drawerSections.add(mindMapSection);
+		
+		setupDrawerList();
+	}
+	
+	private void setupDrawerList(){
+		mDrawerList = (ListView) findViewById(R.id.left_drawer);
+
+		// set up the drawer's list view with items and click listener
+		mDrawerList.setAdapter(new ArrayAdapter<String>(this,
+				R.layout.drawer_list_item, toSectionTitles(drawerSections)));
+		mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+	}
+	
+	private String[] toSectionTitles(List<Tuple<Fragment, String>> sections) {	
+		ArrayList<String> titleList = new ArrayList<String>();
+		for(Tuple<Fragment, String> drawerSection: sections) {
+			titleList.add(drawerSection._2);
+		}
+		String[] titles = new String[titleList.size()];
+		return titleList.toArray(titles);
+	}
+	
+	private void selectItem(int position) {
+		
+		switch (position) {
+		case 0:
+			getSupportFragmentManager()
+					.beginTransaction()
+					.replace(R.id.content,
+							PageSlidingTabStripFragment.newInstance()).commit();
+			break;
+		default:
+
+			Fragment fragment = drawerSections.get(position)._1;
+			getSupportFragmentManager().beginTransaction()
+					.replace(R.id.content, fragment).commit();
+			break;
+		}
+		
+		String title = drawerSections.get(position)._2;
+		getActionBar().setTitle(title);
+		mDrawerLayout.closeDrawer(mDrawerList);
 	}
 
 	@Override
@@ -160,6 +227,14 @@ public class MainActivity extends FragmentActivity implements
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
+		case android.R.id.home: {
+			if (mDrawerLayout.isDrawerOpen(mDrawerList)) {
+				mDrawerLayout.closeDrawer(mDrawerList);
+			} else {
+				mDrawerLayout.openDrawer(mDrawerList);
+			}
+			break;
+		}
 		case R.id.action_restart_test:
 			startActivity(new Intent(this, TestSetupActivity.class));
 			// clean this activity up
@@ -171,91 +246,34 @@ public class MainActivity extends FragmentActivity implements
 		case R.id.action_settings:
 			startActivity(new Intent(this, SettingsActivity.class));
 			return true;
-		default:
-			return super.onOptionsItemSelected(item);
+		}
+
+		return super.onOptionsItemSelected(item);
+	}
+
+
+	@Override
+	protected void onPostCreate(Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
+		// Sync the toggle state after onRestoreInstanceState has occurred.
+		mDrawerToggle.syncState();
+	}
+
+	// The click listener for ListView in the navigation drawer
+	private class DrawerItemClickListener implements
+			ListView.OnItemClickListener {
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position,
+				long id) {
+			selectItem(position);
 		}
 	}
 
 	@Override
-	public void onTabSelected(ActionBar.Tab tab,
-			FragmentTransaction fragmentTransaction) {
-		// When the given tab is selected, switch to the corresponding page in
-		// the ViewPager.
-		mViewPager.setCurrentItem(tab.getPosition());
-	}
-
-	@Override
-	public void onTabUnselected(ActionBar.Tab tab,
-			FragmentTransaction fragmentTransaction) {
-	}
-
-	@Override
-	public void onTabReselected(ActionBar.Tab tab,
-			FragmentTransaction fragmentTransaction) {
-	}
-
-	/**
-	 * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
-	 * one of the sections/tabs/pages.
-	 */
-	public class SectionsPagerAdapter extends FragmentPagerAdapter {
-		private Map<Integer, Tuple<Fragment, String>> fragmentSectionMap;
-
-		public SectionsPagerAdapter(FragmentManager fm) {
-			super(fm);
-			this.fragmentSectionMap = toMap(createFragmentSections());
-		}
-		
-		private Map<Integer, Tuple<Fragment, String>> toMap(List<Tuple<Fragment, String>> fragmentSections){
-			Map<Integer, Tuple<Fragment, String>> fragmentSectionMap = Maps.newHashMap();
-			
-			int index = 0;
-			for(Tuple<Fragment, String> fragmentSection : fragmentSections){
-				fragmentSectionMap.put(index, fragmentSection);
-				index++;
-			}
-			return fragmentSectionMap;
-		}
-
-		private List<Tuple<Fragment, String>> createFragmentSections(){
-			Locale l = Locale.getDefault();
-        	Tuple<Fragment, String> itemFragment = 
-        			new Tuple<Fragment, String>(ItemListFragment.newInstance(), getString(R.string.title_list).toUpperCase(l));
-        	Tuple<Fragment, String> shopMapFragment = 
-        			new Tuple<Fragment, String>(ShopMapFragment.newInstance(), getString(R.string.title_map).toUpperCase(l));
-        	Tuple<Fragment, String> favouritesFragment = 
-        			new Tuple<Fragment, String>(FavouriteItemListFragment.newInstance(), getString(R.string.title_favourites).toUpperCase(l));
-        	Tuple<Fragment, String> mindMapFragment = 
-        			new Tuple<Fragment, String>(MindMapFragment.newInstance(), "Test".toUpperCase(l));
-        	
-        	List<Tuple<Fragment, String>> fragmentSections = new ArrayList<Tuple<Fragment, String>>();	
-        	fragmentSections.add(mindMapFragment);
-        	//fragmentSections.add(favouritesFragment);
-        	fragmentSections.add(itemFragment);
-        	//fragmentSections.add(shopMapFragment);
-        	
-    	
-        	return fragmentSections;   	
-		}
-
-		@Override
-		public Fragment getItem(int position) {
-			Tuple<Fragment, String> fragmentSection = fragmentSectionMap.get(position);
-			Fragment fragment = fragmentSection._1;
-			return fragment;
-		}
-
-		@Override
-		public int getCount() {
-			return fragmentSectionMap.size();
-		}
-
-		@Override
-		public CharSequence getPageTitle(int position) {
-			Tuple<Fragment, String> fragmentSection = fragmentSectionMap.get(position);
-			String title = fragmentSection._2;
-			return title;
-		}
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		// Pass any configuration change to the drawer toggles
+		mDrawerToggle.onConfigurationChanged(newConfig);
 	}
 
 	/**
@@ -287,73 +305,6 @@ public class MainActivity extends FragmentActivity implements
 				errorFragment.show(getSupportFragmentManager(), TAG);
 			}
 			return false;
-		}
-	}
-
-	@Override
-	public void onConnected(Bundle dataBundle) {
-		Log.d(TAG, "Connected to location service");
-		getLocation();
-	}
-
-	@Override
-	public void onDisconnected() {
-		Log.d(TAG, "Disconnected from location service.");
-	}
-
-	@Override
-	public void onConnectionFailed(ConnectionResult connectionResult) {
-		/*
-		 * Google Play services can resolve some errors it detects. If the error
-		 * has a resolution, try sending an Intent to start a Google Play
-		 * services activity that can resolve error.
-		 */
-		if (connectionResult.hasResolution()) {
-			try {
-				// Start an Activity that tries to resolve the error
-				connectionResult.startResolutionForResult(this,
-						CONNECTION_FAILURE_RESOLUTION_REQUEST);
-				/*
-				 * Thrown if Google Play services canceled the original
-				 * PendingIntent
-				 */
-			} catch (IntentSender.SendIntentException e) {
-				// Log the error
-				e.printStackTrace();
-			}
-		} else {
-			/*
-			 * If no resolution is available, display a dialog to the user with
-			 * the error.
-			 */
-			showErrorDialog(connectionResult.getErrorCode());
-		}
-	}
-
-	/**
-	 * Show a dialog returned by Google Play services for the connection error
-	 * code
-	 * 
-	 * @param errorCode
-	 *            An error code returned from onConnectionFailed
-	 */
-	private void showErrorDialog(int errorCode) {
-
-		// Get the error dialog from Google Play services
-		Dialog errorDialog = GooglePlayServicesUtil.getErrorDialog(errorCode,
-				this, CONNECTION_FAILURE_RESOLUTION_REQUEST);
-
-		// If Google Play services can provide an error dialog
-		if (errorDialog != null) {
-
-			// Create a new DialogFragment in which to show the error dialog
-			ErrorDialogFragment errorFragment = new ErrorDialogFragment();
-
-			// Set the dialog in the DialogFragment
-			errorFragment.setDialog(errorDialog);
-
-			// Show the error dialog in the DialogFragment
-			errorFragment.show(getSupportFragmentManager(), TAG);
 		}
 	}
 
@@ -409,6 +360,95 @@ public class MainActivity extends FragmentActivity implements
 	}
 
 	public class LocationUpdateEvent {
+	}
+
+	private class GoogleServicesConnectionCallbacks implements
+			GooglePlayServicesClient.ConnectionCallbacks {
+
+		@Override
+		public void onConnected(Bundle dataBundle) {
+			Log.d(TAG, "Connected to location service");
+			getLocation();
+		}
+
+		@Override
+		public void onDisconnected() {
+			Log.d(TAG, "Disconnected from location service.");
+		}
+
+	}
+
+	private static class GoogleServicesConnectionFailedListener implements
+			GooglePlayServicesClient.OnConnectionFailedListener {
+		private FragmentActivity activity;
+
+		public static GoogleServicesConnectionFailedListener newInstance(
+				FragmentActivity activity) {
+			return new GoogleServicesConnectionFailedListener()
+					.setActivity(activity);
+		}
+
+		public GoogleServicesConnectionFailedListener setActivity(
+				FragmentActivity activity) {
+			this.activity = activity;
+			return this;
+		}
+
+		@Override
+		public void onConnectionFailed(ConnectionResult connectionResult) {
+			/*
+			 * Google Play services can resolve some errors it detects. If the
+			 * error has a resolution, try sending an Intent to start a Google
+			 * Play services activity that can resolve error.
+			 */
+			if (connectionResult.hasResolution()) {
+				try {
+					// Start an Activity that tries to resolve the error
+					connectionResult.startResolutionForResult(activity,
+							CONNECTION_FAILURE_RESOLUTION_REQUEST);
+					/*
+					 * Thrown if Google Play services canceled the original
+					 * PendingIntent
+					 */
+				} catch (IntentSender.SendIntentException e) {
+					// Log the error
+					e.printStackTrace();
+				}
+			} else {
+				/*
+				 * If no resolution is available, display a dialog to the user
+				 * with the error.
+				 */
+				showErrorDialog(connectionResult.getErrorCode());
+			}
+		}
+
+		/**
+		 * Show a dialog returned by Google Play services for the connection
+		 * error code
+		 * 
+		 * @param errorCode
+		 *            An error code returned from onConnectionFailed
+		 */
+		private void showErrorDialog(int errorCode) {
+
+			// Get the error dialog from Google Play services
+			Dialog errorDialog = GooglePlayServicesUtil.getErrorDialog(
+					errorCode, activity, CONNECTION_FAILURE_RESOLUTION_REQUEST);
+
+			// If Google Play services can provide an error dialog
+			if (errorDialog != null) {
+
+				// Create a new DialogFragment in which to show the error dialog
+				ErrorDialogFragment errorFragment = new ErrorDialogFragment();
+
+				// Set the dialog in the DialogFragment
+				errorFragment.setDialog(errorDialog);
+
+				// Show the error dialog in the DialogFragment
+				errorFragment.show(activity.getSupportFragmentManager(), TAG);
+			}
+		}
 	}
 
 }

@@ -59,7 +59,7 @@
         </activity>
         <activity
             android:name="com.uwetrottmann.shopr.ui.CritiqueActivity"
-            android:parentActivityName="com.uwetrottmann.shopr.ui.MainActivity"
+            android:parentActivityName="com.uwetrottmann.shopr.ui.MainActivityLegacy"
             android:theme="@android:style/Theme.Holo.Light" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

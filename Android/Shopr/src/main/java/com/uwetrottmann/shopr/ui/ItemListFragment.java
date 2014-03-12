@@ -60,9 +60,14 @@ public class ItemListFragment extends Fragment implements LoaderCallbacks<List<I
     private ItemAdapter mAdapter;
 
     private boolean mIsInitialized;
+    
+    private static ItemListFragment instance;
 
     public static ItemListFragment newInstance() {
-        return new ItemListFragment();
+    	if(instance == null)
+    		instance = new ItemListFragment();
+    	
+        return instance;
     }
 
     @Override

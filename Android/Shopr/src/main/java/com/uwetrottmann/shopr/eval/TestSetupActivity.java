@@ -1,6 +1,8 @@
 
 package com.uwetrottmann.shopr.eval;
 
+import java.util.Random;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,8 +21,6 @@ import com.uwetrottmann.shopr.R;
 import com.uwetrottmann.shopr.settings.AppSettings;
 import com.uwetrottmann.shopr.ui.MainActivity;
 import com.uwetrottmann.shopr.ui.SettingsActivity;
-
-import java.util.Random;
 
 public class TestSetupActivity extends Activity {
 
