@@ -1,6 +1,8 @@
 
 package com.uwetrottmann.shopr.ui;
 
+import java.util.List;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -13,7 +15,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -39,8 +40,6 @@ import com.uwetrottmann.shopr.algorithm.model.Sex;
 import com.uwetrottmann.shopr.eval.Statistics;
 import com.uwetrottmann.shopr.utils.ValueConverter;
 
-import java.util.List;
-
 public class CritiqueActivity extends Activity {
 
     private ListView mListView;
@@ -58,7 +57,7 @@ public class CritiqueActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
+        //requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_critique);
 
@@ -90,8 +89,8 @@ public class CritiqueActivity extends Activity {
     private void setupActionBar() {
         getActionBar().setHomeButtonEnabled(false);
         getActionBar().setDisplayHomeAsUpEnabled(false);
-        getActionBar().setDisplayShowTitleEnabled(false);
-        getActionBar().setBackgroundDrawable(null);
+        //getActionBar().setDisplayShowTitleEnabled(false);
+        //getActionBar().setBackgroundDrawable(null);
     }
 
     private void setupViews() {
@@ -188,9 +187,15 @@ public class CritiqueActivity extends Activity {
 
         // Record critiquing cycle
         Statistics.get().incrementCycleCount(mIsPositiveCritique);
-
+        
         setResult(RESULT_OK);
         finish();
+        /*
+        Intent i = new Intent(this, MainActivity.class);
+        // set the request code to any code you like,
+        // you can identify the callback via this code
+        startActivityForResult(i, RESULT_OK);
+         */
     }
 
     public class ItemFeatureAdapter extends ArrayAdapter<Attribute> {

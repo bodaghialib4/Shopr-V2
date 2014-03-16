@@ -225,8 +225,6 @@ public class ItemListFragment extends Fragment implements LoaderCallbacks<List<I
                 Integer.valueOf(Stats.getStatId(statUri)));
         intent.putExtra(ResultsActivity.InitBundle.ITEM_ID, item.id());
         startActivity(intent);
-		
-		//FavouriteItemUtils.addToFavourites(this.getActivity(), item);
 	}
 
     @Override

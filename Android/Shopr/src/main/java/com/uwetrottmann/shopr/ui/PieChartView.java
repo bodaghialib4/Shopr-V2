@@ -7,7 +7,6 @@ import org.achartengine.model.CategorySeries;
 import org.achartengine.renderer.DefaultRenderer;
 import org.achartengine.renderer.SimpleSeriesRenderer;
 
-import android.R;
 import android.content.Context;
 import android.graphics.Color;
 
