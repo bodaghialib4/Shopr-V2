@@ -10,8 +10,6 @@ import android.content.res.Configuration;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -20,7 +18,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.google.analytics.tracking.android.EasyTracker;
@@ -30,10 +27,11 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.maps.model.LatLng;
 import com.uwetrottmann.shopr.R;
+import com.uwetrottmann.shopr.adapters.NavDrawerListAdapter;
 import com.uwetrottmann.shopr.eval.TestSetupActivity;
 import com.uwetrottmann.shopr.importer.ImporterActivity;
+import com.uwetrottmann.shopr.model.NavDrawerItem;
 import com.uwetrottmann.shopr.settings.AppSettings;
-import com.uwetrottmann.shopr.utils.Tuple;
 
 import de.greenrobot.event.EventBus;
 
@@ -48,7 +46,6 @@ public class MainActivity extends FragmentActivity {
 	public static final int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
 
 	private LocationClient mLocationClient;
-
 	private LatLng mLastLocation;
 
 	private DrawerLayout mDrawerLayout;
@@ -56,9 +53,7 @@ public class MainActivity extends FragmentActivity {
 	private ActionBarDrawerToggle mDrawerToggle;
 
 	private CharSequence mDrawerTitle;
-	private CharSequence mTitle;
-	private String[] mPlanetTitles = { "Home", "Favourites", "Mindmap" };
-	private List<Tuple<Fragment, String>> drawerSections;
+	private List<NavDrawerItem> navDrawerItems;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -69,23 +64,8 @@ public class MainActivity extends FragmentActivity {
 		setupLocationClientOrExitIfNoServiceExist();
 	}
 
-	public void setupLocationClientOrExitIfNoServiceExist() {
-		// Check if Google Play services is installed
-		if (!servicesConnected()) {
-			return;
-		}
-
-		/*
-		 * Create a new location client, using the enclosing class to handle
-		 * callbacks.
-		 */
-		mLocationClient = new LocationClient(this,
-				new GoogleServicesConnectionCallbacks(),
-				GoogleServicesConnectionFailedListener.newInstance(this));
-	}
-
-	public void setupDrawer(Bundle savedInstanceState) {
-		mTitle = mDrawerTitle = getTitle();
+	private void setupDrawer(Bundle savedInstanceState) {
+		mDrawerTitle = getTitle();
 		// mPlanetTitles = getResources().getStringArray(R.array.planets_array);
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		// set a custom shadow that overlays the main content when the drawer
@@ -94,17 +74,16 @@ public class MainActivity extends FragmentActivity {
 				GravityCompat.START);
 
 		// enable ActionBar app icon to behave as action to toggle nav drawer
-
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setHomeButtonEnabled(true);
 
 		// ActionBarDrawerToggle ties together the the proper interactions
 		// between the sliding drawer and the action bar app icon
 		mDrawerToggle = new ActionBarDrawerToggle(this, /* host Activity */
-		mDrawerLayout, /* DrawerLayout object */
-		R.drawable.ic_drawer, /* nav drawer image to replace 'Up' caret */
-		R.string.drawer_open, /* "open drawer" description for accessibility */
-		R.string.drawer_close /* "close drawer" description for accessibility */
+				mDrawerLayout, /* DrawerLayout object */
+				R.drawable.ic_drawer, /* nav drawer image to replace 'Up' caret */
+				R.string.drawer_open, /* "open drawer" description for accessibility */
+				R.string.drawer_close /* "close drawer" description for accessibility */
 		) {
 			public void onDrawerClosed(View view) {
 				//getActionBar().setTitle(mTitle);
@@ -122,69 +101,69 @@ public class MainActivity extends FragmentActivity {
 		setupDrawerSections();
 
 		if (savedInstanceState == null) {
-			selectItem(0);
+			displayNavDrawerItem(0);
 		}
 	}
 
 	private void setupDrawerSections() {
-		drawerSections = new ArrayList<Tuple<Fragment, String>>();
-
-		Tuple<Fragment, String> homeSection = new Tuple<Fragment, String>(
-				PageSlidingTabStripFragment.newInstance(),
-				getString(R.string.drawer_section_title_home));
-
-		Tuple<Fragment, String> favouritesSections = new Tuple<Fragment, String>(
-				FavouriteItemListFragment.newInstance(),
-				getString(R.string.drawer_section_title_favourites));
-
-		Tuple<Fragment, String> mindMapSection = new Tuple<Fragment, String>(
-				MindMapFragment.newInstance(), getString(R.string.drawer_section_title_mind_map));
-
-		drawerSections.add(homeSection);
-		drawerSections.add(favouritesSections);
-		drawerSections.add(mindMapSection);
+		navDrawerItems = new ArrayList<NavDrawerItem>();
+		navDrawerItems.add(
+				new NavDrawerItem()
+				.fragment(PageSlidingTabStripFragment.newInstance())
+				.title(getString(R.string.drawer_section_title_home))
+				.icon(R.drawable.ic_menu_home));
 		
+		navDrawerItems.add(
+				new NavDrawerItem()
+				.fragment(FavouriteItemListFragment.newInstance())
+				.title(getString(R.string.drawer_section_title_favourites))
+				.icon(R.drawable.ic_menu_star));
+		
+		navDrawerItems.add(
+				new NavDrawerItem()
+				.fragment(MindMapFragment.newInstance())
+				.title(getString(R.string.drawer_section_title_mind_map))
+				.icon(R.drawable.ic_menu_preferences));	
 		setupDrawerList();
 	}
 	
 	private void setupDrawerList(){
 		mDrawerList = (ListView) findViewById(R.id.left_drawer);
-
-		// set up the drawer's list view with items and click listener
-		mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-				R.layout.drawer_list_item, toSectionTitles(drawerSections)));
+		mDrawerList.setAdapter(new NavDrawerListAdapter(this, navDrawerItems));
 		mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 	}
 	
-	private String[] toSectionTitles(List<Tuple<Fragment, String>> sections) {	
-		ArrayList<String> titleList = new ArrayList<String>();
-		for(Tuple<Fragment, String> drawerSection: sections) {
-			titleList.add(drawerSection._2);
+	private void setupLocationClientOrExitIfNoServiceExist() {
+		// Check if Google Play services is installed
+		if (!servicesConnected()) {
+			return;
 		}
-		String[] titles = new String[titleList.size()];
-		return titleList.toArray(titles);
+		/*
+		 * Create a new location client, using the enclosing class to handle
+		 * callbacks.
+		 */
+		mLocationClient = new LocationClient(this,
+				new GoogleServicesConnectionCallbacks(),
+				GoogleServicesConnectionFailedListener.newInstance(this));
 	}
 	
-	private void selectItem(int position) {
+	private void displayNavDrawerItem(int position) {
+		NavDrawerItem drawerItem = navDrawerItems.get(position);
 		
-		switch (position) {
-		case 0:
-			getSupportFragmentManager()
-					.beginTransaction()
-					.replace(R.id.content,
-							PageSlidingTabStripFragment.newInstance()).commit();
-			break;
-		default:
-
-			Fragment fragment = drawerSections.get(position)._1;
-			getSupportFragmentManager().beginTransaction()
-					.replace(R.id.content, fragment).commit();
-			break;
-		}
-		
-		String title = drawerSections.get(position)._2;
-		getActionBar().setTitle(title);
-		mDrawerLayout.closeDrawer(mDrawerList);
+	    if (drawerItem.getFragment() != null) {
+	    	getSupportFragmentManager()
+				.beginTransaction()
+				.replace(R.id.content, drawerItem.getFragment()).commit();
+ 
+            // update selected item and title, then close the drawer
+            mDrawerList.setItemChecked(position, true);
+            mDrawerList.setSelection(position);
+            getActionBar().setTitle(drawerItem.getTitle());
+            mDrawerLayout.closeDrawer(mDrawerList);
+        } else {
+            // error in creating fragment
+            Log.e(TAG, "Error in creating navigation drawer fragment");
+        }
 	}
 
 	@Override
@@ -214,7 +193,7 @@ public class MainActivity extends FragmentActivity {
 
 	@Override
 	public void onBackPressed() {
-		// do nothing, prevents accidential back presses
+		// do nothing, prevents accidental back presses
 	}
 
 	@Override
@@ -265,7 +244,7 @@ public class MainActivity extends FragmentActivity {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
-			selectItem(position);
+			displayNavDrawerItem(position);
 		}
 	}
 
@@ -312,37 +291,7 @@ public class MainActivity extends FragmentActivity {
 	 * Define a DialogFragment to display the error dialog generated in
 	 * showErrorDialog.
 	 */
-	public static class ErrorDialogFragment extends DialogFragment {
 
-		// Global field to contain the error dialog
-		private Dialog mDialog;
-
-		/**
-		 * Default constructor. Sets the dialog field to null
-		 */
-		public ErrorDialogFragment() {
-			super();
-			mDialog = null;
-		}
-
-		/**
-		 * Set the dialog to display
-		 * 
-		 * @param dialog
-		 *            An error dialog
-		 */
-		public void setDialog(Dialog dialog) {
-			mDialog = dialog;
-		}
-
-		/*
-		 * This method must return a Dialog to the DialogFragment.
-		 */
-		@Override
-		public Dialog onCreateDialog(Bundle savedInstanceState) {
-			return mDialog;
-		}
-	}
 
 	public void getLocation() {
 		// If Google Play Services is available
@@ -431,20 +380,16 @@ public class MainActivity extends FragmentActivity {
 		 *            An error code returned from onConnectionFailed
 		 */
 		private void showErrorDialog(int errorCode) {
-
 			// Get the error dialog from Google Play services
 			Dialog errorDialog = GooglePlayServicesUtil.getErrorDialog(
 					errorCode, activity, CONNECTION_FAILURE_RESOLUTION_REQUEST);
 
 			// If Google Play services can provide an error dialog
 			if (errorDialog != null) {
-
 				// Create a new DialogFragment in which to show the error dialog
 				ErrorDialogFragment errorFragment = new ErrorDialogFragment();
-
 				// Set the dialog in the DialogFragment
 				errorFragment.setDialog(errorDialog);
-
 				// Show the error dialog in the DialogFragment
 				errorFragment.show(activity.getSupportFragmentManager(), TAG);
 			}

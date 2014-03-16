@@ -6,6 +6,7 @@ import java.util.List;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +14,7 @@ import android.view.ViewGroup;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.uwetrottmann.shopr.R;
-import com.uwetrottmann.shopr.utils.Tuple;
+import com.uwetrottmann.shopr.model.SectionItem;
 
 public class PageSlidingTabStripFragment extends Fragment {
 
@@ -43,42 +44,36 @@ public class PageSlidingTabStripFragment extends Fragment {
 		PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) view
 				.findViewById(R.id.tabs);
 		ViewPager pager = (ViewPager) view.findViewById(R.id.pager);
-		MyPagerAdapter adapter = new MyPagerAdapter(getChildFragmentManager());
+		PagerAdapter adapter = new PagerAdapter(getChildFragmentManager());
 		pager.setAdapter(adapter);
 		tabs.setViewPager(pager);
-
 	}
 
-	public class MyPagerAdapter extends FragmentPagerAdapter {
-		private List<Tuple<Fragment, String>> fragmentSections;
+	private class PagerAdapter extends FragmentPagerAdapter {
+		private List<SectionItem> fragmentSections;
 		
-		public MyPagerAdapter(android.support.v4.app.FragmentManager fm) {
+		public PagerAdapter(FragmentManager fm) {
 			super(fm);
-			this.fragmentSections = getFragmentSections();
+			this.fragmentSections = createFragmentSections();
 		}
 		
-		private List<Tuple<Fragment, String>> getFragmentSections() {
-			List<Tuple<Fragment, String>> sections = new ArrayList<Tuple<Fragment, String>>();
+		private List<SectionItem> createFragmentSections() {
+			List<SectionItem> sections = new ArrayList<SectionItem>();
+									
+			sections.add(new SectionItem()
+							.title(getString(R.string.title_list))	
+							.fragment(ItemListFragment.newInstance()));
 			
-			Tuple<Fragment, String> itemsFragment = new Tuple<Fragment, String>(
-					ItemListFragment.newInstance(), getString(
-							R.string.title_list));
+			sections.add(new SectionItem()
+			.title(getString(R.string.title_map))	
+			.fragment(ShopMapFragment.newInstance()));		
 			
-			Tuple<Fragment, String> shopsFragment = new Tuple<Fragment, String>(
-					ShopMapFragment.newInstance(), getString(
-							R.string.title_map));
-			
-			sections.add(itemsFragment);
-			sections.add(shopsFragment);
 			return sections;
 		}
 
 		@Override
 		public CharSequence getPageTitle(int position) {
-			Tuple<Fragment, String> fragmentSection = fragmentSections
-					.get(position);
-			String title = fragmentSection._2;
-			return title;
+			return fragmentSections.get(position).getTitle();
 		}
 
 		@Override
@@ -88,11 +83,7 @@ public class PageSlidingTabStripFragment extends Fragment {
 
 		@Override
 		public Fragment getItem(int position) {
-			Tuple<Fragment, String> fragmentSection = fragmentSections
-					.get(position);
-			Fragment fragment = fragmentSection._1;
-			return fragment;
+			return fragmentSections.get(position).getFragment();
 		}
-
 	}
 }

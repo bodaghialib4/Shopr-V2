@@ -10,7 +10,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:horizontalSpacing="4dp"
-        android:numColumns="@integer/gridview_num_columns"
+        android:numColumns="@integer/favourite_items_gridview_num_columns"
         android:verticalSpacing="4dp"
         android:paddingTop="4dp"
         android:paddingLeft="4dp"
