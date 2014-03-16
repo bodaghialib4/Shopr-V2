@@ -23,7 +23,7 @@ import com.uwetrottmann.shopr.utils.ValueConverter;
  */
 public class FavouriteItemLoader extends GenericSimpleLoader<List<Item>> {
 
-	private static final String TAG =  "FavouriteItemLoader";
+	//private static final String TAG =  "FavouriteItemLoader";
 
 	public FavouriteItemLoader(Context context) {
 		super(context);

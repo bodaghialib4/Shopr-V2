@@ -60,11 +60,11 @@ public class MainActivity extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main_drawer);
 
-		setupDrawer(savedInstanceState);
-		setupLocationClientOrExitIfNoServiceExist();
+		setupDrawer(savedInstanceState == null);
+		setupLocationClientOrExit();
 	}
 
-	private void setupDrawer(Bundle savedInstanceState) {
+	private void setupDrawer(boolean mustInitDrawer) {
 		mDrawerTitle = getTitle();
 		// mPlanetTitles = getResources().getStringArray(R.array.planets_array);
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -100,7 +100,7 @@ public class MainActivity extends FragmentActivity {
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
 		setupDrawerSections();
 
-		if (savedInstanceState == null) {
+		if (mustInitDrawer) {
 			displayNavDrawerItem(0);
 		}
 	}
@@ -133,7 +133,7 @@ public class MainActivity extends FragmentActivity {
 		mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 	}
 	
-	private void setupLocationClientOrExitIfNoServiceExist() {
+	private void setupLocationClientOrExit() {
 		// Check if Google Play services is installed
 		if (!servicesConnected()) {
 			return;

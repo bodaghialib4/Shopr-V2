@@ -1,5 +1,6 @@
 package com.uwetrottmann.shopr.ui;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,6 +48,26 @@ public class PageSlidingTabStripFragment extends Fragment {
 		PagerAdapter adapter = new PagerAdapter(getChildFragmentManager());
 		pager.setAdapter(adapter);
 		tabs.setViewPager(pager);
+	}
+	
+	/*
+	 * As a workaround to Fragment Manager exception, 'java.lang.IllegalStateException: No activity'.
+	 * http://stackoverflow.com/questions/15207305/getting-the-error-java-lang-illegalstateexception-activity-has-been-destroyed
+	 */
+	@Override
+	public void onDetach() {
+	    super.onDetach();
+	    
+	    try {
+	        Field childFragmentManager = Fragment.class.getDeclaredField("mChildFragmentManager");
+	        childFragmentManager.setAccessible(true);
+	        childFragmentManager.set(this, null);
+
+	    } catch (NoSuchFieldException e) {
+	        throw new RuntimeException(e);
+	    } catch (IllegalAccessException e) {
+	        throw new RuntimeException(e);
+	    }
 	}
 
 	private class PagerAdapter extends FragmentPagerAdapter {
