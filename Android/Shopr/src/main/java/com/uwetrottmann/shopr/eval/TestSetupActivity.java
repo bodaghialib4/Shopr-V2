@@ -35,6 +35,7 @@ public class TestSetupActivity extends Activity {
         setContentView(R.layout.activity_test_setup);
 
         setupViews();
+        setupActionBar();
     }
 
     private void setupViews() {
@@ -54,6 +55,13 @@ public class TestSetupActivity extends Activity {
 
         mDiversityCheckBox = (CheckBox) findViewById(R.id.checkBoxTestSetupDiversity);
         mDiversityCheckBox.setChecked(AppSettings.isUsingDiversity(this));
+    }
+    
+    /**
+     * Set up the {@link android.app.ActionBar}.
+     */
+    private void setupActionBar() {
+        getActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     protected void onStartTest() {
