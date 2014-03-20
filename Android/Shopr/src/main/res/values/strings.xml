@@ -26,7 +26,7 @@
     <string name="loading_your_favourites">Loading your favourites…</string>
     <string name="favourite_list_empty">You haven\'t favourited anything yet. Why not discover now?</string>
     <string name="has_x_recommendations">sells %s recommended item</string>
-    <string name="title_activity_importer">ImporterActivity</string>
+    <string name="title_activity_importer">Importer</string>
     <string name="import_items">Import items</string>
     <string name="import_shops">Import shops</string>
     <string name="import_no_file_manager">Importing requires a file manager to be installed.</string>
