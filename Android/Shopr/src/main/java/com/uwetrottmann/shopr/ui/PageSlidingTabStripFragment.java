@@ -51,7 +51,8 @@ public class PageSlidingTabStripFragment extends Fragment {
 	}
 	
 	/*
-	 * As a workaround to Fragment Manager exception, 'java.lang.IllegalStateException: No activity'.
+	 * As a workaround to Fragment Manager crash, 'java.lang.IllegalStateException: No activity' because of a bug in the support lib.
+	 * Bug: https://code.google.com/p/android/issues/detail?id=42601
 	 * http://stackoverflow.com/questions/15207305/getting-the-error-java-lang-illegalstateexception-activity-has-been-destroyed
 	 */
 	@Override

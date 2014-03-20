@@ -1,24 +1,15 @@
 package com.uwetrottmann.shopr.ui;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.IntentSender;
-import android.content.res.Configuration;
 import android.location.Location;
 import android.os.Bundle;
-import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.android.gms.common.ConnectionResult;
@@ -27,15 +18,19 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.maps.model.LatLng;
 import com.uwetrottmann.shopr.R;
-import com.uwetrottmann.shopr.adapters.NavDrawerListAdapter;
+import com.uwetrottmann.shopr.adapters.NavDrawerAdapter;
 import com.uwetrottmann.shopr.eval.TestSetupActivity;
 import com.uwetrottmann.shopr.importer.ImporterActivity;
 import com.uwetrottmann.shopr.model.NavDrawerItem;
+import com.uwetrottmann.shopr.model.NavMenuItem;
+import com.uwetrottmann.shopr.model.NavMenuSection;
+import com.uwetrottmann.shopr.model.ui.NavDrawerActivityConfiguration;
 import com.uwetrottmann.shopr.settings.AppSettings;
+import com.uwetrottmann.shopr.ui.MindMapFragment.Type;
 
 import de.greenrobot.event.EventBus;
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends AbstractNavDrawerActivity {
 
 	private static final String TAG = "Shopr";
 
@@ -47,24 +42,78 @@ public class MainActivity extends FragmentActivity {
 
 	private LocationClient mLocationClient;
 	private LatLng mLastLocation;
+	
+	private NavDrawerActivityConfiguration navDrawerActivityConfiguration;
 
-	private DrawerLayout mDrawerLayout;
+	/*private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;
 	private ActionBarDrawerToggle mDrawerToggle;
 
 	private CharSequence mDrawerTitle;
-	private List<NavDrawerItem> navDrawerItems;
+	private List<NavItem> navDrawerItems;*/
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main_drawer);
+		//setContentView(R.layout.activity_main_drawer);
 
-		setupDrawer(savedInstanceState == null);
-		setupLocationClientOrExit();
+		//initDrawer(savedInstanceState == null);
+		initLocationClientOrExit();
+		if ( savedInstanceState == null ) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.content, PageSlidingTabStripFragment.newInstance()).commit();
+        }
 	}
-
-	private void setupDrawer(boolean mustInitDrawer) {
+	
+	@Override
+    protected NavDrawerActivityConfiguration getNavDrawerConfiguration() {
+        
+        NavDrawerItem[] menu = new NavDrawerItem[] {
+                //NavMenuSection.create( 100, "Demos"),
+                NavMenuItem.create(101,getString(R.string.drawer_section_title_home), "ic_menu_home", false, this),
+                NavMenuItem.create(102, getString(R.string.drawer_section_title_favourites), "ic_menu_star", true, this), 
+                NavMenuSection.create(200, getString(R.string.drawer_section_title_mind_map)),
+                NavMenuItem.create(202, "Clothing Type", "navdrawer_rating", false, this),
+                NavMenuItem.create(203, "Color", "navdrawer_eula", false, this), 
+                NavMenuItem.create(204, "Gender", "navdrawer_quit", false, this),
+                NavMenuItem.create(205, "Price Range", "navdrawer_quit", false, this)};
+        
+        navDrawerActivityConfiguration = new NavDrawerActivityConfiguration();
+        navDrawerActivityConfiguration.setMainLayout(R.layout.activity_main_drawer);
+        navDrawerActivityConfiguration.setDrawerLayoutId(R.id.drawer_layout);
+        navDrawerActivityConfiguration.setLeftDrawerId(R.id.left_drawer);
+        navDrawerActivityConfiguration.setNavItems(menu);
+        navDrawerActivityConfiguration.setDrawerShadow(R.drawable.drawer_shadow);       
+        navDrawerActivityConfiguration.setDrawerOpenDesc(R.string.drawer_open);
+        navDrawerActivityConfiguration.setDrawerCloseDesc(R.string.drawer_close);
+        navDrawerActivityConfiguration.setBaseAdapter(
+            new NavDrawerAdapter(this, R.layout.drawer_list_item, menu ));
+        return navDrawerActivityConfiguration;
+    }
+	    
+    @Override
+    protected void onNavItemSelected(int id) {  
+    	switch ((int)id) {
+        case 101:
+        	replaceContent(PageSlidingTabStripFragment.newInstance());
+            break;
+        case 102:
+        	replaceContent(FavouriteItemListFragment.newInstance());
+            break;
+        case 202:
+        	replaceContent(MindMapFragment.newInstance());
+            break;
+        case 203:
+        	replaceContent(MindMapClothingTypeFragment.newInstance());
+            break;
+        }
+    }
+    
+    private void replaceContent(Fragment fragment){
+    	getSupportFragmentManager().beginTransaction().replace(R.id.content, fragment).commit();
+    }
+	
+/*
+	private void initDrawer(boolean mustInitDrawer) {
 		mDrawerTitle = getTitle();
 		// mPlanetTitles = getResources().getStringArray(R.array.planets_array);
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -79,11 +128,11 @@ public class MainActivity extends FragmentActivity {
 
 		// ActionBarDrawerToggle ties together the the proper interactions
 		// between the sliding drawer and the action bar app icon
-		mDrawerToggle = new ActionBarDrawerToggle(this, /* host Activity */
-				mDrawerLayout, /* DrawerLayout object */
-				R.drawable.ic_drawer, /* nav drawer image to replace 'Up' caret */
-				R.string.drawer_open, /* "open drawer" description for accessibility */
-				R.string.drawer_close /* "close drawer" description for accessibility */
+		mDrawerToggle = new ActionBarDrawerToggle(this,
+				mDrawerLayout, 
+				R.drawable.ic_drawer,
+				R.string.drawer_open,
+				R.string.drawer_close
 		) {
 			public void onDrawerClosed(View view) {
 				//getActionBar().setTitle(mTitle);
@@ -98,42 +147,45 @@ public class MainActivity extends FragmentActivity {
 			}
 		};
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
-		setupDrawerSections();
+		initDrawerItems();
 
 		if (mustInitDrawer) {
 			displayNavDrawerItem(0);
 		}
-	}
+	}*/
 
-	private void setupDrawerSections() {
-		navDrawerItems = new ArrayList<NavDrawerItem>();
+	
+/*	private void initDrawerItems() {
+		navDrawerItems = new ArrayList<NavItem>();
 		navDrawerItems.add(
-				new NavDrawerItem()
+				new NavItem()
 				.fragment(PageSlidingTabStripFragment.newInstance())
 				.title(getString(R.string.drawer_section_title_home))
 				.icon(R.drawable.ic_menu_home));
 		
 		navDrawerItems.add(
-				new NavDrawerItem()
+				new NavItem()
 				.fragment(FavouriteItemListFragment.newInstance())
 				.title(getString(R.string.drawer_section_title_favourites))
 				.icon(R.drawable.ic_menu_star));
 		
 		navDrawerItems.add(
-				new NavDrawerItem()
+				new NavItem()
 				.fragment(MindMapFragment.newInstance())
 				.title(getString(R.string.drawer_section_title_mind_map))
 				.icon(R.drawable.ic_menu_preferences));	
-		setupDrawerList();
-	}
+		initDrawerList();
+	}*/
 	
-	private void setupDrawerList(){
+	/*
+	private void initDrawerList(){
 		mDrawerList = (ListView) findViewById(R.id.left_drawer);
 		mDrawerList.setAdapter(new NavDrawerListAdapter(this, navDrawerItems));
 		mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 	}
+	*/
 	
-	private void setupLocationClientOrExit() {
+	private void initLocationClientOrExit() {
 		// Check if Google Play services is installed
 		if (!servicesConnected()) {
 			return;
@@ -146,9 +198,9 @@ public class MainActivity extends FragmentActivity {
 				new GoogleServicesConnectionCallbacks(),
 				GoogleServicesConnectionFailedListener.newInstance(this));
 	}
-	
+	/*
 	private void displayNavDrawerItem(int position) {
-		NavDrawerItem drawerItem = navDrawerItems.get(position);
+		NavItem drawerItem = navDrawerItems.get(position);
 		
 	    if (drawerItem.getFragment() != null) {
 	    	getSupportFragmentManager()
@@ -164,7 +216,7 @@ public class MainActivity extends FragmentActivity {
             // error in creating fragment
             Log.e(TAG, "Error in creating navigation drawer fragment");
         }
-	}
+	}*/
 
 	@Override
 	public void onStart() {
@@ -203,17 +255,18 @@ public class MainActivity extends FragmentActivity {
 		return true;
 	}
 
+	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case android.R.id.home: {
-			if (mDrawerLayout.isDrawerOpen(mDrawerList)) {
+		/*case android.R.id.home: {
+			if (navDrawerActivityConfiguration.get.isDrawerOpen(mDrawerList)) {
 				mDrawerLayout.closeDrawer(mDrawerList);
 			} else {
 				mDrawerLayout.openDrawer(mDrawerList);
 			}
 			break;
-		}
+		}*/
 		case R.id.action_restart_test:
 			startActivity(new Intent(this, TestSetupActivity.class));
 			// clean this activity up
@@ -230,14 +283,15 @@ public class MainActivity extends FragmentActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
-
+/*
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
 		// Sync the toggle state after onRestoreInstanceState has occurred.
 		mDrawerToggle.syncState();
-	}
+	}*/
 
+	/*
 	// The click listener for ListView in the navigation drawer
 	private class DrawerItemClickListener implements
 			ListView.OnItemClickListener {
@@ -246,14 +300,15 @@ public class MainActivity extends FragmentActivity {
 				long id) {
 			displayNavDrawerItem(position);
 		}
-	}
+	}*/
 
+	/*
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
 		// Pass any configuration change to the drawer toggles
 		mDrawerToggle.onConfigurationChanged(newConfig);
-	}
+	}*/
 
 	/**
 	 * Verify that Google Play services is available before making a request.

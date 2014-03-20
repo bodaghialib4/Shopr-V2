@@ -14,73 +14,12 @@
 	    android:layout_height="wrap_content"
 	    android:text="@string/mind_map_definition"/>
 
-	<TextView
-	    android:id="@+id/textViewColorSection"
-	    style="?android:attr/listSeparatorTextViewStyle"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:text="@string/mind_map_section_color"/>
 	
-	 	<LinearLayout  
-        android:id="@+id/colorPreferenceChart"  
-        android:layout_width="match_parent"  
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >  
+	<LinearLayout  
+        android:id="@+id/preferenceChart"  
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+   		android:orientation="horizontal" >  
     </LinearLayout> 
-
- 	<TextView
-	    android:id="@+id/textViewColorPreference"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"/>
- 	
-
- 	
- 	<TextView
-	    android:id="@+id/textViewClothingTypeSection"
-	    style="?android:attr/listSeparatorTextViewStyle"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	     android:text="@string/mind_map_section_clothing_type"/>
-
- 	<TextView
-	    android:id="@+id/textViewClothingTypePreference"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"/>
- 	
- 	 <TextView
-	    android:id="@+id/textViewSexSection"
-	    style="?android:attr/listSeparatorTextViewStyle"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:text="@string/mind_map_section_sex"/>
-
- 	<TextView
-	    android:id="@+id/textViewSexPreference"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"/>
- 	
- 	 <TextView
-	    android:id="@+id/textViewBrandSection"
-	    style="?android:attr/listSeparatorTextViewStyle"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:text="@string/mind_map_section_brand"/>
-
- 	<TextView
-	    android:id="@+id/textViewBrandPreference"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"/>
- 	
- 	 <TextView
-	    android:id="@+id/textViewPriceRangeSection"
-	    style="?android:attr/listSeparatorTextViewStyle"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:text="@string/mind_map_section_price_range"/>
-
- 	<TextView
-	    android:id="@+id/textViewPriceRangePreference"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"/>
  	
 </LinearLayout>

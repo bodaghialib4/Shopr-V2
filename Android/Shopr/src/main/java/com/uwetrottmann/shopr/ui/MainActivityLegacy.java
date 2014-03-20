@@ -225,8 +225,8 @@ public class MainActivityLegacy extends FragmentActivity implements
         			new Tuple<Fragment, String>(ShopMapFragment.newInstance(), getString(R.string.title_map).toUpperCase(l));
         	Tuple<Fragment, String> favouritesFragment = 
         			new Tuple<Fragment, String>(FavouriteItemListFragment.newInstance(), getString(R.string.title_favourites).toUpperCase(l));
-        	Tuple<Fragment, String> mindMapFragment = 
-        			new Tuple<Fragment, String>(MindMapFragment.newInstance(), "Test".toUpperCase(l));
+        	/*Tuple<Fragment, String> mindMapFragment = 
+        			new Tuple<Fragment, String>(MindMapFragment.newInstance(), "Test".toUpperCase(l));*/
         	
         	List<Tuple<Fragment, String>> fragmentSections = new ArrayList<Tuple<Fragment, String>>();	
         	//fragmentSections.add(mindMapFragment);

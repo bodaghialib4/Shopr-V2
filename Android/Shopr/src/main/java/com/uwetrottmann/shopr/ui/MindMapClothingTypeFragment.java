@@ -19,9 +19,9 @@ import de.greenrobot.event.EventBus;
  * Shows a list of clothing items the user can critique by tapping an up or down
  * vote button.
  */
-public class MindMapFragment extends Fragment {
+public class MindMapClothingTypeFragment extends Fragment {
 
-	public static final String TAG = MindMapFragment.class.getSimpleName();
+	public static final String TAG = MindMapClothingTypeFragment.class.getSimpleName();
 		
 	private LinearLayout preferenceChart; 
 	
@@ -29,8 +29,8 @@ public class MindMapFragment extends Fragment {
 	    CLOTHINGTYPE, COLOR, GENDER, PRICERANGE
 	}
 
-	public static MindMapFragment newInstance() {
-		return new MindMapFragment();
+	public static MindMapClothingTypeFragment newInstance() {
+		return new MindMapClothingTypeFragment();
 	}
 
 	@Override
@@ -40,7 +40,7 @@ public class MindMapFragment extends Fragment {
 				container, false);
 		
 		preferenceChart = (LinearLayout) v.findViewById(R.id.preferenceChart);	
-		preferenceChart.addView(PieChartView.getNewInstance(getActivity(), 200, 100));
+		preferenceChart.addView(BarChartView.getNewInstance(getActivity(), 200, 100));
 		return v;
 	}
 	

@@ -11,8 +11,7 @@ import android.content.Context;
 import android.graphics.Color;
 
 
-public class PieChartView extends GraphicalView
-{
+public class PieChartView extends GraphicalView {
 
 	public static final int COLOR_GREEN = Color.parseColor("#62c51a");
 	public static final int COLOR_ORANGE = Color.parseColor("#ff6c0a");
@@ -25,9 +24,9 @@ public class PieChartView extends GraphicalView
 	 * @param context
 	 * @param arg1
 	 */
-	private PieChartView(Context context, AbstractChart arg1)
+	private PieChartView(Context context, AbstractChart chart)
 	{
-		super(context, arg1);
+		super(context, chart);
 	}
 
 	/**
@@ -63,13 +62,16 @@ public class PieChartView extends GraphicalView
 			simpleRenderer.setColor(color);
 			defaultRenderer.addSeriesRenderer(simpleRenderer);
 		}
+		defaultRenderer.setLabelsColor(Color.BLACK);
 		defaultRenderer.setShowLabels(true);
 		defaultRenderer.setShowLegend(true);
+		defaultRenderer.setZoomEnabled(false);
+		defaultRenderer.setPanEnabled(false);
 		return defaultRenderer;
 	}
 
 	/**
-	 * Creates the data set used by the piechart by adding the string represantation and it's integer value to a
+	 * Creates the data set used by the piechart by adding the string representation and it's integer value to a
 	 * CategorySeries object. Note that the string representations are hard coded.
 	 * 
 	 * @param context
@@ -83,9 +85,9 @@ public class PieChartView extends GraphicalView
 	private static CategorySeries getDataSet(Context context, int income, int costs)
 	{
 		CategorySeries series = new CategorySeries("Chart");
-		series.add("income", income);
-		series.add("costs", costs);
-		series.add("total", income - costs);
+		series.add("T-shirt", income);
+		series.add("Mantel", costs);
+		series.add("Trousers", income - costs);
 		return series;
 	}
 }
