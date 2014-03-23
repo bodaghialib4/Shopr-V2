@@ -19,8 +19,13 @@ import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.maps.model.LatLng;
 import com.uwetrottmann.shopr.R;
 import com.uwetrottmann.shopr.adapters.NavDrawerAdapter;
+import com.uwetrottmann.shopr.algorithm.model.Price;
 import com.uwetrottmann.shopr.eval.TestSetupActivity;
 import com.uwetrottmann.shopr.importer.ImporterActivity;
+import com.uwetrottmann.shopr.mindmap.ClothingTypeFragment;
+import com.uwetrottmann.shopr.mindmap.ColorFragment;
+import com.uwetrottmann.shopr.mindmap.PriceRangeFragment;
+import com.uwetrottmann.shopr.mindmap.SexFragment;
 import com.uwetrottmann.shopr.model.NavDrawerItem;
 import com.uwetrottmann.shopr.model.NavMenuItem;
 import com.uwetrottmann.shopr.model.NavMenuSection;
@@ -47,7 +52,7 @@ public class MainActivity extends AbstractNavDrawerActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		initLocationClientOrExit();
 		if (savedInstanceState == null) {
 			getSupportFragmentManager()
@@ -69,13 +74,10 @@ public class MainActivity extends AbstractNavDrawerActivity {
 						"ic_menu_star", true, this),
 				NavMenuSection.create(200,
 						getString(R.string.drawer_section_title_mind_map)),
-				NavMenuItem.create(202, "Clothing Type", "navdrawer_rating",
-						false, this),
-				NavMenuItem.create(203, "Color", "navdrawer_eula", false, this),
-				NavMenuItem
-						.create(204, "Gender", "navdrawer_quit", false, this),
-				NavMenuItem.create(205, "Price Range", "navdrawer_quit", false,
-						this) };
+				NavMenuItem.create(202, "Clothing Type", "", false, this),
+				NavMenuItem.create(203, "Color", "", false, this),
+				NavMenuItem.create(204, "Sex", "", false, this),
+				NavMenuItem.create(205, "Price Range", "", false, this) };
 
 		navDrawerActivityConfiguration = new NavDrawerActivityConfiguration();
 		navDrawerActivityConfiguration
@@ -103,10 +105,16 @@ public class MainActivity extends AbstractNavDrawerActivity {
 			replaceContent(FavouriteItemListFragment.newInstance());
 			break;
 		case 202:
-			replaceContent(MindMapFragment.newInstance());
+			replaceContent(new ClothingTypeFragment());
 			break;
 		case 203:
-			replaceContent(MindMapClothingTypeFragment.newInstance());
+			replaceContent(new ColorFragment());
+			break;
+		case 204:
+			replaceContent(new SexFragment());
+			break;
+		case 205:
+			replaceContent(new PriceRangeFragment());
 			break;
 		}
 	}
