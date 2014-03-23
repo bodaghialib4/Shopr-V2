@@ -1,26 +1,27 @@
 
 package com.uwetrottmann.shopr.algorithm.model;
 
-import com.uwetrottmann.shopr.algorithm.model.Attributes.AttributeValue;
-import com.uwetrottmann.shopr.algorithm.model.Sex.Value;
-
 import java.util.Arrays;
+
+import com.uwetrottmann.shopr.algorithm.model.Attributes.AttributeValue;
 
 public class Label extends GenericAttribute {
 
     public static final String ID = "label";
 
     public enum Value implements AttributeValue {
-        ARMANI("Armani"),
-        HUGO_BOSS("Hugo Boss"),
-        CHANEL("Chanel"),
-        DOLCE_AND_GABBANA("Dolce & Gabbana"),
-        KARL_LAGERFELD("Karl Lagerfeld");
+        ARMANI("Armani", Colors.BLUE),
+        HUGO_BOSS("Hugo Boss", Colors.BLACK),
+        CHANEL("Chanel", Colors.RED),
+        DOLCE_AND_GABBANA("Dolce & Gabbana", Colors.GREEN),
+        KARL_LAGERFELD("Karl Lagerfeld", Colors.GOLD);
 
         private String mDescriptor;
+        private String mColor;
 
-        Value(String descriptor) {
-            mDescriptor = descriptor;
+        Value(String name, String color) {
+            mDescriptor = name;
+            mColor = color;
         }
 
         @Override
@@ -32,6 +33,11 @@ public class Label extends GenericAttribute {
         public int index() {
             return ordinal();
         }
+
+		@Override
+		public String color() {
+			return mColor;
+		}
     }
     
     public Label() {
@@ -56,4 +62,9 @@ public class Label extends GenericAttribute {
     public Value[] getValueSymbols() {
         return Value.values();
     }
+    
+	@Override
+	public AttributeValue[] getAttributeValues() {
+		return Value.values();
+	}
 }

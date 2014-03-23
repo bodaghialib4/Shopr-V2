@@ -330,9 +330,9 @@ public class AdaptiveSelection {
             return critique;
         } catch (IOException e) {
             e.printStackTrace();
+            return null;
         }
-
-        return null;
+        
     }
 
     /**

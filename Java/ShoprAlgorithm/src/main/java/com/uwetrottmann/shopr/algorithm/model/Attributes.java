@@ -27,6 +27,8 @@ public class Attributes {
         public void critiqueQuery(Query query, boolean isPositive);
         
         public void favorAttributeValuesOnQuery(Set<AttributeValue> values, Query query);
+        
+        public AttributeValue[] getAttributeValues();
     }
 
     public interface AttributeValue {
@@ -42,6 +44,11 @@ public class Attributes {
          * representation.
          */
         public String descriptor();
+        
+        /**
+         * Returns the color hex code for attribute visual representation.
+         */
+        public String color();
     }
 
     private HashMap<String, Attribute> attributes = new HashMap<String, Attributes.Attribute>();

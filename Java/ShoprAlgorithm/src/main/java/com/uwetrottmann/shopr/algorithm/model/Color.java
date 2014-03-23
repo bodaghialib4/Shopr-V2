@@ -1,16 +1,15 @@
 
 package com.uwetrottmann.shopr.algorithm.model;
 
-import com.uwetrottmann.shopr.algorithm.model.Attributes.AttributeValue;
-import com.uwetrottmann.shopr.algorithm.model.Sex.Value;
+import java.util.Arrays;
+import java.util.List;
 
 import org.jgrapht.Graphs;
 import org.jgrapht.UndirectedGraph;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
 
-import java.util.Arrays;
-import java.util.List;
+import com.uwetrottmann.shopr.algorithm.model.Attributes.AttributeValue;
 
 public class Color extends GenericAttribute {
 
@@ -50,31 +49,33 @@ public class Color extends GenericAttribute {
     public static final String ID = "color";
 
     public enum Value implements AttributeValue {
-        BLUE("Blue"),
-        RED("Red"),
-        PINK("Pink"), // rosa zu Deutsch
-        PURPLE("Purple"),
-        YELLOW("Yellow"),
-        BROWN("Brown"),
-        COLORED("Colored"),
-        MIXED("Mixed"),
-        GREY("Grey"),
-        GREEN("Green"),
-        ORANGE("Orange"),
-        BLACK("Black"),
-        TURQUOISE("Turquoise"),
-        WHITE("White"),
-        BEIGE("Beige"),
-        PETROL("Petrol"),
-        OLIVE("Olive"),
-        GOLD("Gold"),
-        SILVER("Silver"),
-        UNKNOWN("Unknown");
+        BLUE("Blue", Colors.BLUE),
+        RED("Red", Colors.RED),
+        PINK("Pink", Colors.PINK), // rosa zu Deutsch
+        PURPLE("Purple", Colors.PURPLE),
+        YELLOW("Yellow", Colors.YELLOW),
+        BROWN("Brown", Colors.BROWN),
+        COLORED("Colored", "#f20056"),
+        MIXED("Mixed", "#f20056"),
+        GREY("Grey", Colors.GREY),
+        GREEN("Green", Colors.GREEN),
+        ORANGE("Orange", Colors.ORANGE),
+        BLACK("Black", Colors.BLACK),
+        TURQUOISE("Turquoise", Colors.TURQUOISE),
+        WHITE("White", Colors.WHITE),
+        BEIGE("Beige", Colors.BEIGE),
+        PETROL("Petrol", Colors.PETROL),
+        OLIVE("Olive", Colors.OLIVE),
+        GOLD("Gold", Colors.GOLD),
+        SILVER("Silver", Colors.SILVER);
+       // UNKNOWN("Unknown", Colors.WHITE);
 
-        String mDescriptor;
+        private String mDescriptor;
+        private String mColor;
 
-        Value(String name) {
+        Value(String name, String color) {
             mDescriptor = name;
+            mColor = color;
         }
 
         @Override
@@ -85,6 +86,11 @@ public class Color extends GenericAttribute {
         @Override
         public int index() {
             return ordinal();
+        }
+        
+        @Override
+        public String color() {
+        	return mColor;
         }
     }
 
@@ -158,9 +164,6 @@ public class Color extends GenericAttribute {
         }
         else if ("Silber".equals(value)) {
             setWeights(Color.Value.SILVER);
-        }
-        else {
-        	setWeights(Color.Value.UNKNOWN);
         }
     }
 
@@ -236,4 +239,9 @@ public class Color extends GenericAttribute {
         }
         return false;
     }
+
+	@Override
+	public AttributeValue[] getAttributeValues() {
+		return Value.values();
+	}
 }

@@ -1,240 +1,223 @@
-
 package com.uwetrottmann.shopr.algorithm.model;
 
-import com.uwetrottmann.shopr.algorithm.model.Attributes.AttributeValue;
-import com.uwetrottmann.shopr.algorithm.model.Sex.Value;
+import java.util.Arrays;
+import java.util.List;
 
 import org.jgrapht.Graphs;
 import org.jgrapht.UndirectedGraph;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
 
-import java.util.Arrays;
-import java.util.List;
+import com.uwetrottmann.shopr.algorithm.model.Attributes.AttributeValue;
 
 public class ClothingType extends GenericAttribute {
 
-    private static UndirectedGraph<ClothingType.Value, DefaultEdge> sSimilarValues;
+	private static UndirectedGraph<ClothingType.Value, DefaultEdge> sSimilarValues;
 
-    static {
-        sSimilarValues = new SimpleGraph<ClothingType.Value, DefaultEdge>(DefaultEdge.class);
+	static {
+		sSimilarValues = new SimpleGraph<ClothingType.Value, DefaultEdge>(
+				DefaultEdge.class);
 
-        Value[] values = Value.values();
-        for (Value value : values) {
-            sSimilarValues.addVertex(value);
-        }
+		Value[] values = Value.values();
+		for (Value value : values) {
+			sSimilarValues.addVertex(value);
+		}
 
-        /**
-         * Store similar clothing type values in an undirected graph.
-         */
-        sSimilarValues.addEdge(Value.SHIRT, Value.POLOSHIRT);
-        sSimilarValues.addEdge(Value.SHIRT, Value.BLOUSE);
-        sSimilarValues.addEdge(Value.TROUSERS, Value.JEANS);
-        sSimilarValues.addEdge(Value.TROUSERS, Value.SHORTS);
-        sSimilarValues.addEdge(Value.TROUSERS, Value.SKIRT);
-        sSimilarValues.addEdge(Value.SKIRT, Value.SHORTS);
-        sSimilarValues.addEdge(Value.CARDIGAN, Value.SWEATER);
-        sSimilarValues.addEdge(Value.TOP, Value.SHIRT);
-        sSimilarValues.addEdge(Value.TOP, Value.BLOUSE);
-        sSimilarValues.addEdge(Value.TOP, Value.TSHIRT);
-        sSimilarValues.addEdge(Value.TSHIRT, Value.SHIRT);
-        sSimilarValues.addEdge(Value.TSHIRT, Value.BLOUSE);
-        sSimilarValues.addEdge(Value.COAT, Value.JACKET);
-        sSimilarValues.addEdge(Value.SWIMSUIT, Value.TRUNKS);
-        sSimilarValues.addEdge(Value.SWIMSUIT, Value.BIKINI);
-        sSimilarValues.addEdge(Value.LONGSLEEVE, Value.SWEATSHIRT);
-    }
+		/**
+		 * Store similar clothing type values in an undirected graph.
+		 */
+		sSimilarValues.addEdge(Value.SHIRT, Value.POLOSHIRT);
+		sSimilarValues.addEdge(Value.SHIRT, Value.BLOUSE);
+		sSimilarValues.addEdge(Value.TROUSERS, Value.JEANS);
+		sSimilarValues.addEdge(Value.TROUSERS, Value.SHORTS);
+		sSimilarValues.addEdge(Value.TROUSERS, Value.SKIRT);
+		sSimilarValues.addEdge(Value.SKIRT, Value.SHORTS);
+		sSimilarValues.addEdge(Value.CARDIGAN, Value.SWEATER);
+		sSimilarValues.addEdge(Value.TOP, Value.SHIRT);
+		sSimilarValues.addEdge(Value.TOP, Value.BLOUSE);
+		sSimilarValues.addEdge(Value.TOP, Value.TSHIRT);
+		sSimilarValues.addEdge(Value.TSHIRT, Value.SHIRT);
+		sSimilarValues.addEdge(Value.TSHIRT, Value.BLOUSE);
+		sSimilarValues.addEdge(Value.COAT, Value.JACKET);
+		sSimilarValues.addEdge(Value.SWIMSUIT, Value.TRUNKS);
+		sSimilarValues.addEdge(Value.SWIMSUIT, Value.BIKINI);
+		sSimilarValues.addEdge(Value.LONGSLEEVE, Value.SWEATSHIRT);
+	}
 
-    public static final String ID = "clothing-type";
+	public static final String ID = "clothing-type";
 
-    public enum Value implements AttributeValue {
-    	UNKNOWN("Unknown"),
-        SWIMSUIT("Swim suit"),
-        TRUNKS("Trunks"),
-        BLOUSE("Blouse"),
-        SHIRT("Shirt"),
-        TROUSERS("Trousers"),
-        JEANS("Jeans"),
-        DRESS("Dress"),
-        POLOSHIRT("Poloshirt"),
-        SWEATER("Sweater"), // Pullover
-        SKIRT("Skirt"),
-        SHORTS("Shorts"),
-        CARDIGAN("Cardigan"), // Strickjacke
-        TOP("Top"),
-        TSHIRT("T-Shirt"),
-        SWEATSHIRT("Sweatshirt"),
-        LONGSLEEVE("Longsleeve"),
-        BIKINI("Bikini"),
-        COAT("Coat"),
-        JACKET("Jacket");
-        
+	public enum Value implements AttributeValue {
+		UNKNOWN("Unknown", Colors.BLACK), SWIMSUIT("Swim suit", Colors.GOLD), TRUNKS(
+				"Trunks", Colors.BROWN), BLOUSE("Blouse", Colors.OLIVE), SHIRT(
+				"Shirt", Colors.GREEN), TROUSERS("Trousers", Colors.GREY), JEANS(
+				"Jeans", Colors.BLUE), DRESS("Dress", Colors.PINK), POLOSHIRT(
+				"Poloshirt", Colors.TURQUOISE), SWEATER("Sweater",
+				Colors.SILVER), // Pullover
+		SKIRT("Skirt", Colors.ORANGE), SHORTS("Shorts", Colors.YELLOW), CARDIGAN(
+				"Cardigan", Colors.PURPLE), // Strickjacke
+		TOP("Top", Colors.WHITE), TSHIRT("T-Shirt", Colors.RED), SWEATSHIRT(
+				"Sweatshirt", Colors.PETROL), LONGSLEEVE("Longsleeve",
+				Colors.BEIGE), BIKINI("Bikini", Colors.RODEO_DUST), COAT(
+				"Coat", Colors.PEACH), JACKET("Jacket", Colors.AZURE_BLUE);
 
- 
-        String mDescriptor;
+		private String mDescriptor;
+		private String mColor;
 
-        Value(String descriptor) {
-            mDescriptor = descriptor;
-        }
+		Value(String name, String color) {
+			mDescriptor = name;
+			mColor = color;
+		}
 
-        @Override
-        public String descriptor() {
-            return mDescriptor;
-        }
+		@Override
+		public String descriptor() {
+			return mDescriptor;
+		}
 
-        @Override
-        public int index() {
-            return ordinal();
-        }
-    }
+		@Override
+		public int index() {
+			return ordinal();
+		}
 
-    public ClothingType() {
-        int numValues = Value.values().length;
-        mValueWeights = new double[numValues];
-        Arrays.fill(mValueWeights, 1.0 / numValues);
-    }
+		@Override
+		public String color() {
+			return mColor;
+		}
+	}
 
-    public ClothingType(Value value) {
-        setWeights(value);
-    }
+	public ClothingType() {
+		int numValues = Value.values().length;
+		mValueWeights = new double[numValues];
+		Arrays.fill(mValueWeights, 1.0 / numValues);
+	}
 
-    public ClothingType(String name) {
-        if ("Badeanzug".equals(name)) {
-            setWeights(Value.SWIMSUIT);
-        }
-        else if ("Badehose".equals(name)) {
-            setWeights(Value.TRUNKS);
-        }
-        else if ("Bluse".equals(name)) {
-            setWeights(Value.BLOUSE);
-        }
-        else if ("Hemd".equals(name)) {
-            setWeights(Value.SHIRT);
-        }
-        else if ("Hose".equals(name)) {
-            setWeights(Value.TROUSERS);
-        }
-        else if ("Jeans".equals(name)) {
-            setWeights(Value.JEANS);
-        }
-        else if ("Kleid".equals(name)) {
-            setWeights(Value.DRESS);
-        }
-        else if ("Poloshirt".equals(name)) {
-            setWeights(Value.POLOSHIRT);
-        }
-        else if ("Pullover".equals(name)) {
-            setWeights(Value.SWEATER);
-        }
-        else if ("Rock".equals(name)) {
-            setWeights(Value.SKIRT);
-        }
-        else if ("Strickjacke".equals(name)) {
-            setWeights(Value.CARDIGAN);
-        }
-        else if ("Top".equals(name)) {
-            setWeights(Value.TOP);
-        }
-        else if ("Shorts".equals(name)) {
-            setWeights(Value.SHORTS);
-        }
-        else if ("T-Shirt".equals(name)) {
-            setWeights(Value.TSHIRT);
-        }
-        else if ("Sweatshirt".equals(name)) {
-            setWeights(Value.SWEATSHIRT);
-        }
-        else if ("Sweatshirt".equals(name)) {
-            setWeights(Value.SWEATSHIRT);
-        }
-        else if ("Langarmshirt".equals(name)) {
-            setWeights(Value.LONGSLEEVE);
-        }
-        else if ("Bikini".equals(name)) {
-            setWeights(Value.BIKINI);
-        }
-        else if ("Mantel".equals(name)) {
-            setWeights(Value.COAT);
-        }
-        else if ("Jacke".equals(name)) {
-            setWeights(Value.JACKET);
-        }
-        else {
-        	setWeights(Value.UNKNOWN);
-        }
-    }
+	public ClothingType(Value value) {
+		setWeights(value);
+	}
 
-    private void setWeights(Value value) {
-        mValueWeights = new double[Value.values().length];
-        Arrays.fill(mValueWeights, 0.0);
-        mValueWeights[value.ordinal()] = 1.0;
-        currentValue(value);
-    }
+	public ClothingType(String name) {
+		if ("Badeanzug".equals(name)) {
+			setWeights(Value.SWIMSUIT);
+		} else if ("Badehose".equals(name)) {
+			setWeights(Value.TRUNKS);
+		} else if ("Bluse".equals(name)) {
+			setWeights(Value.BLOUSE);
+		} else if ("Hemd".equals(name)) {
+			setWeights(Value.SHIRT);
+		} else if ("Hose".equals(name)) {
+			setWeights(Value.TROUSERS);
+		} else if ("Jeans".equals(name)) {
+			setWeights(Value.JEANS);
+		} else if ("Kleid".equals(name)) {
+			setWeights(Value.DRESS);
+		} else if ("Poloshirt".equals(name)) {
+			setWeights(Value.POLOSHIRT);
+		} else if ("Pullover".equals(name)) {
+			setWeights(Value.SWEATER);
+		} else if ("Rock".equals(name)) {
+			setWeights(Value.SKIRT);
+		} else if ("Strickjacke".equals(name)) {
+			setWeights(Value.CARDIGAN);
+		} else if ("Top".equals(name)) {
+			setWeights(Value.TOP);
+		} else if ("Shorts".equals(name)) {
+			setWeights(Value.SHORTS);
+		} else if ("T-Shirt".equals(name)) {
+			setWeights(Value.TSHIRT);
+		} else if ("Sweatshirt".equals(name)) {
+			setWeights(Value.SWEATSHIRT);
+		} else if ("Sweatshirt".equals(name)) {
+			setWeights(Value.SWEATSHIRT);
+		} else if ("Langarmshirt".equals(name)) {
+			setWeights(Value.LONGSLEEVE);
+		} else if ("Bikini".equals(name)) {
+			setWeights(Value.BIKINI);
+		} else if ("Mantel".equals(name)) {
+			setWeights(Value.COAT);
+		} else if ("Jacke".equals(name)) {
+			setWeights(Value.JACKET);
+		} else {
+			setWeights(Value.UNKNOWN);
+		}
+	}
 
-    @Override
-    public String id() {
-        return ID;
-    }
+	private void setWeights(Value value) {
+		mValueWeights = new double[Value.values().length];
+		Arrays.fill(mValueWeights, 0.0);
+		mValueWeights[value.ordinal()] = 1.0;
+		currentValue(value);
+	}
 
-    @Override
-    public Value[] getValueSymbols() {
-        return Value.values();
-    }
+	@Override
+	public String id() {
+		return ID;
+	}
 
-    @Override
-    protected void likeValue(int indexLiked, double[] weights) {
-        Value[] values = Value.values();
-        Value valueLiked = values[indexLiked];
-        List<Value> similarValues = Graphs.neighborListOf(sSimilarValues, valueLiked);
+	@Override
+	public Value[] getValueSymbols() {
+		return Value.values();
+	}
 
-        // do regular like for liked value
-        super.likeValue(indexLiked, weights);
+	@Override
+	protected void likeValue(int indexLiked, double[] weights) {
+		Value[] values = Value.values();
+		Value valueLiked = values[indexLiked];
+		List<Value> similarValues = Graphs.neighborListOf(sSimilarValues,
+				valueLiked);
 
-        if (similarValues.isEmpty()) {
-            // no similars: done!
-            return;
-        }
+		// do regular like for liked value
+		super.likeValue(indexLiked, weights);
 
-        // now do dampened like on similar values
-        double increaseLiked = 1.0 / (weights.length - 1);
-        double increaseSimilars = increaseLiked / 2;
-        // per similar value increase
-        double increaseSimilar = increaseSimilars / similarValues.size();
-        // per non-similar and non-liked value decrease
-        double decreaseOthers = increaseSimilars / (weights.length - similarValues.size() - 1);
+		if (similarValues.isEmpty()) {
+			// no similars: done!
+			return;
+		}
 
-        // actually add and subtract
-        for (int i = 0; i < weights.length; i++) {
-            if (i == indexLiked) {
-                // skip liked value
-                continue;
-            }
-            if (hasValueWithSameIndex(similarValues, i)) {
-                // increase similar values
-                weights[i] += increaseSimilar;
-            } else {
-                // decrease other values
-                weights[i] -= decreaseOthers;
-                // floor at 0.0
-                if (weights[i] < 0) {
-                    weights[i] = 0.0;
-                }
-            }
-        }
+		// now do dampened like on similar values
+		double increaseLiked = 1.0 / (weights.length - 1);
+		double increaseSimilars = increaseLiked / 2;
+		// per similar value increase
+		double increaseSimilar = increaseSimilars / similarValues.size();
+		// per non-similar and non-liked value decrease
+		double decreaseOthers = increaseSimilars
+				/ (weights.length - similarValues.size() - 1);
 
-        ensureSumBound(weights);
-    }
+		// actually add and subtract
+		for (int i = 0; i < weights.length; i++) {
+			if (i == indexLiked) {
+				// skip liked value
+				continue;
+			}
+			if (hasValueWithSameIndex(similarValues, i)) {
+				// increase similar values
+				weights[i] += increaseSimilar;
+			} else {
+				// decrease other values
+				weights[i] -= decreaseOthers;
+				// floor at 0.0
+				if (weights[i] < 0) {
+					weights[i] = 0.0;
+				}
+			}
+		}
 
-    /**
-     * Checks whether one of the values has the given index.
-     */
-    private boolean hasValueWithSameIndex(List<Value> values, int index) {
-        for (Value value : values) {
-            if (value.index() == index) {
-                return true;
-            }
-        }
-        return false;
-    }
+		ensureSumBound(weights);
+	}
+
+	/**
+	 * Checks whether one of the values has the given index.
+	 */
+	private boolean hasValueWithSameIndex(List<Value> values, int index) {
+		for (Value value : values) {
+			if (value.index() == index) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public AttributeValue[] getAttributeValues() {
+		return Value.values();
+	}
 
 }
