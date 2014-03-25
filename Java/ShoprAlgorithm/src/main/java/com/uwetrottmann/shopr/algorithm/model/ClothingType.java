@@ -47,39 +47,47 @@ public class ClothingType extends GenericAttribute {
 	public static final String ID = "clothing-type";
 
 	public enum Value implements AttributeValue {
-		UNKNOWN("Unknown", Colors.BLACK), 
-		SWIMSUIT("Swim suit", Colors.GOLD), 
-		TRUNKS("Trunks", Colors.BROWN), 
-		BLOUSE("Blouse", Colors.OLIVE), 
-		SHIRT("Shirt", Colors.GREEN), 
-		TROUSERS("Trousers", Colors.GREY), 
-		JEANS("Jeans", Colors.BLUE), 
-		DRESS("Dress", Colors.PINK), 
-		POLOSHIRT("Poloshirt", Colors.TURQUOISE), 
-		SWEATER("Sweater", Colors.SILVER), // Pullover
-		SKIRT("Skirt", Colors.ORANGE), 
-		SHORTS("Shorts", Colors.YELLOW), 
-		CARDIGAN("Cardigan", Colors.PURPLE), // Strickjacke
-		TOP("Top", Colors.WHITE), 
-		TSHIRT("T-Shirt", Colors.RED), 
-		SWEATSHIRT("Sweatshirt", Colors.PETROL), 
-		LONGSLEEVE("Longsleeve", Colors.BEIGE), 
-		BIKINI("Bikini", Colors.RODEO_DUST), 
-		COAT("Coat", Colors.PEACH), 
-		JACKET("Jacket", Colors.AZURE_BLUE);
+		UNKNOWN("Unknown", "unknown", Colors.BLACK), 
+		SWIMSUIT("Swim suit", "swimsuit", Colors.GOLD), 
+		TRUNKS("Trunks", "trunks", Colors.BROWN), 
+		BLOUSE("Blouse", "blouse", Colors.OLIVE), 
+		SHIRT("Shirt", "shirt", Colors.GREEN), 
+		TROUSERS("Trousers", "trousers", Colors.GREY), 
+		JEANS("Jeans", "jeans", Colors.BLUE), 
+		DRESS("Dress", "dress", Colors.PINK), 
+		POLOSHIRT("Poloshirt", "poloshirt", Colors.TURQUOISE), 
+		SWEATER("Sweater", "sweater", Colors.SILVER), // Pullover
+		SKIRT("Skirt", "skirt", Colors.ORANGE), 
+		SHORTS("Shorts", "shorts", Colors.YELLOW), 
+		CARDIGAN("Cardigan", "cardigan",  Colors.PURPLE), // Strickjacke
+		TOP("Top", "top", Colors.WHITE), 
+		TSHIRT("T-Shirt", "tshirt", Colors.RED), 
+		SWEATSHIRT("Sweatshirt", "sweatshirt", Colors.PETROL), 
+		LONGSLEEVE("Longsleeve", "longsleeve", Colors.BEIGE), 
+		BIKINI("Bikini", "bikini", Colors.RODEO_DUST), 
+		COAT("Coat", "coat", Colors.PEACH), 
+		JACKET("Jacket", "jacket", Colors.AZURE_BLUE);
 
 		private String mDescriptor;
 		private String mColor;
+        private String mSimpleName;
+        private String simpleNamePrefix = "clothing_";
 
-		Value(String name, String color) {
-			mDescriptor = name;
-			mColor = color;
-		}
+        Value(String name, String simpleName, String color) {
+            mDescriptor = name;
+            mSimpleName = simpleNamePrefix + simpleName;
+            mColor = color;
+        }
 
 		@Override
 		public String descriptor() {
 			return mDescriptor;
 		}
+		
+        @Override
+        public String simpleName() {
+            return mSimpleName;
+        }
 
 		@Override
 		public int index() {

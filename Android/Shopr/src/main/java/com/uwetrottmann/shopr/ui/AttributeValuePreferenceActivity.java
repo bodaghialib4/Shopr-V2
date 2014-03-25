@@ -5,6 +5,8 @@ import java.util.Set;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
@@ -35,6 +37,7 @@ public abstract class AttributeValuePreferenceActivity extends Activity
 
 	protected abstract void onUpdatePreferencesFinish();
 
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -63,6 +66,11 @@ public abstract class AttributeValuePreferenceActivity extends Activity
 		mGridView.setOnItemClickListener(this);
 		mGridView.setChoiceMode(GridView.CHOICE_MODE_MULTIPLE);
 		mGridView.setAdapter(mAdapter);
+		mGridView.setNumColumns(numColums());
+	}
+	
+	protected int numColums() {
+		return 4;
 	}
 
 	protected String getPreferenceExplanation() {
@@ -71,7 +79,8 @@ public abstract class AttributeValuePreferenceActivity extends Activity
 	}
 
 	protected void onUpdateAttributeValuePreferences() {
-		SparseBooleanArray checkedPositions = mAdapter.getCheckedPositions();
+		SparseBooleanArray checkedPositions = mGridView
+				.getCheckedItemPositions();
 		Set<AttributeValue> attributeValues = new HashSet<AttributeValue>();
 		for (int i = 0; i < mAdapter.getCount(); i++) {
 			if (checkedPositions.get(i)) {
@@ -108,7 +117,6 @@ public abstract class AttributeValuePreferenceActivity extends Activity
 
 		private static final int LAYOUT = R.layout.attribute_value_layout;
 		private LayoutInflater mInflater;
-		private SparseBooleanArray mCheckedPositions = new SparseBooleanArray();
 
 		public AttributeValueAdapter(Context context) {
 			super(context, LAYOUT);
@@ -130,6 +138,7 @@ public abstract class AttributeValuePreferenceActivity extends Activity
 						.findViewById(R.id.imageViewAttributeValuePicture);
 				holder.name = (TextView) convertView
 						.findViewById(R.id.textViewAttributeValueName);
+				
 				convertView.setTag(holder);
 			} else {
 				holder = (ViewHolder) convertView.getTag();
@@ -137,14 +146,24 @@ public abstract class AttributeValuePreferenceActivity extends Activity
 
 			final AttributeValue value = getItem(position);
 			holder.name.setText(value.descriptor());
-			holder.picture.setBackgroundResource(R.drawable.ic_action_tshirt);
+			holder.picture.setBackgroundDrawable(getDrawableOrDefault(value.simpleName()));
 
 			return convertView;
 		}
+		
+		private Drawable getDrawableOrDefault(String name) {
+			Resources resources = getContext().getResources();
+			final int resourceId = getContext().getResources().getIdentifier(name, "drawable", 
+			   getContext().getPackageName());
 
-		public SparseBooleanArray getCheckedPositions() {
-			return mCheckedPositions;
+			try{
+				Drawable drawable = resources.getDrawable(resourceId);
+				return drawable;
+			}catch(Resources.NotFoundException e) {
+				return resources.getDrawable(R.drawable.ic_action_tshirt);
+			}
 		}
+		
 
 		class ViewHolder {
 			View pictureContainer;

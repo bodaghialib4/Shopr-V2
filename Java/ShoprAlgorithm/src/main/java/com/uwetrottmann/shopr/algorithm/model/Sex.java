@@ -6,25 +6,33 @@ import com.uwetrottmann.shopr.algorithm.model.Attributes.AttributeValue;
 
 public class Sex extends GenericAttribute {
 
-	public static final String ID = "sex";
+	public static final String ID = "gender";
 
 	public enum Value implements AttributeValue {
-		FEMALE("Female", Colors.PINK), 
-		MALE("Male", Colors.BLUE), 
-		UNISEX("Unisex", Colors.GREEN);
+		FEMALE("Female", "female", Colors.PINK), 
+		MALE("Male", "male", Colors.BLUE), 
+		UNISEX("Unisex", "unisex", Colors.GREEN);
 
 		private String mDescriptor;
 		private String mColor;
+        private String mSimpleName;
+        private String simpleNamePrefix = "gender_";
 
-		Value(String name, String color) {
-			mDescriptor = name;
-			mColor = color;
-		}
+        Value(String name, String simpleName, String color) {
+            mDescriptor = name;
+            mSimpleName = simpleNamePrefix + simpleName;
+            mColor = color;
+        }
 
 		@Override
 		public String descriptor() {
 			return mDescriptor;
 		}
+		
+        @Override
+        public String simpleName() {
+            return mSimpleName;
+        }
 
 		@Override
 		public int index() {

@@ -46,6 +46,12 @@ public class Attributes {
         public String descriptor();
         
         /**
+         * Returns a {@link String} representation suitable for 
+         * resource names.
+         */
+        public String simpleName();
+        
+        /**
          * Returns the color hex code for attribute visual representation.
          */
         public String color();

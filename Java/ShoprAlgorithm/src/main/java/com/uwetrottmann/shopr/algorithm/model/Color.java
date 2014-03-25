@@ -39,7 +39,7 @@ public class Color extends GenericAttribute {
         sSimilarValues.addEdge(Value.WHITE, Value.GREY);
         sSimilarValues.addEdge(Value.WHITE, Value.SILVER);
         sSimilarValues.addEdge(Value.GREY, Value.SILVER);
-        sSimilarValues.addEdge(Value.COLORED, Value.MIXED);
+       // sSimilarValues.addEdge(Value.COLORED, Value.MIXED);
         sSimilarValues.addEdge(Value.BROWN, Value.BEIGE);
         sSimilarValues.addEdge(Value.GREEN, Value.PETROL);
         sSimilarValues.addEdge(Value.GREEN, Value.OLIVE);
@@ -49,38 +49,47 @@ public class Color extends GenericAttribute {
     public static final String ID = "color";
 
     public enum Value implements AttributeValue {
-        BLUE("Blue", Colors.BLUE),
-        RED("Red", Colors.RED),
-        PINK("Pink", Colors.PINK), // rosa zu Deutsch
-        PURPLE("Purple", Colors.PURPLE),
-        YELLOW("Yellow", Colors.YELLOW),
-        BROWN("Brown", Colors.BROWN),
-        GREY("Grey", Colors.GREY),
-        GREEN("Green", Colors.GREEN),
-        ORANGE("Orange", Colors.ORANGE),
-        BLACK("Black", Colors.BLACK),
-        TURQUOISE("Turquoise", Colors.TURQUOISE),
-        WHITE("White", Colors.WHITE),
-        BEIGE("Beige", Colors.BEIGE),
-        PETROL("Petrol", Colors.PETROL),
-        OLIVE("Olive", Colors.OLIVE),
-        GOLD("Gold", Colors.GOLD),
-        SILVER("Silver", Colors.SILVER),
-        COLORED("Colored", "#f20056"),
-        MIXED("Mixed", "#f20056");
+        BLUE("Blue", "blue", Colors.BLUE),
+        RED("Red", "red", Colors.RED),
+        PINK("Pink", "pink", Colors.PINK), // rosa zu Deutsch
+        PURPLE("Purple", "purple", Colors.PURPLE),
+        YELLOW("Yellow", "yellow", Colors.YELLOW),
+        BROWN("Brown", "brown", Colors.BROWN),
+        GREY("Grey", "grey", Colors.GREY),
+        GREEN("Green", "green", Colors.GREEN),
+        ORANGE("Orange", "orange", Colors.ORANGE),
+        BLACK("Black", "black", Colors.BLACK),
+        TURQUOISE("Turquoise", "turquoise", Colors.TURQUOISE),
+        WHITE("White", "white", Colors.WHITE),
+        BEIGE("Beige", "beige", Colors.BEIGE),
+        PETROL("Petrol", "petrol", Colors.PETROL),
+        OLIVE("Olive", "olive", Colors.OLIVE),
+        GOLD("Gold", "gold", Colors.GOLD),
+        SILVER("Silver", "silver", Colors.SILVER),
+        MULTICOLOR("Multi color", "multicolor", "#f20056");
+        //COLORED("Colored", "colored", "#f20056"),
+        //MIXED("Mixed", "mixed", "#f20056");
 
 
         private String mDescriptor;
         private String mColor;
+        private String mSimpleName;
+        private String simpleNamePrefix = "color_";
 
-        Value(String name, String color) {
+        Value(String name, String simpleName, String color) {
             mDescriptor = name;
+            mSimpleName = simpleNamePrefix + simpleName;
             mColor = color;
         }
 
         @Override
         public String descriptor() {
             return mDescriptor;
+        }
+        
+        @Override
+        public String simpleName() {
+            return mSimpleName;
         }
 
         @Override
@@ -114,15 +123,18 @@ public class Color extends GenericAttribute {
         else if ("Braun".equals(value)) {
             setWeights(Color.Value.BROWN);
         }
-        else if ("Bunt".equals(value)) {
-            setWeights(Color.Value.COLORED);
+        else if ("Mehrfarbig".equals(value)) {
+            setWeights(Color.Value.MULTICOLOR);
         }
+       /* else if ("Bunt".equals(value)) {
+            setWeights(Color.Value.COLORED);
+        }*/
         else if ("Gelb".equals(value)) {
             setWeights(Color.Value.YELLOW);
         }
-        else if ("Gemischt".equals(value)) {
+        /*else if ("Gemischt".equals(value)) {
             setWeights(Color.Value.MIXED);
-        }
+        }*/
         else if ("Grau".equals(value)) {
             setWeights(Color.Value.GREY);
         }

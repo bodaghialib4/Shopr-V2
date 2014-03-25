@@ -59,6 +59,12 @@ public class Price extends GenericAttribute {
 		public String descriptor() {
 			return mDescriptor;
 		}
+		
+
+        @Override
+        public String simpleName() {
+            return mDescriptor;
+        }
 
 		@Override
 		public int index() {

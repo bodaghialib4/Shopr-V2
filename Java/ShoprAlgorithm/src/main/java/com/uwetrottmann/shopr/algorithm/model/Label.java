@@ -30,6 +30,11 @@ public class Label extends GenericAttribute {
         }
 
         @Override
+        public String simpleName() {
+            return mDescriptor;
+        }
+
+        @Override
         public int index() {
             return ordinal();
         }
