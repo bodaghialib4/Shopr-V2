@@ -5,10 +5,6 @@
     android:layout_height="wrap_content"
     android:background="@drawable/checked_attribute_preference_background_shopr">
     
-
-    <!--   android:background="@drawable/card_background_editable" -->
-    
-    
     <FrameLayout
         android:id="@+id/containerAttributeValuePicture"
         android:layout_width="match_parent"
@@ -18,10 +14,9 @@
         <ImageView
             android:id="@+id/imageViewAttributeValuePicture"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="60dp"
             android:contentDescription="@string/description_item_picutre"
-            android:scaleType="fitCenter"
-            android:src="@drawable/ic_launcher" />
+            android:scaleType="fitCenter" />
     </FrameLayout>
 
     <TextView
@@ -31,8 +26,8 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/containerAttributeValuePicture"
         android:ellipsize="end"
-        android:paddingLeft="4dp"
-        android:paddingRight="4dp"
+        android:paddingLeft="1dp"
+        android:paddingRight="1dp"
         android:singleLine="true"
         android:textAppearance="@style/TextAppearance.Small.Light" />
 

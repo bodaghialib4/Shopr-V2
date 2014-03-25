@@ -12,7 +12,7 @@ public class ColorFragment extends MindMapFragment {
 	protected View getChartView() {
 		return new PieChart(getActivity(), attribute()).getView();
 	}
-	
+
 	protected Attribute attribute() {
 		return new Color();
 	}

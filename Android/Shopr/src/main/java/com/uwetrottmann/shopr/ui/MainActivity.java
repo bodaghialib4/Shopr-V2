@@ -19,7 +19,6 @@ import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.maps.model.LatLng;
 import com.uwetrottmann.shopr.R;
 import com.uwetrottmann.shopr.adapters.NavDrawerAdapter;
-import com.uwetrottmann.shopr.algorithm.model.Price;
 import com.uwetrottmann.shopr.eval.TestSetupActivity;
 import com.uwetrottmann.shopr.importer.ImporterActivity;
 import com.uwetrottmann.shopr.mindmap.ClothingTypeFragment;
@@ -76,7 +75,7 @@ public class MainActivity extends AbstractNavDrawerActivity {
 						getString(R.string.drawer_section_title_mind_map)),
 				NavMenuItem.create(202, "Clothing Type", "", false, this),
 				NavMenuItem.create(203, "Color", "", false, this),
-				NavMenuItem.create(204, "Sex", "", false, this),
+				NavMenuItem.create(204, "Gender", "", false, this),
 				NavMenuItem.create(205, "Price Range", "", false, this) };
 
 		navDrawerActivityConfiguration = new NavDrawerActivityConfiguration();

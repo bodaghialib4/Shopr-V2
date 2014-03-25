@@ -4,13 +4,14 @@ import android.view.View;
 
 import com.uwetrottmann.shopr.algorithm.model.Attributes.Attribute;
 import com.uwetrottmann.shopr.algorithm.model.Sex;
-import com.uwetrottmann.shopr.ui.ColorPreferenceActivity;
+import com.uwetrottmann.shopr.ui.GenderPreferenceActivity;
 
 public class SexFragment extends MindMapFragment {
 
 	@Override
 	protected View getChartView() {
-		return new BarChart(getActivity(), attribute()).getView();
+		//return new BarChart(getActivity(), attribute()).getView();
+		return new DoughnutChart(getActivity(), attribute()).getView();
 	}
 	
 	protected Attribute attribute() {
@@ -19,7 +20,7 @@ public class SexFragment extends MindMapFragment {
 
 	@Override
 	protected void onAttributePreferenceChangeRequested() {
-		startActivity(ColorPreferenceActivity.class);
+		startActivity(GenderPreferenceActivity.class);
 	}
 	
 }

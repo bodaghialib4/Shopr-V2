@@ -73,8 +73,7 @@ public class BarChart extends AttributeChart {
 		mRenderer.setBackgroundColor(Color.WHITE);
 		mRenderer.setMarginsColor(Color.WHITE);
 		mRenderer.setMargins(new int[] { 20, 30, 15, 0 });
-		mRenderer.setZoomEnabled(true);
-		mRenderer.setZoomButtonsVisible(true);
+		
 		mRenderer.setBarSpacing(0.5);
 		mRenderer.setAxisTitleTextSize(16);
 		mRenderer.setChartTitleTextSize(20);
@@ -89,7 +88,12 @@ public class BarChart extends AttributeChart {
 		mRenderer.setXLabelsColor(Color.BLACK);
 		mRenderer.setYLabelsColor(0, Color.BLACK);
 		mRenderer.setXLabels(0);
-
+		
+		//mRenderer.setClickEnabled(false);
+		mRenderer.setZoomEnabled(false);
+		mRenderer.setZoomButtonsVisible(false);
+		mRenderer.setPanEnabled(false);
+		
 		return mRenderer;
 	}
 
