@@ -1,6 +1,5 @@
 package com.uwetrottmann.shopr.mindmap;
 
-import android.content.Intent;
 import android.view.View;
 
 import com.uwetrottmann.shopr.algorithm.model.Attributes.Attribute;
@@ -20,8 +19,7 @@ public class ColorFragment extends MindMapFragment {
 
 	@Override
 	protected void onAttributePreferenceChangeRequested() {
-		Intent intent = new Intent(getActivity(), ColorPreferenceActivity.class);
-		startActivity(intent);
+		startActivity(ColorPreferenceActivity.class);
 	}
 
 }

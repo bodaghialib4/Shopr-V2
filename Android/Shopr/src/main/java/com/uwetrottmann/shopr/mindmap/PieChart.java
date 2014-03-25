@@ -10,11 +10,6 @@ import android.content.Context;
 import com.uwetrottmann.shopr.algorithm.model.Attributes.Attribute;
 
 public class PieChart extends AttributeChart {
-	/*
-	 * public static final int COLOR_GREEN = Color.parseColor("#62c51a"); public
-	 * static final int COLOR_ORANGE = Color.parseColor("#ff6c0a"); public
-	 * static final int COLOR_BLUE = Color.parseColor("#23bae9");
-	 */
 
 	public PieChart(Context context, Attribute attribute) {
 		super(context, attribute);

@@ -4,6 +4,7 @@ import android.view.View;
 
 import com.uwetrottmann.shopr.algorithm.model.Attributes.Attribute;
 import com.uwetrottmann.shopr.algorithm.model.Sex;
+import com.uwetrottmann.shopr.ui.ColorPreferenceActivity;
 
 public class SexFragment extends MindMapFragment {
 
@@ -18,8 +19,7 @@ public class SexFragment extends MindMapFragment {
 
 	@Override
 	protected void onAttributePreferenceChangeRequested() {
-		// TODO Auto-generated method stub
-		
+		startActivity(ColorPreferenceActivity.class);
 	}
 	
 }

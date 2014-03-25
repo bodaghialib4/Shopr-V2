@@ -1,5 +1,6 @@
 package com.uwetrottmann.shopr.mindmap;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -38,6 +39,11 @@ public abstract class MindMapFragment extends Fragment {
 				onAttributePreferenceChangeRequested();
 			}
 		};
+	}
+	
+	protected void startActivity(Class<?> activity) {
+		Intent intent = new Intent(getActivity(), activity);
+		startActivity(intent);
 	}
 	
 	protected abstract Attribute attribute();

@@ -1,6 +1,5 @@
 package com.uwetrottmann.shopr.mindmap;
 
-import android.content.Intent;
 import android.view.View;
 
 import com.uwetrottmann.shopr.algorithm.model.Attributes.Attribute;
@@ -20,9 +19,7 @@ public class ClothingTypeFragment extends MindMapFragment {
 	}
 
 	protected void onAttributePreferenceChangeRequested() {
-		Intent intent = new Intent(getActivity(),
-				ClothingTypePreferenceActivity.class);
-		startActivity(intent);
+		startActivity(ClothingTypePreferenceActivity.class);
 	}
 	
 }
