@@ -31,7 +31,7 @@ public abstract class AttributeValuePreferenceActivity extends Activity
 	protected Button mButtonUpdatePreferences;
 	protected AttributeValueAdapter mAdapter;
 
-	protected abstract Attribute getAttribute();
+	protected abstract Attribute attribute();
 
 	protected abstract void onUpdatePreferencesFinish();
 
@@ -57,7 +57,7 @@ public abstract class AttributeValuePreferenceActivity extends Activity
 
 		mAdapter = new AttributeValueAdapter(this);
 		mAdapter.clear();
-		mAdapter.addAll(getAttribute().getAttributeValues());
+		mAdapter.addAll(attribute().getAttributeValues());
 
 		mGridView = (GridView) findViewById(R.id.gridViewAttributeValueList);
 		mGridView.setOnItemClickListener(this);
@@ -67,7 +67,7 @@ public abstract class AttributeValuePreferenceActivity extends Activity
 
 	protected String getPreferenceExplanation() {
 		String baseExplanation = getString(R.string.attribute_value_preference_update_explanation);
-		return String.format(baseExplanation, getAttribute().id());
+		return String.format(baseExplanation, attribute().id());
 	}
 
 	protected void onUpdateAttributeValuePreferences() {

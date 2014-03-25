@@ -9,7 +9,7 @@ public class ClothingTypePreferenceActivity extends AttributeValuePreferenceActi
 			.getSimpleName();
 
 	@Override
-	protected Attribute getAttribute() {
+	protected Attribute attribute() {
 		return new ClothingType();
 	}
 

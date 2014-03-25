@@ -55,8 +55,6 @@ public class Color extends GenericAttribute {
         PURPLE("Purple", Colors.PURPLE),
         YELLOW("Yellow", Colors.YELLOW),
         BROWN("Brown", Colors.BROWN),
-        COLORED("Colored", "#f20056"),
-        MIXED("Mixed", "#f20056"),
         GREY("Grey", Colors.GREY),
         GREEN("Green", Colors.GREEN),
         ORANGE("Orange", Colors.ORANGE),
@@ -67,8 +65,10 @@ public class Color extends GenericAttribute {
         PETROL("Petrol", Colors.PETROL),
         OLIVE("Olive", Colors.OLIVE),
         GOLD("Gold", Colors.GOLD),
-        SILVER("Silver", Colors.SILVER);
-       // UNKNOWN("Unknown", Colors.WHITE);
+        SILVER("Silver", Colors.SILVER),
+        COLORED("Colored", "#f20056"),
+        MIXED("Mixed", "#f20056");
+
 
         private String mDescriptor;
         private String mColor;
