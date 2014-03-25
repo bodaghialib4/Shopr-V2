@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
@@ -25,7 +26,23 @@ public abstract class MindMapFragment extends Fragment {
 		
 		preferenceChart = (LinearLayout) v.findViewById(R.id.preferenceChart);	
 		preferenceChart.addView(getChartView());
+		preferenceChart.setOnClickListener(getOnClickListener());
 		return v;
+	}
+	
+	protected OnClickListener getOnClickListener() {
+		return emptyOnClickListener();
+	}
+	
+	private OnClickListener emptyOnClickListener() {
+		return new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				
+			}
+		};
 	}
 	
 	protected abstract View getChartView();

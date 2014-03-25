@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.uwetrottmann.shopr.ui.common.CheckableRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/selectable_background_shopr">
+    
+
+    <!--   android:background="@drawable/card_background_editable" -->
+    
+    
+    <FrameLayout
+        android:id="@+id/containerAttributeValuePicture"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+         >
+
+        <ImageView
+            android:id="@+id/imageViewAttributeValuePicture"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:contentDescription="@string/description_item_picutre"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_launcher" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/textViewAttributeValueName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/containerAttributeValuePicture"
+        android:ellipsize="end"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:singleLine="true"
+        android:textAppearance="@style/TextAppearance.Small.Light" />
+
+</com.uwetrottmann.shopr.ui.common.CheckableRelativeLayout>

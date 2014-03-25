@@ -90,6 +90,11 @@
             android:name="com.uwetrottmann.shopr.ui.ItemDetailsActivity"
             android:label="@string/title_activity_item_details" >
         </activity>
+        
+        <activity
+            android:name="com.uwetrottmann.shopr.ui.ClothingTypePreferenceActivity"
+            android:label="@string/title_clothing_type_preferences" >
+        </activity>
     </application>
 
 </manifest>

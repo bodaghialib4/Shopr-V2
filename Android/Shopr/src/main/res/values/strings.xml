@@ -116,4 +116,8 @@
     <string name="drawer_section_title_favourites">Favourites</string>
     <string name="drawer_section_title_mind_map">Mindmap</string>
     
+    <string name="title_clothing_type_preferences">Clothing Type Preferences</string>
+    
+    <string name="attribute_value_preference_update_explanation">Select the %s(s) that you prefer the most right now.</string>
+    <string name="update_preferences">Update preferences</string>
 </resources>
