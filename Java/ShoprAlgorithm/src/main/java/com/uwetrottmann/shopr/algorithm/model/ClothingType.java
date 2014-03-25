@@ -47,18 +47,26 @@ public class ClothingType extends GenericAttribute {
 	public static final String ID = "clothing-type";
 
 	public enum Value implements AttributeValue {
-		UNKNOWN("Unknown", Colors.BLACK), SWIMSUIT("Swim suit", Colors.GOLD), TRUNKS(
-				"Trunks", Colors.BROWN), BLOUSE("Blouse", Colors.OLIVE), SHIRT(
-				"Shirt", Colors.GREEN), TROUSERS("Trousers", Colors.GREY), JEANS(
-				"Jeans", Colors.BLUE), DRESS("Dress", Colors.PINK), POLOSHIRT(
-				"Poloshirt", Colors.TURQUOISE), SWEATER("Sweater",
-				Colors.SILVER), // Pullover
-		SKIRT("Skirt", Colors.ORANGE), SHORTS("Shorts", Colors.YELLOW), CARDIGAN(
-				"Cardigan", Colors.PURPLE), // Strickjacke
-		TOP("Top", Colors.WHITE), TSHIRT("T-Shirt", Colors.RED), SWEATSHIRT(
-				"Sweatshirt", Colors.PETROL), LONGSLEEVE("Longsleeve",
-				Colors.BEIGE), BIKINI("Bikini", Colors.RODEO_DUST), COAT(
-				"Coat", Colors.PEACH), JACKET("Jacket", Colors.AZURE_BLUE);
+		UNKNOWN("Unknown", Colors.BLACK), 
+		SWIMSUIT("Swim suit", Colors.GOLD), 
+		TRUNKS("Trunks", Colors.BROWN), 
+		BLOUSE("Blouse", Colors.OLIVE), 
+		SHIRT("Shirt", Colors.GREEN), 
+		TROUSERS("Trousers", Colors.GREY), 
+		JEANS("Jeans", Colors.BLUE), 
+		DRESS("Dress", Colors.PINK), 
+		POLOSHIRT("Poloshirt", Colors.TURQUOISE), 
+		SWEATER("Sweater", Colors.SILVER), // Pullover
+		SKIRT("Skirt", Colors.ORANGE), 
+		SHORTS("Shorts", Colors.YELLOW), 
+		CARDIGAN("Cardigan", Colors.PURPLE), // Strickjacke
+		TOP("Top", Colors.WHITE), 
+		TSHIRT("T-Shirt", Colors.RED), 
+		SWEATSHIRT("Sweatshirt", Colors.PETROL), 
+		LONGSLEEVE("Longsleeve", Colors.BEIGE), 
+		BIKINI("Bikini", Colors.RODEO_DUST), 
+		COAT("Coat", Colors.PEACH), 
+		JACKET("Jacket", Colors.AZURE_BLUE);
 
 		private String mDescriptor;
 		private String mColor;
