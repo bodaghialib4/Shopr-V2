@@ -32,8 +32,8 @@ public abstract class AttributeValuePreferenceActivity extends Activity
 	protected AttributeValueAdapter mAdapter;
 
 	protected abstract Attribute getAttribute();
-	protected abstract void onUpdatePreferencesFinish();
 
+	protected abstract void onUpdatePreferencesFinish();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -69,37 +69,38 @@ public abstract class AttributeValuePreferenceActivity extends Activity
 		String baseExplanation = getString(R.string.attribute_value_preference_update_explanation);
 		return String.format(baseExplanation, getAttribute().id());
 	}
-	
+
 	protected void onUpdateAttributeValuePreferences() {
 		SparseBooleanArray checkedPositions = mAdapter.getCheckedPositions();
 		Set<AttributeValue> attributeValues = new HashSet<AttributeValue>();
-        for (int i = 0; i < mAdapter.getCount(); i++) {
-            if (checkedPositions.get(i)) {
-            	attributeValues.add(mAdapter.getItem(i));
-            }
-        }
-        onUpdatePreferencesFinish();
+		for (int i = 0; i < mAdapter.getCount(); i++) {
+			if (checkedPositions.get(i)) {
+				attributeValues.add(mAdapter.getItem(i));
+			}
+		}
+		onUpdatePreferencesFinish();
 	}
 
 	@Override
 	public void onItemClick(AdapterView<?> a, View v, int arg2, long arg3) {
 		mButtonUpdatePreferences.setEnabled(isButtonEnabled());
 	}
-	
+
 	private boolean isButtonEnabled() {
 		return hasAtLeastOneItemChecked();
 	}
-	
+
 	private boolean hasAtLeastOneItemChecked() {
 		boolean itemChecked = false;
-		SparseBooleanArray checkedPositions = mGridView.getCheckedItemPositions();
+		SparseBooleanArray checkedPositions = mGridView
+				.getCheckedItemPositions();
 		for (int i = 0; i < checkedPositions.size(); i++) {
 			if (checkedPositions.valueAt(i)) {
 				itemChecked = true;
 				break;
 			}
 		}
-		
+
 		return itemChecked;
 	}
 

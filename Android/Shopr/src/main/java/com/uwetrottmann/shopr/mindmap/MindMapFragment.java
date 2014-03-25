@@ -11,11 +11,12 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.uwetrottmann.shopr.R;
+import com.uwetrottmann.shopr.algorithm.model.Attributes.Attribute;
 
 import de.greenrobot.event.EventBus;
 
 public abstract class MindMapFragment extends Fragment {
-		
+	
 	protected LinearLayout preferenceChart; 
 
 	@Override
@@ -31,20 +32,16 @@ public abstract class MindMapFragment extends Fragment {
 	}
 	
 	protected OnClickListener getOnClickListener() {
-		return emptyOnClickListener();
-	}
-	
-	private OnClickListener emptyOnClickListener() {
-		return new View.OnClickListener() {
-			
+		return new View.OnClickListener() {		
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				
+				onAttributePreferenceChangeRequested();
 			}
 		};
 	}
 	
+	protected abstract Attribute attribute();
+	protected abstract void onAttributePreferenceChangeRequested();
 	protected abstract View getChartView();
 	
 	@Override

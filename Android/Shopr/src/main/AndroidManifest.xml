@@ -95,6 +95,11 @@
             android:name="com.uwetrottmann.shopr.ui.ClothingTypePreferenceActivity"
             android:label="@string/title_clothing_type_preferences" >
         </activity>
+        
+        <activity
+            android:name="com.uwetrottmann.shopr.ui.ColorPreferenceActivity"
+            android:label="@string/title_color_preferences" >
+        </activity>
     </application>
 
 </manifest>
