@@ -4,7 +4,7 @@ import android.view.View;
 
 import com.uwetrottmann.shopr.algorithm.model.Attributes.Attribute;
 import com.uwetrottmann.shopr.algorithm.model.Price;
-import com.uwetrottmann.shopr.ui.ColorPreferenceActivity;
+import com.uwetrottmann.shopr.ui.PricePreferenceActivity;
 
 public class PriceRangeFragment extends MindMapFragment {
 
@@ -19,7 +19,7 @@ public class PriceRangeFragment extends MindMapFragment {
 
 	@Override
 	protected void onAttributePreferenceChangeRequested() {
-		startActivity(ColorPreferenceActivity.class);
+		startActivity(PricePreferenceActivity.class);
 	}
 	
 }

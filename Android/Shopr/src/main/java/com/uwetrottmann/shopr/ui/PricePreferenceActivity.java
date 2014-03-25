@@ -5,8 +5,6 @@ import java.util.Set;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
@@ -17,31 +15,34 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.GridView;
-import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.uwetrottmann.shopr.R;
 import com.uwetrottmann.shopr.algorithm.model.Attributes.Attribute;
 import com.uwetrottmann.shopr.algorithm.model.Attributes.AttributeValue;
+import com.uwetrottmann.shopr.algorithm.model.Price;
 
-public abstract class AttributeValuePreferenceActivity extends Activity
-		implements OnItemClickListener {
+public class PricePreferenceActivity extends Activity implements
+		OnItemClickListener {
 
 	protected TextView mTextViewExplanation;
-	protected GridView mGridView;
+	protected ListView mListView;
 	protected Button mButtonUpdatePreferences;
 	protected ArrayAdapter<AttributeValue> mAdapter;
 
-	protected abstract Attribute attribute();
+	protected Attribute attribute() {
+		return new Price();
+	}
 
-	protected abstract void onUpdatePreferencesFinish();
+	protected void onUpdatePreferencesFinish() {
 
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.attribute_value_preference);
+		setContentView(R.layout.price_preference);
 		setupViews();
 	}
 
@@ -58,17 +59,17 @@ public abstract class AttributeValuePreferenceActivity extends Activity
 			}
 		});
 
-		mAdapter = new AttributeValueAdapter(this);
+		mAdapter = new PriceRangeAdapter(this);
 		mAdapter.clear();
 		mAdapter.addAll(attribute().getAttributeValues());
 
-		mGridView = (GridView) findViewById(R.id.gridViewAttributeValueList);
-		mGridView.setOnItemClickListener(this);
-		mGridView.setChoiceMode(GridView.CHOICE_MODE_MULTIPLE);
-		mGridView.setAdapter(mAdapter);
-		mGridView.setNumColumns(numColums());
+		mListView = (ListView) findViewById(R.id.listViewAttributeValueList);
+		mListView.setOnItemClickListener(this);
+		mListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+		
+		mListView.setAdapter(mAdapter);
 	}
-	
+
 	protected int numColums() {
 		return 4;
 	}
@@ -79,7 +80,7 @@ public abstract class AttributeValuePreferenceActivity extends Activity
 	}
 
 	protected void onUpdateAttributeValuePreferences() {
-		SparseBooleanArray checkedPositions = mGridView
+		SparseBooleanArray checkedPositions = mListView
 				.getCheckedItemPositions();
 		Set<AttributeValue> attributeValues = new HashSet<AttributeValue>();
 		for (int i = 0; i < mAdapter.getCount(); i++) {
@@ -101,7 +102,7 @@ public abstract class AttributeValuePreferenceActivity extends Activity
 
 	private boolean hasAtLeastOneItemChecked() {
 		boolean itemChecked = false;
-		SparseBooleanArray checkedPositions = mGridView
+		SparseBooleanArray checkedPositions = mListView
 				.getCheckedItemPositions();
 		for (int i = 0; i < checkedPositions.size(); i++) {
 			if (checkedPositions.valueAt(i)) {
@@ -113,12 +114,12 @@ public abstract class AttributeValuePreferenceActivity extends Activity
 		return itemChecked;
 	}
 
-	public class AttributeValueAdapter extends ArrayAdapter<AttributeValue> {
+	public class PriceRangeAdapter extends ArrayAdapter<AttributeValue> {
 
-		private static final int LAYOUT = R.layout.attribute_value_layout;
+		private static final int LAYOUT = R.layout.checkable_row;
 		private LayoutInflater mInflater;
 
-		public AttributeValueAdapter(Context context) {
+		public PriceRangeAdapter(Context context) {
 			super(context, LAYOUT);
 			mInflater = LayoutInflater.from(context);
 		}
@@ -132,13 +133,10 @@ public abstract class AttributeValuePreferenceActivity extends Activity
 				convertView = mInflater.inflate(LAYOUT, null);
 
 				holder = new ViewHolder();
-				holder.pictureContainer = convertView
-						.findViewById(R.id.containerAttributeValuePicture);
-				holder.picture = (ImageView) convertView
-						.findViewById(R.id.imageViewAttributeValuePicture);
 				holder.name = (TextView) convertView
-						.findViewById(R.id.textViewAttributeValueName);
-				
+						.findViewById(R.id.textViewTitle);
+			
+
 				convertView.setTag(holder);
 			} else {
 				holder = (ViewHolder) convertView.getTag();
@@ -146,28 +144,11 @@ public abstract class AttributeValuePreferenceActivity extends Activity
 
 			final AttributeValue value = getItem(position);
 			holder.name.setText(value.descriptor());
-			holder.picture.setBackgroundDrawable(getDrawableOrDefault(value.simpleName()));
 
 			return convertView;
 		}
-		
-		private Drawable getDrawableOrDefault(String name) {
-			Resources resources = getContext().getResources();
-			final int resourceId = getContext().getResources().getIdentifier(name, "drawable", 
-			   getContext().getPackageName());
-
-			try{
-				Drawable drawable = resources.getDrawable(resourceId);
-				return drawable;
-			}catch(Resources.NotFoundException e) {
-				return resources.getDrawable(R.drawable.ic_action_tshirt);
-			}
-		}
-		
 
 		class ViewHolder {
-			View pictureContainer;
-			ImageView picture;
 			TextView name;
 		}
 	}

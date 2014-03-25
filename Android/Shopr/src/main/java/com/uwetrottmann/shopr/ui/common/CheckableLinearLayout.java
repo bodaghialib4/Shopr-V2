@@ -2,23 +2,22 @@ package com.uwetrottmann.shopr.ui.common;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.Checkable;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 
-public class CheckableRelativeLayout extends RelativeLayout implements Checkable {
+public class CheckableLinearLayout extends LinearLayout implements Checkable {
     private boolean checked = false;
     private static final int[] CHECKED_STATE_SET = { android.R.attr.state_checked };
 
-    public CheckableRelativeLayout(Context context) {
+    public CheckableLinearLayout(Context context) {
         super(context);
     }
 
-    public CheckableRelativeLayout(Context context, AttributeSet attrs) {
+    public CheckableLinearLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public CheckableRelativeLayout(Context context, AttributeSet attrs, int defStyle) {
+    public CheckableLinearLayout(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 
@@ -43,7 +42,7 @@ public class CheckableRelativeLayout extends RelativeLayout implements Checkable
 
     @Override
     public void toggle() {
-  
+
     }
 
 }

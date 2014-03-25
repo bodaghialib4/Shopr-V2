@@ -105,6 +105,11 @@
             android:name="com.uwetrottmann.shopr.ui.GenderPreferenceActivity"
             android:label="@string/title_gender_preferences" >
         </activity>
+        
+        <activity
+            android:name="com.uwetrottmann.shopr.ui.PricePreferenceActivity"
+            android:label="@string/title_price_range_preferences" >
+        </activity>
     </application>
 
 </manifest>
