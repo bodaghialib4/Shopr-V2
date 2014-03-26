@@ -3,7 +3,7 @@ package com.uwetrottmann.shopr.ui;
 import com.uwetrottmann.shopr.algorithm.model.Attributes.Attribute;
 import com.uwetrottmann.shopr.algorithm.model.ClothingType;
 
-public class ClothingTypePreferenceActivity extends AttributeValuePreferenceActivity {
+public class ClothingTypePreferenceActivity extends PreferenceGridActivity {
 
 	public static final String TAG = ClothingTypePreferenceActivity.class
 			.getSimpleName();
@@ -11,11 +11,6 @@ public class ClothingTypePreferenceActivity extends AttributeValuePreferenceActi
 	@Override
 	protected Attribute attribute() {
 		return new ClothingType();
-	}
-
-	@Override
-	protected void onUpdatePreferencesFinish() {
-		
 	}
 
 }

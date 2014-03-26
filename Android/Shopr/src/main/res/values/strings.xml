@@ -94,9 +94,9 @@
     <string name="_150_to_200">150 to 200 €</string>
     <string name="_200_or_more">200 € or more</string>
     
-    <string name="only">only %s</string>
-    <string name="preferably">preferably %s</string>
-    <string name="avoid">avoid %s</string>
+    <string name="only"><b>only</b> %s</string>
+    <string name="preferably"><b>preferably</b> %s</string>
+    <string name="avoid"><b>avoid</b> %s</string>
     <string name="restart_test">Restart test</string>
     <string name="selection_hint">Select one or more</string>
     
