@@ -8,7 +8,7 @@ import android.content.Context;
 import com.uwetrottmann.shopr.model.Shop;
 import com.uwetrottmann.shopr.utils.ShopUtils;
 
-public class ShopLoader extends GenericSimpleLoader<List<Shop>> {
+public class ShopLoader extends Loader<List<Shop>> {
 
     public ShopLoader(Context context) {
         super(context);

@@ -34,7 +34,7 @@ import com.uwetrottmann.shopr.utils.ValueConverter;
 /**
  * Returns a list of items based on the current user model.
  */
-public class ItemLoader extends GenericSimpleLoader<List<Item>> {
+public class ItemLoader extends Loader<List<Item>> {
 
 	private static final String TAG = "ItemLoader";
 	private LatLng mLocation;

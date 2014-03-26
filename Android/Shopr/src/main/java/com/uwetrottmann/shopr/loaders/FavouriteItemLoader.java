@@ -21,7 +21,7 @@ import com.uwetrottmann.shopr.utils.ValueConverter;
 /**
  * Returns a list of items based on the current user model.
  */
-public class FavouriteItemLoader extends GenericSimpleLoader<List<Item>> {
+public class FavouriteItemLoader extends Loader<List<Item>> {
 
 	//private static final String TAG =  "FavouriteItemLoader";
 

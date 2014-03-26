@@ -12,11 +12,11 @@ import java.util.List;
  * a meaningful way). It takes care of delivering and reseting results, so you
  * only have to implement <code>loadInBackground()</code>.
  */
-public abstract class GenericSimpleLoader<T> extends AsyncTaskLoader<T> {
+public abstract class Loader<T> extends AsyncTaskLoader<T> {
 
     protected T mItems;
 
-    public GenericSimpleLoader(Context context) {
+    public Loader(Context context) {
         super(context);
     }
 
