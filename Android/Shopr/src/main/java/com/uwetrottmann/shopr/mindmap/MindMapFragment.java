@@ -27,7 +27,6 @@ public abstract class MindMapFragment extends Fragment {
 				container, false);
 		
 		preferenceChart = (LinearLayout) v.findViewById(R.id.preferenceChart);	
-		preferenceChart.addView(getChartView());
 		preferenceChart.setOnClickListener(getOnClickListener());
 		return v;
 	}
@@ -56,10 +55,16 @@ public abstract class MindMapFragment extends Fragment {
 
 		setHasOptionsMenu(true);
 	}
-
+	
 	@Override
-	public void onStart() {
-		super.onStart();
+	public void onResume() {
+		super.onResume();
+		redrawChart();
+	}
+	
+	private void redrawChart() {
+		preferenceChart.removeAllViews();
+		preferenceChart.addView(getChartView());
 	}
 
 	@Override
