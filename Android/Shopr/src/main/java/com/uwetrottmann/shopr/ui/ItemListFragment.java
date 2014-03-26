@@ -89,11 +89,11 @@ public class ItemListFragment extends Fragment implements LoaderCallbacks<List<I
         mAdapter = new ItemAdapter(getActivity(), this, this, this);
 
         mGridView.setAdapter(mAdapter);
-
+        
         Bundle args = new Bundle();
         args.putBoolean("isinit", false);
         getLoaderManager().initLoader(LOADER_ID, args, this);
-
+        
         setHasOptionsMenu(true);
     }
 
@@ -202,9 +202,10 @@ public class ItemListFragment extends Fragment implements LoaderCallbacks<List<I
 
     @Override
     public void onItemCritique(Item item, boolean isLike) {
-        startActivityForResult(new Intent(getActivity(), CritiqueActivity.class).putExtra(
-                CritiqueActivity.InitBundle.IS_POSITIVE_CRITIQUE, isLike)
-                .putExtra(CritiqueActivity.InitBundle.ITEM_ID, item.id()), REQUEST_CODE);
+    	Intent intent = new Intent(getActivity(), CritiqueActivity.class);
+    	intent.putExtra(CritiqueActivity.InitBundle.IS_POSITIVE_CRITIQUE, isLike);
+        intent.putExtra(CritiqueActivity.InitBundle.ITEM_ID, item.id());
+    	startActivityForResult(intent, REQUEST_CODE);
     }
     
 	@Override

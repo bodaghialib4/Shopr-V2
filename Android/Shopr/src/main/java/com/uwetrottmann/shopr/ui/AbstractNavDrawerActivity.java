@@ -159,4 +159,5 @@ public abstract class AbstractNavDrawerActivity extends FragmentActivity {
 		mTitle = title;
 		getActionBar().setTitle(mTitle);
 	}
+	
 }

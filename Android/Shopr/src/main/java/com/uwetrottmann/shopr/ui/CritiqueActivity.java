@@ -187,12 +187,6 @@ public class CritiqueActivity extends Activity {
         
         setResult(RESULT_OK);
         finish();
-        /*
-        Intent i = new Intent(this, MainActivity.class);
-        // set the request code to any code you like,
-        // you can identify the callback via this code
-        startActivityForResult(i, RESULT_OK);
-        */
     }
 
     public class ItemFeatureAdapter extends ArrayAdapter<Attribute> {
