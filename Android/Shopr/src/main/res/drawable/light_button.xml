@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:state_pressed="true" >
+        <shape>
+            <gradient
+                android:startColor="@color/light_button_shape_pressed_start"
+                android:endColor="@color/light_button_shape_pressed_end"
+                android:angle="@integer/button_shape_gradient_angle_pressed"  />
+            <stroke
+                android:width="@dimen/button_shape_stroke_pressed"
+                android:color="@color/light_button_shape_pressed_border" />
+            <corners
+                android:radius="@dimen/button_shape_corner_radius" /> 
+                
+            <padding
+                android:left="@dimen/background_shape_padding_left"
+                android:top="@dimen/background_shape_padding_top"
+                android:right="@dimen/background_shape_padding_right"
+                android:bottom="@dimen/background_shape_padding_bottom" />
+        </shape>
+    </item>
+
+    <item android:state_focused="true" >
+        <shape>
+            <gradient
+                android:endColor="@color/light_button_shape_focused_end"
+                android:startColor="@color/light_button_shape_focused_start"
+                android:angle="@integer/button_shape_gradient_angle_focused"  />
+            <stroke
+                android:width="@dimen/button_shape_stroke_focused"
+                android:color="@color/light_button_shape_focused_border" />
+            <corners
+                android:radius="@dimen/button_shape_corner_radius" />  
+                
+           <padding
+                android:left="@dimen/background_shape_padding_left"
+                android:top="@dimen/background_shape_padding_top"
+                android:right="@dimen/background_shape_padding_right"
+                android:bottom="@dimen/background_shape_padding_bottom" /> 
+        </shape>
+    </item>
+
+    <item>        
+        <shape>
+            <gradient
+                android:endColor="@color/light_button_shape_end"
+                android:startColor="@color/light_button_shape_start"
+                android:angle="@integer/button_shape_gradient_angle_main" 
+                />
+            <stroke
+                android:width="@dimen/button_shape_stroke_main"
+                android:color="@color/light_button_shape_border" />
+            <corners
+                android:radius="@dimen/button_shape_corner_radius" />
+            
+            <padding
+                android:left="@dimen/background_shape_padding_left"
+                android:top="@dimen/background_shape_padding_top"
+                android:right="@dimen/background_shape_padding_right"
+                android:bottom="@dimen/background_shape_padding_bottom" />
+            
+        </shape>
+    </item>
+</selector>

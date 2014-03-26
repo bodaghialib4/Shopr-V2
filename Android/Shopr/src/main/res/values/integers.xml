@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="button_shape_gradient_angle_main">270</integer>
+    <integer name="button_shape_gradient_angle_pressed">270</integer>
+    <integer name="button_shape_gradient_angle_focused">270</integer>
+    
+    <integer name="background_shape_gradient_angle_main">270</integer>
+</resources>

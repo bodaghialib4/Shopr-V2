@@ -9,5 +9,16 @@
 
     <integer name="gridview_num_columns">2</integer>
     <integer name="favourite_items_gridview_num_columns">3</integer>
+    
+    <dimen name="button_shape_corner_radius">3dp</dimen>
+    
+    <dimen name="button_shape_stroke_main">1dp</dimen>
+    <dimen name="button_shape_stroke_pressed">2dp</dimen>
+    <dimen name="button_shape_stroke_focused">2dp</dimen>
+    
+    <dimen name="background_shape_padding_left">7dp</dimen>
+    <dimen name="background_shape_padding_right">7dp</dimen>
+    <dimen name="background_shape_padding_top">7dp</dimen>
+    <dimen name="background_shape_padding_bottom">7dp</dimen>
 
 </resources>

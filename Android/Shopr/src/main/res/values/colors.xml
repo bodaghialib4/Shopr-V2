@@ -7,5 +7,18 @@
     <color name="lilac_transparent">#505D1291</color>
     <color name="light_grey">#ffe5e5e5</color>
     <color name="pressed_shopr">#CC5D1291</color>
+    
+    <color name="light_button_shape_text_color">#000000</color>
+	<color name="light_button_shape_start">#FFFFFFFF</color>
+	<color name="light_button_shape_end">#DDFFFFFF</color>
+	<color name="light_button_shape_border">#FFCCCCCC</color>
+	
+	<color name="light_button_shape_pressed_start">#FF177BBD</color>
+	<color name="light_button_shape_pressed_end">#FF177BBD</color>
+	<color name="light_button_shape_pressed_border">#FF277BBD</color>
+	
+	<color name="light_button_shape_focused_start">#FF177BBD</color>
+	<color name="light_button_shape_focused_end">#FF177BBD</color>
+	<color name="light_button_shape_focused_border">#FF277BBD</color>
 
 </resources>
