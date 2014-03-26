@@ -20,27 +20,26 @@ import com.uwetrottmann.shopr.algorithm.model.Attributes.AttributeValue;
 public abstract class PreferenceGridActivity extends
 		PreferenceActivity {
 
+	protected abstract Attribute attribute();
+	
 	@Override
 	protected int layout() {
 		return R.layout.attribute_value_preference;
-	}
-
-	protected abstract Attribute attribute();
+	}	
 	
-	
-	protected TextView explanationView() {
+	protected final TextView explanationView() {
 		return (TextView) findViewById(R.id.textViewAttributeValuePreference);
 	}
 
-	protected Button updatePreferenceButton() {
+	protected final Button updatePreferenceButton() {
 		return (Button) findViewById(R.id.buttonUpdatePreferences);
 	}
 
-	protected ArrayAdapter<AttributeValue> attributeValueAdapter() {
+	protected final ArrayAdapter<AttributeValue> attributeValueAdapter() {
 		return new AttributeValueAdapter(this);
 	}
 
-	protected AbsListView attributeValueList() {
+	protected final AbsListView attributeValueList() {
 		GridView gridView = (GridView) findViewById(R.id.gridViewAttributeValueList);
 		gridView.setNumColumns(numColums());
 		return gridView;
