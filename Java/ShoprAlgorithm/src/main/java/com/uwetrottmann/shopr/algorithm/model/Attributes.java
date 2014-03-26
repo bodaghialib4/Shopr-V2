@@ -26,7 +26,7 @@ public class Attributes {
 
         public void critiqueQuery(Query query, boolean isPositive);
         
-        public void favorAttributeValuesOnQuery(Set<AttributeValue> values, Query query);
+        public void updateQuery(Query query, Set<AttributeValue> preferredValues);
         
         public AttributeValue[] getAttributeValues();
     }
@@ -119,11 +119,12 @@ public class Attributes {
      * Calls {@link #putAttribute(Attribute)} with a {@link GenericAttribute}
      * implementation matching the given id.
      */
-    public void initializeAttribute(Attribute attribute) {
+    public Attribute initializeAttribute(Attribute attribute) {
         try {
             Class<?> attrClass = Class.forName(attribute.getClass().getCanonicalName());
             Attribute newAttr = (Attribute) attrClass.newInstance();
             putAttribute(newAttr);
+            return newAttr;
         } catch (ClassNotFoundException ex) {
             System.err.println(ex + " Interpreter class must be in class path.");
         } catch (InstantiationException ex) {
@@ -131,6 +132,7 @@ public class Attributes {
         } catch (IllegalAccessException ex) {
             System.err.println(ex + " Interpreter class must have a no-arg constructor.");
         }
+		return null;
     }
 
 }

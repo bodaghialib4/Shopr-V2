@@ -19,4 +19,8 @@ public class Query {
     public Attributes attributes() {
         return attrs;
     }
+    
+    public void revise(Preference preference) {
+    	preference.attribute().updateQuery(this, preference.attributeValues());
+    }
 }

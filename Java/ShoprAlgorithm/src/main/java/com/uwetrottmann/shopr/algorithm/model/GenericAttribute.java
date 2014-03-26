@@ -13,8 +13,9 @@ import java.util.Set;
 public abstract class GenericAttribute implements Attribute {
 
     private AttributeValue currentValue;
-
     protected double[] mValueWeights;
+    public static double WEIGHT_UPPER_BOUND = 1.0;
+    public static double WEIGHT_LOWER_BOUND = 0.0;
 
     public AttributeValue currentValue() {
         return currentValue;
@@ -289,21 +290,21 @@ public abstract class GenericAttribute implements Attribute {
     }
     
     @Override
-    public void favorAttributeValuesOnQuery(Set<AttributeValue> values, Query query) {
-    	Attribute queryAttr = query.attributes().getAttributeById(id());
+    public void updateQuery(Query query, Set<AttributeValue> preferredValues) {
+    	Attribute queryAttr =  query.attributes().getAttributeById(id());
     	if (queryAttr == null) {
-            query.attributes().initializeAttribute(this);
+    		queryAttr = query.attributes().initializeAttribute(this);
         }
     	
-    	double[] weights = query.attributes().getAttributeById(id()).getValueWeights();
-    	favorAttributeValues(values, weights);
+    	queryAttr = (GenericAttribute) query.attributes().getAttributeById(id());
+    	preferAttributeValues(preferredValues, queryAttr.getValueWeights());
     }
     
-    protected void favorAttributeValues(Set<AttributeValue> values, double[] weights) {
-    	double favorValue = 1.0 / values.size();
-    	Arrays.fill(weights, 0.0);
+    protected void preferAttributeValues(Set<AttributeValue> values, double[] weights) {
+    	double favorValue = WEIGHT_UPPER_BOUND / values.size();
+    	Arrays.fill(weights, WEIGHT_LOWER_BOUND);
     	for(AttributeValue value : values) 
-    		mValueWeights[value.index()] = favorValue;	
+    		weights[value.index()] = favorValue;	
     } 
     
 }

@@ -1,18 +1,18 @@
 
 package com.uwetrottmann.shopr.algorithm;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.uwetrottmann.shopr.algorithm.model.Attributes.Attribute;
 import com.uwetrottmann.shopr.algorithm.model.ClothingType;
 import com.uwetrottmann.shopr.algorithm.model.Color;
 import com.uwetrottmann.shopr.algorithm.model.Item;
 import com.uwetrottmann.shopr.algorithm.model.Label;
 import com.uwetrottmann.shopr.algorithm.model.Price;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
 
 public class AdaptiveSelection {
 
@@ -117,6 +117,18 @@ public class AdaptiveSelection {
         if (critique != null) {
             queryRevise(mQuery, critique);
             mCurrentCritique = critique;
+        }
+    }
+    
+    /**
+     * Updates the item query, will influence the next set of recommendations.
+     * Call {@link #getRecommendations()} afterwards.
+     */
+    public void submitPreference(Preference preference) {
+        // Update the current query with the new critique
+        if (preference != null) {
+            queryRevise(mQuery, preference);
+          //  mCurrentCritique = critique;
         }
     }
 
@@ -337,7 +349,7 @@ public class AdaptiveSelection {
 
     /**
      * Takes a liked/disliked item, which feature value was liked/disliked, the
-     * current query. Returns a new query modified according to the given user
+     * current query. Yields a new query modified according to the given user
      * critique.
      */
     private static void queryRevise(Query query, Critique critique) {
@@ -346,5 +358,13 @@ public class AdaptiveSelection {
             critique.item().attributes().getAttributeById(attribute.id())
                     .critiqueQuery(query, critique.feedback().isPositiveFeedback());
         }
+    }
+    
+    /**
+     * Takes a preference over an attribute's values. Yields a new query modified 
+     * according to the given user preference over the values of the submitted attribute.
+     */
+    private static void queryRevise(Query query, Preference preference) {
+    	query.revise(preference);
     }
 }
