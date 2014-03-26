@@ -27,8 +27,10 @@ public abstract class AttributeChart {
 	protected List<ChartElem> getElems() {
 		List<ChartElem> elems = new ArrayList<ChartElem>();
 		AdaptiveSelection manager = AdaptiveSelection.get();
-		Attribute attr = manager.getCurrentQuery().attributes()
+		Attribute queryAttr = manager.getCurrentQuery().attributes()
 				.getAttributeById(attribute.id());
+		
+		Attribute attr = (queryAttr !=null) ? queryAttr : attribute;
 
 		if (attr != null) {
 			AttributeValue[] values = attr.getAttributeValues();
