@@ -4,6 +4,7 @@ package com.uwetrottmann.shopr.algorithm.model;
 import com.uwetrottmann.shopr.algorithm.Query;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
@@ -58,6 +59,10 @@ public class Attributes {
     }
 
     private HashMap<String, Attribute> attributes = new HashMap<String, Attributes.Attribute>();
+    
+    public Collection<Attribute> values() {
+    	return attributes.values();
+    }
 
     public Attribute getAttributeById(String id) {
         return attributes.get(id);
@@ -120,10 +125,19 @@ public class Attributes {
      * implementation matching the given id.
      */
     public Attribute initializeAttribute(Attribute attribute) {
+    	Attribute newAttr = initialize(attribute);
+    	if(newAttr != null) putAttribute(newAttr);
+    	
+    	return newAttr;
+    }
+    
+    /**
+     * Initialises a {@link GenericAttribute} implementation matching the given id.
+     */
+    public Attribute initialize(Attribute attribute) {
         try {
             Class<?> attrClass = Class.forName(attribute.getClass().getCanonicalName());
             Attribute newAttr = (Attribute) attrClass.newInstance();
-            putAttribute(newAttr);
             return newAttr;
         } catch (ClassNotFoundException ex) {
             System.err.println(ex + " Interpreter class must be in class path.");
