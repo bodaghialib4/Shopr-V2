@@ -9,21 +9,21 @@ import com.uwetrottmann.shopr.algorithm.Query;
 import com.uwetrottmann.shopr.algorithm.model.Attributes.Attribute;
 import com.uwetrottmann.shopr.algorithm.model.Item;
 
-public class Score {
+public class ScoreComputer {
 	
-	public double informationScore(Item item, Query query, Dimension dimension, List<Item> recommendations) {
+	public static double informationScore(Item item, Query query, Dimension dimension, List<Item> recommendations) {
 		double R = calculateRange(recommendations, query, dimension);
 		double I = calculateInformation(recommendations, query, dimension);
 		return (R + I) / 2;
 	}
 	
-	private double calculateInformation(List<Item> recommendations, Query query, Dimension dimension) {
+	private static double calculateInformation(List<Item> recommendations, Query query, Dimension dimension) {
 		int n = recommendations.size();
 		int h = findNumMostFrequentX(recommendations, query, dimension);
 		return (n - h) / (n - 1);
 	}
 
-	private int findNumMostFrequentX(List<Item> recommendations, Query query, Dimension dimension) {
+	private static int findNumMostFrequentX(List<Item> recommendations, Query query, Dimension dimension) {
 		List<Double> explanationScores = mapToExplanationScore(recommendations, query, dimension);
 		Map<Double,Integer> frequencyOfScores = new HashMap<Double,Integer>();
 		int max = 1;
@@ -36,19 +36,21 @@ public class Score {
 				frequencyOfScores.put(score, newFreq);
 			}
 		}
+		
 		return max;
 	}
 	
-	private List<Double> mapToExplanationScore(List<Item> recommendations, Query query, Dimension dimension) {
+	private static List<Double> mapToExplanationScore(List<Item> recommendations, Query query, Dimension dimension) {
 		List<Double> explanationScores = new ArrayList<Double>();
 		for(Item item: recommendations) {
 			double expScore = explanationScore(item, query, dimension);
 			explanationScores.add(expScore);
 		}
+		
 		return explanationScores;
 	}
 
-	public double calculateRange(List<Item> recommendations, Query query, Dimension dimension) {
+	public static double calculateRange(List<Item> recommendations, Query query, Dimension dimension) {
 		double max = 0.0;
 		double min = 1.0;
 		
@@ -61,17 +63,18 @@ public class Score {
 		return max - min;
 	}
 	
-	public double globalScore(Item item, Query query) {
+	public static double globalScore(Item item, Query query) {
 		double scoreSum = 0.0;
 		double numDimensions = item.attributes().values().size();
 		for (Attribute attribute : item.attributes().values()) {
 			Dimension dimension = new Dimension(attribute);
 			scoreSum += explanationScore(item, query, dimension);
 		}
+		
 		return scoreSum / numDimensions;
 	}
 
-	public double explanationScore(Item item, Query query, Dimension dimension) {
+	public static double explanationScore(Item item, Query query, Dimension dimension) {
 		Attribute itemAttr = item.attributes().getAttributeById(dimension.attribute().id());
 		Attribute queryAttr = query.attributes().getAttributeById(
 				dimension.attribute().id());
@@ -85,11 +88,11 @@ public class Score {
 					dimension.attribute());
 			queryValueWeights = missingQueryAttr.getValueWeights();
 		}
-		System.out.println(calculateLocalScore(itemValueWeights, queryValueWeights));
+
 		return calculateLocalScore(itemValueWeights, queryValueWeights);
 	}
 
-	private double calculateLocalScore(double[] itemWeights, double[] queryWeights) {
+	private static double calculateLocalScore(double[] itemWeights, double[] queryWeights) {
 		double score = 0.0;
 		for (int i = 0; i < itemWeights.length; i++) {
 			score += itemWeights[i] * queryWeights[i];

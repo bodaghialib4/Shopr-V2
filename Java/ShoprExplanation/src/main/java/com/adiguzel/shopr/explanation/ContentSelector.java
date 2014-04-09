@@ -7,7 +7,7 @@ import java.util.List;
 import com.adiguzel.shopr.explanation.model.Argument;
 import com.adiguzel.shopr.explanation.model.Dimension;
 import com.adiguzel.shopr.explanation.model.Explanation;
-import com.adiguzel.shopr.explanation.model.Score;
+import com.adiguzel.shopr.explanation.model.ScoreComputer;
 import com.uwetrottmann.shopr.algorithm.Query;
 import com.uwetrottmann.shopr.algorithm.model.Attributes.Attribute;
 import com.uwetrottmann.shopr.algorithm.model.Item;
@@ -29,7 +29,7 @@ public class ContentSelector {
 		explanation.addArgument(bestArgument);
 
 		if (bestArgument.dimension().explanationScore() > ALPHA) {
-			double informationScore = new Score().informationScore(item, query,
+			double informationScore = ScoreComputer.informationScore(item, query,
 					bestArgument.dimension(), recommendedItems);
 			// Dimension provides low information, attempt to add a supporting
 			// argument
@@ -40,7 +40,7 @@ public class ContentSelector {
 
 		} else {
 			// Item is good average
-			if (new Score().globalScore(item, query) > BETA) {
+			if (ScoreComputer.globalScore(item, query) > BETA) {
 			}
 			// Recommender couldn't find better alternatives
 			else {
@@ -53,7 +53,7 @@ public class ContentSelector {
 	private List<Argument> generateSortedInitialArguments(Item item, Query query) {
 		List<Argument> arguments = new ArrayList<Argument>();
 
-		Score score = new Score();
+		ScoreComputer score = new ScoreComputer();
 		for (Attribute attribute : item.attributes().values()) {
 			Dimension dimension = new Dimension(attribute);
 			dimension.explanationScore(score.explanationScore(item, query,

@@ -26,7 +26,7 @@ public class ScoreSuit {
 		Query query = new Query();
 		query.attributes().putAttribute(attr);
 		
-		double explanationScore = new Score().explanationScore(item, query, new Dimension(attr));
+		double explanationScore = ScoreComputer.explanationScore(item, query, new Dimension(attr));
 		
 		assertThat(explanationScore).isLessThanOrEqualTo(1.0);
 		assertThat(explanationScore).isGreaterThanOrEqualTo(0.0);
@@ -42,7 +42,7 @@ public class ScoreSuit {
 		
 		Query query = new Query();
 		
-		double explanationScore = new Score().explanationScore(item, query, new Dimension(attr));
+		double explanationScore = ScoreComputer.explanationScore(item, query, new Dimension(attr));
 		
 		assertThat(explanationScore).isLessThanOrEqualTo(1.0);
 		assertThat(explanationScore).isGreaterThanOrEqualTo(0.0);
@@ -59,7 +59,7 @@ public class ScoreSuit {
 		Query query = new Query();
 		query.attributes().putAttribute(attr);
 		
-		assertThat(new Score().explanationScore(item, query, new Dimension(attr))).isEqualTo(1.0);
+		assertThat(ScoreComputer.explanationScore(item, query, new Dimension(attr))).isEqualTo(1.0);
 	}
 	
 	@Test
@@ -76,7 +76,7 @@ public class ScoreSuit {
 		preference.add(Color.Value.BLUE);
 		query.revise(preference);
 		
-		assertThat(new Score().explanationScore(item, query, new Dimension(new Color()))).isEqualTo(0.0);
+		assertThat(ScoreComputer.explanationScore(item, query, new Dimension(new Color()))).isEqualTo(0.0);
 	}
 	
 	@Test
@@ -95,7 +95,7 @@ public class ScoreSuit {
 		preference.add(Color.Value.BLUE);
 		query.revise(preference);
 		
-		assertThat(new Score().explanationScore(item, query, new Dimension(new Color()))).isEqualTo(0.5);
+		assertThat(ScoreComputer.explanationScore(item, query, new Dimension(new Color()))).isEqualTo(0.5);
 	}
 	
 	@Test
@@ -111,7 +111,7 @@ public class ScoreSuit {
 		Query query = new Query();
 		query.attributes().putAttribute(colorAttr).putAttribute(clothingAttr);
 		
-		assertThat(new Score().globalScore(item, query)).isEqualTo(1.0);
+		assertThat(ScoreComputer.globalScore(item, query)).isEqualTo(1.0);
 	}
 	
 	@Test
@@ -134,7 +134,7 @@ public class ScoreSuit {
 		preference.add(anotherColor);
 		query.revise(preference);
 		
-		assertThat(new Score().globalScore(item, query)).isEqualTo(0.75);
+		assertThat(ScoreComputer.globalScore(item, query)).isEqualTo(0.75);
 	}
 
 }
