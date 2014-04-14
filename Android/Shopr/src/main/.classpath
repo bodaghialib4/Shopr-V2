@@ -9,5 +9,6 @@
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/ShoprAlgorithm"/>
 	<classpathentry kind="src" path="/AndroidUtils"/>
 	<classpathentry kind="lib" path="libs/android-support-v4.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ShoprExplanation"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
