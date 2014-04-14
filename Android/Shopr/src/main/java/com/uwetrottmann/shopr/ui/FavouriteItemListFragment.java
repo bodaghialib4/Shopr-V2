@@ -25,7 +25,7 @@ import com.uwetrottmann.shopr.adapters.FavouriteItemAdapter;
 import com.uwetrottmann.shopr.adapters.FavouriteItemAdapter.OnFavouriteItemDisplayListener;
 import com.uwetrottmann.shopr.algorithm.model.Item;
 import com.uwetrottmann.shopr.loaders.FavouriteItemLoader;
-import com.uwetrottmann.shopr.ui.MainActivity.LocationUpdateEvent;
+import com.uwetrottmann.shopr.ui.explanation.MainActivityExplanation.LocationUpdateEvent;
 
 import de.greenrobot.event.EventBus;
 

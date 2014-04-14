@@ -1,4 +1,4 @@
-package com.uwetrottmann.shopr.ui;
+package com.uwetrottmann.shopr.ui.explanation;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -30,12 +30,13 @@ import com.uwetrottmann.shopr.model.NavMenuItem;
 import com.uwetrottmann.shopr.model.NavMenuSection;
 import com.uwetrottmann.shopr.model.ui.NavDrawerActivityConfiguration;
 import com.uwetrottmann.shopr.settings.AppSettings;
-import com.uwetrottmann.shopr.ui.explaination.AbstractNavDrawerActivity;
-import com.uwetrottmann.shopr.ui.explaination.PageSlidingTabStripFragment;
+import com.uwetrottmann.shopr.ui.ErrorDialogFragment;
+import com.uwetrottmann.shopr.ui.FavouriteItemListFragment;
+import com.uwetrottmann.shopr.ui.SettingsActivity;
 
 import de.greenrobot.event.EventBus;
 
-public class MainActivity extends AbstractNavDrawerActivity {
+public class MainActivityExplanation extends AbstractNavDrawerActivity {
 
 	private static final String TAG = "Shopr";
 
@@ -82,7 +83,7 @@ public class MainActivity extends AbstractNavDrawerActivity {
 
 		navDrawerActivityConfiguration = new NavDrawerActivityConfiguration();
 		navDrawerActivityConfiguration
-				.setMainLayout(R.layout.activity_main_drawer);
+				.setMainLayout(R.layout.activity_main_explanation);
 		navDrawerActivityConfiguration.setDrawerLayoutId(R.id.drawer_layout);
 		navDrawerActivityConfiguration.setLeftDrawerId(R.id.left_drawer);
 		navDrawerActivityConfiguration.setNavItems(menu);

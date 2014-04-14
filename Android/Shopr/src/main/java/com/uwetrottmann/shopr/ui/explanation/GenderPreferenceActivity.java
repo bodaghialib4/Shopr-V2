@@ -1,4 +1,4 @@
-package com.uwetrottmann.shopr.ui.explaination;
+package com.uwetrottmann.shopr.ui.explanation;
 
 import com.uwetrottmann.shopr.algorithm.model.Attributes.Attribute;
 import com.uwetrottmann.shopr.algorithm.model.Sex;

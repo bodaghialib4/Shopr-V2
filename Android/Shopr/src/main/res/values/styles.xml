@@ -50,6 +50,28 @@
         <item name="android:textStyle">italic</item>
         <item name="android:fontFamily" tools:targetApi="jelly_bean">sans-serif-condensed</item>
     </style>
+    
+     <style name="TextAppearance.xSmall">
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="TextAppearance.xSmall.Label">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
+    <style name="TextAppearance.xSmall.Light">
+        <item name="android:fontFamily" tools:targetApi="jelly_bean">sans-serif-light</item>
+    </style>
+
+    <style name="TextAppearance.xSmall.Dim">
+        <item name="android:textColor">@android:color/tertiary_text_light</item>
+    </style>
+
+    <style name="TextAppearance.xSmall.Dim.Highlight">
+        <item name="android:textStyle">italic</item>
+        <item name="android:fontFamily" tools:targetApi="jelly_bean">sans-serif-condensed</item>
+    </style>
 
     <style name="TextAppearance.Large">
         <item name="android:textSize">22sp</item>

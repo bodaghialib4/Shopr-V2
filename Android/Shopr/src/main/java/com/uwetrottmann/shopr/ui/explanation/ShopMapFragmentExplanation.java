@@ -1,5 +1,5 @@
 
-package com.uwetrottmann.shopr.ui;
+package com.uwetrottmann.shopr.ui.explanation;
 
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
@@ -19,22 +19,22 @@ import com.uwetrottmann.shopr.loaders.ShopLoader;
 import com.uwetrottmann.shopr.model.Constraints;
 import com.uwetrottmann.shopr.model.Shop;
 import com.uwetrottmann.shopr.settings.AppSettings;
-import com.uwetrottmann.shopr.ui.ItemListFragment.ShopUpdateEvent;
-import com.uwetrottmann.shopr.ui.MainActivity.LocationUpdateEvent;
+import com.uwetrottmann.shopr.ui.explanation.ItemListFragmentExplanation.ShopUpdateEvent;
+import com.uwetrottmann.shopr.ui.explanation.MainActivityExplanation.LocationUpdateEvent;
 
 import de.greenrobot.event.EventBus;
 
 import java.util.List;
 import java.util.Map;
 
-public class ShopMapFragment extends SupportMapFragment implements LoaderCallbacks<List<Shop>> {
+public class ShopMapFragmentExplanation extends SupportMapFragment implements LoaderCallbacks<List<Shop>> {
 
     private static final int ZOOM_LEVEL_INITIAL = 14;
     public static final String TAG = "Shops Map";
     private static final int LAODER_ID = 22;
 
-    public static ShopMapFragment newInstance() {
-        return new ShopMapFragment();
+    public static ShopMapFragmentExplanation newInstance() {
+        return new ShopMapFragmentExplanation();
     }
 
     private List<Marker> mShopMarkers;
@@ -70,7 +70,7 @@ public class ShopMapFragment extends SupportMapFragment implements LoaderCallbac
         if (!mIsInitialized) {
             Log.d(TAG, "Initializing map.");
 
-            LatLng userPosition = ((MainActivity) getActivity()).getLastLocation();
+            LatLng userPosition = ((MainActivityExplanation) getActivity()).getLastLocation();
             if (userPosition == null) {
                 return;
             }

@@ -4,7 +4,7 @@ import android.view.View;
 
 import com.uwetrottmann.shopr.algorithm.model.Attributes.Attribute;
 import com.uwetrottmann.shopr.algorithm.model.ClothingType;
-import com.uwetrottmann.shopr.ui.explaination.ClothingTypePreferenceActivity;
+import com.uwetrottmann.shopr.ui.explanation.ClothingTypePreferenceActivity;
 
 public class ClothingTypeFragment extends MindMapFragment {
 

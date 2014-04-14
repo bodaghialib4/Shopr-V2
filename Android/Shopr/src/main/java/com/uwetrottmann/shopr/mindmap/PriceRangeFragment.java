@@ -4,7 +4,7 @@ import android.view.View;
 
 import com.uwetrottmann.shopr.algorithm.model.Attributes.Attribute;
 import com.uwetrottmann.shopr.algorithm.model.Price;
-import com.uwetrottmann.shopr.ui.explaination.PricePreferenceActivity;
+import com.uwetrottmann.shopr.ui.explanation.PricePreferenceActivity;
 
 public class PriceRangeFragment extends MindMapFragment {
 

@@ -26,7 +26,7 @@ import com.uwetrottmann.shopr.model.Shop;
 import com.uwetrottmann.shopr.provider.ShoprContract.Items;
 import com.uwetrottmann.shopr.provider.ShoprContract.Shops;
 import com.uwetrottmann.shopr.settings.AppSettings;
-import com.uwetrottmann.shopr.ui.MainActivity;
+import com.uwetrottmann.shopr.ui.explanation.MainActivityExplanation;
 import com.uwetrottmann.shopr.utils.ShopUtils;
 import com.uwetrottmann.shopr.utils.ShoprLocalizer;
 import com.uwetrottmann.shopr.utils.ValueConverter;
@@ -136,7 +136,7 @@ public class ItemLoader extends Loader<List<Item>> {
 	}
 
 	private boolean isShopWithinRadiusInMeters(Shop shop, int radiusInMeters) {
-		LatLng userPosition = ((MainActivity) mFragment.getActivity()).getLastLocation();
+		LatLng userPosition = ((MainActivityExplanation) mFragment.getActivity()).getLastLocation();
 		
 		float[] results = new float[1];	
 		Location.distanceBetween(userPosition.latitude, userPosition.longitude, shop.location().latitude, shop.location().longitude, results);

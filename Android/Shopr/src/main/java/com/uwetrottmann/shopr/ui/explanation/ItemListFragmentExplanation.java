@@ -1,5 +1,8 @@
 
-package com.uwetrottmann.shopr.ui;
+package com.uwetrottmann.shopr.ui.explanation;
+
+import java.util.List;
+import java.util.Map;
 
 import android.app.Activity;
 import android.content.Context;
@@ -21,13 +24,14 @@ import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.adiguzel.shopr.explanation.Discloser;
 import com.google.android.gms.maps.model.LatLng;
 import com.uwetrottmann.androidutils.Maps;
 import com.uwetrottmann.shopr.R;
-import com.uwetrottmann.shopr.adapters.ItemAdapter;
-import com.uwetrottmann.shopr.adapters.ItemAdapter.OnItemCritiqueListener;
-import com.uwetrottmann.shopr.adapters.ItemAdapter.OnItemDisplayListener;
-import com.uwetrottmann.shopr.adapters.ItemAdapter.OnItemFavouriteListener;
+import com.uwetrottmann.shopr.adapters.ExplainedItemAdapter;
+import com.uwetrottmann.shopr.adapters.ExplainedItemAdapter.OnItemCritiqueListener;
+import com.uwetrottmann.shopr.adapters.ExplainedItemAdapter.OnItemDisplayListener;
+import com.uwetrottmann.shopr.adapters.ExplainedItemAdapter.OnItemFavouriteListener;
 import com.uwetrottmann.shopr.algorithm.AdaptiveSelection;
 import com.uwetrottmann.shopr.algorithm.Query;
 import com.uwetrottmann.shopr.algorithm.model.Item;
@@ -35,19 +39,18 @@ import com.uwetrottmann.shopr.eval.ResultsActivity;
 import com.uwetrottmann.shopr.eval.Statistics;
 import com.uwetrottmann.shopr.loaders.ItemLoader;
 import com.uwetrottmann.shopr.provider.ShoprContract.Stats;
-import com.uwetrottmann.shopr.ui.MainActivity.LocationUpdateEvent;
+import com.uwetrottmann.shopr.ui.CritiqueActivity;
+import com.uwetrottmann.shopr.ui.ItemDetailsActivity;
+import com.uwetrottmann.shopr.ui.explanation.MainActivityExplanation.LocationUpdateEvent;
 import com.uwetrottmann.shopr.utils.FavouriteItemUtils;
 
 import de.greenrobot.event.EventBus;
-
-import java.util.List;
-import java.util.Map;
 
 /**
  * Shows a list of clothing items the user can critique by tapping an up or down
  * vote button.
  */
-public class ItemListFragment extends Fragment implements LoaderCallbacks<List<Item>>,
+public class ItemListFragmentExplanation extends Fragment implements LoaderCallbacks<List<Item>>,
         OnItemCritiqueListener, OnItemDisplayListener, OnItemFavouriteListener {
 
     public static final String TAG = "Item List";
@@ -57,15 +60,15 @@ public class ItemListFragment extends Fragment implements LoaderCallbacks<List<I
     private static final int REQUEST_CODE = 12;
     private TextView mTextViewReason;
     private GridView mGridView;
-    private ItemAdapter mAdapter;
+    private ExplainedItemAdapter mAdapter;
 
     private boolean mIsInitialized;
     
-    private static ItemListFragment instance;
+    private static ItemListFragmentExplanation instance;
 
-    public static ItemListFragment newInstance() {
+    public static ItemListFragmentExplanation newInstance() {
     	if(instance == null)
-    		instance = new ItemListFragment();
+    		instance = new ItemListFragmentExplanation();
     	
         return instance;
     }
@@ -86,7 +89,7 @@ public class ItemListFragment extends Fragment implements LoaderCallbacks<List<I
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mAdapter = new ItemAdapter(getActivity(), this, this, this);
+        mAdapter = new ExplainedItemAdapter(getActivity(), this, this, this);
 
         mGridView.setAdapter(mAdapter);
         
@@ -131,14 +134,14 @@ public class ItemListFragment extends Fragment implements LoaderCallbacks<List<I
         if (args != null) {
             isInit = args.getBoolean("isinit");
         }
-        LatLng location = ((MainActivity) getActivity()).getLastLocation();
+        LatLng location = ((MainActivityExplanation) getActivity()).getLastLocation();
         return new ItemLoader(getActivity(), this, location, isInit);
     }
 
     @Override
     public void onLoadFinished(Loader<List<Item>> loader, List<Item> data) {
         mAdapter.clear();
-        mAdapter.addAll(data);
+        mAdapter.addAll(new Discloser().explain(data, AdaptiveSelection.get().getCurrentQuery()));
         onUpdateReason();
         onUpdateShops(data);
     }

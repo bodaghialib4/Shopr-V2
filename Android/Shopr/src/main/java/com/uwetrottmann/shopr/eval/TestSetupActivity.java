@@ -19,8 +19,8 @@ import android.widget.Toast;
 
 import com.uwetrottmann.shopr.R;
 import com.uwetrottmann.shopr.settings.AppSettings;
-import com.uwetrottmann.shopr.ui.MainActivity;
 import com.uwetrottmann.shopr.ui.SettingsActivity;
+import com.uwetrottmann.shopr.ui.explanation.MainActivityExplanation;
 
 public class TestSetupActivity extends Activity {
 
@@ -81,7 +81,7 @@ public class TestSetupActivity extends Activity {
                 mDiversityCheckBox.isChecked());
 
         // start the task
-        startActivity(new Intent(this, MainActivity.class));
+        startActivity(new Intent(this, MainActivityExplanation.class));
     }
 
     @Override

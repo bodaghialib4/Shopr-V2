@@ -33,9 +33,9 @@ import com.uwetrottmann.shopr.R;
 import com.uwetrottmann.shopr.eval.TestSetupActivity;
 import com.uwetrottmann.shopr.importer.ImporterActivity;
 import com.uwetrottmann.shopr.settings.AppSettings;
-import com.uwetrottmann.shopr.ui.ItemListFragment;
 import com.uwetrottmann.shopr.ui.SettingsActivity;
-import com.uwetrottmann.shopr.ui.ShopMapFragment;
+import com.uwetrottmann.shopr.ui.explanation.ItemListFragmentExplanation;
+import com.uwetrottmann.shopr.ui.explanation.ShopMapFragmentExplanation;
 import com.uwetrottmann.shopr.utils.Tuple;
 
 import de.greenrobot.event.EventBus;
@@ -74,7 +74,7 @@ public class MainActivityBasic extends FragmentActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		setContentView(R.layout.activity_main_basic);
 
 		// Set up the action bar.
 		final ActionBar actionBar = getActionBar();
@@ -223,9 +223,9 @@ public class MainActivityBasic extends FragmentActivity implements
 		private List<Tuple<Fragment, String>> createFragmentSections(){
 			Locale l = Locale.getDefault();
         	Tuple<Fragment, String> itemFragment = 
-        			new Tuple<Fragment, String>(ItemListFragment.newInstance(), getString(R.string.title_list).toUpperCase(l));
+        			new Tuple<Fragment, String>(ItemListFragmentExplanation.newInstance(), getString(R.string.title_list).toUpperCase(l));
         	Tuple<Fragment, String> shopMapFragment = 
-        			new Tuple<Fragment, String>(ShopMapFragment.newInstance(), getString(R.string.title_map).toUpperCase(l));
+        			new Tuple<Fragment, String>(ShopMapFragmentExplanation.newInstance(), getString(R.string.title_map).toUpperCase(l));
         	/* Tuple<Fragment, String> favouritesFragment = 
         			new Tuple<Fragment, String>(FavouriteItemListFragment.newInstance(), getString(R.string.title_favourites).toUpperCase(l)); 
         			*/

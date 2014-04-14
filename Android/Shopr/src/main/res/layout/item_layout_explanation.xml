@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/card_background_editable" >
+    
+   <TextView
+        android:id="@+id/explanation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:ellipsize="end"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:text="@string/app_name"
+        android:textAppearance="@style/TextAppearance.Small.Light" />
+   
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/explanation"
+        android:background="?android:attr/dividerHorizontal" />
+
+    <FrameLayout
+        android:id="@+id/containerItemPicture"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/divider"
+        android:foreground="@drawable/selectable_background_shopr" >
+
+        <ImageView
+            android:id="@+id/imageViewItemPicture"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:contentDescription="@string/description_item_picutre"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_launcher" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/textViewItemName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/containerItemPicture"
+        android:ellipsize="end"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:singleLine="true"
+        android:text="@string/app_name"
+        android:textAppearance="@style/TextAppearance.Small.Light" />
+
+    <TextView
+        android:id="@+id/textViewItemPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/textViewItemName"
+        android:ellipsize="end"
+        android:lines="1"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:text="@string/price"
+        android:textAppearance="@style/TextAppearance.Small"
+        android:textColor="@color/lilac" />
+
+    <TextView
+        android:id="@+id/textViewItemLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/textViewItemName"
+        android:layout_toLeftOf="@+id/textViewItemPrice"
+        android:ellipsize="end"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:singleLine="true"
+        android:text="@string/label"
+        android:textAppearance="@style/TextAppearance.Small.Dim" />
+
+    <View
+        android:id="@+id/dividerHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/textViewItemPrice"
+        android:background="?android:attr/dividerHorizontal" />
+
+    <LinearLayout
+        style="?android:attr/buttonBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textViewItemPrice"
+        android:divider="?android:attr/dividerVertical"
+        android:showDividers="middle" >
+
+        <ImageButton
+            android:id="@+id/imageButtonItemLike"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@drawable/selectable_background_shopr"
+            android:contentDescription="@string/like"
+            android:src="@drawable/ic_action_like" />
+
+        <ImageButton
+            android:id="@+id/imageButtonItemDislike"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@drawable/selectable_background_shopr"
+            android:contentDescription="@string/dislike"
+            android:src="@drawable/ic_action_dontlike" />
+        
+        <ImageButton
+            android:id="@+id/imageButtonItemFavourite"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@drawable/selectable_background_shopr"
+            android:contentDescription="@string/favourite"
+            android:src="@drawable/ic_action_star_10" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textViewItemLastCritiqueLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black_dim"
+        android:paddingBottom="2dp"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:paddingTop="2dp"
+        android:text="@string/last_critique"
+        android:textAppearance="@style/TextAppearance.Small.Dim.Highlight"
+        android:textColor="@color/white"
+        android:visibility="gone" />
+
+</RelativeLayout>

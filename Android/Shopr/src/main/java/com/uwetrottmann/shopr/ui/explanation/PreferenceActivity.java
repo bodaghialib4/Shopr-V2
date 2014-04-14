@@ -1,4 +1,4 @@
-package com.uwetrottmann.shopr.ui.explaination;
+package com.uwetrottmann.shopr.ui.explanation;
 
 import android.app.Activity;
 import android.os.Bundle;
