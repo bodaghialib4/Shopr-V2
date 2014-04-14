@@ -1,4 +1,4 @@
-package com.uwetrottmann.shopr.ui;
+package com.uwetrottmann.shopr.ui.explaination;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -17,6 +17,8 @@ import android.view.ViewGroup;
 import com.astuetz.PagerSlidingTabStrip;
 import com.uwetrottmann.shopr.R;
 import com.uwetrottmann.shopr.model.SectionItem;
+import com.uwetrottmann.shopr.ui.ItemListFragment;
+import com.uwetrottmann.shopr.ui.ShopMapFragment;
 
 public class PageSlidingTabStripFragment extends Fragment {
 

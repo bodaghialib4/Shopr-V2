@@ -4,7 +4,7 @@ import android.view.View;
 
 import com.uwetrottmann.shopr.algorithm.model.Attributes.Attribute;
 import com.uwetrottmann.shopr.algorithm.model.Sex;
-import com.uwetrottmann.shopr.ui.GenderPreferenceActivity;
+import com.uwetrottmann.shopr.ui.explaination.GenderPreferenceActivity;
 
 public class SexFragment extends MindMapFragment {
 

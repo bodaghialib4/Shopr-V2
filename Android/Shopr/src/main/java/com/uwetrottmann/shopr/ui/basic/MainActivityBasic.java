@@ -1,4 +1,4 @@
-package com.uwetrottmann.shopr.ui;
+package com.uwetrottmann.shopr.ui.basic;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,11 +33,14 @@ import com.uwetrottmann.shopr.R;
 import com.uwetrottmann.shopr.eval.TestSetupActivity;
 import com.uwetrottmann.shopr.importer.ImporterActivity;
 import com.uwetrottmann.shopr.settings.AppSettings;
+import com.uwetrottmann.shopr.ui.ItemListFragment;
+import com.uwetrottmann.shopr.ui.SettingsActivity;
+import com.uwetrottmann.shopr.ui.ShopMapFragment;
 import com.uwetrottmann.shopr.utils.Tuple;
 
 import de.greenrobot.event.EventBus;
 
-public class MainActivityLegacy extends FragmentActivity implements
+public class MainActivityBasic extends FragmentActivity implements
 		ActionBar.TabListener, GooglePlayServicesClient.ConnectionCallbacks,
 		GooglePlayServicesClient.OnConnectionFailedListener {
 
@@ -223,16 +226,13 @@ public class MainActivityLegacy extends FragmentActivity implements
         			new Tuple<Fragment, String>(ItemListFragment.newInstance(), getString(R.string.title_list).toUpperCase(l));
         	Tuple<Fragment, String> shopMapFragment = 
         			new Tuple<Fragment, String>(ShopMapFragment.newInstance(), getString(R.string.title_map).toUpperCase(l));
-        	Tuple<Fragment, String> favouritesFragment = 
-        			new Tuple<Fragment, String>(FavouriteItemListFragment.newInstance(), getString(R.string.title_favourites).toUpperCase(l));
-        	/*Tuple<Fragment, String> mindMapFragment = 
-        			new Tuple<Fragment, String>(MindMapFragment.newInstance(), "Test".toUpperCase(l));*/
-        	
+        	/* Tuple<Fragment, String> favouritesFragment = 
+        			new Tuple<Fragment, String>(FavouriteItemListFragment.newInstance(), getString(R.string.title_favourites).toUpperCase(l)); 
+        			*/
         	List<Tuple<Fragment, String>> fragmentSections = new ArrayList<Tuple<Fragment, String>>();	
-        	//fragmentSections.add(mindMapFragment);
         	//fragmentSections.add(favouritesFragment);
         	fragmentSections.add(itemFragment);
-        	//fragmentSections.add(shopMapFragment);
+        	fragmentSections.add(shopMapFragment);
         	
     	
         	return fragmentSections;   	

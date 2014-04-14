@@ -1,4 +1,4 @@
-package com.uwetrottmann.shopr.ui;
+package com.uwetrottmann.shopr.ui.explaination;
 
 import android.content.res.Configuration;
 import android.os.Bundle;

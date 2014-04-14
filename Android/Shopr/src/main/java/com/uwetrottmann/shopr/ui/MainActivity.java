@@ -30,6 +30,8 @@ import com.uwetrottmann.shopr.model.NavMenuItem;
 import com.uwetrottmann.shopr.model.NavMenuSection;
 import com.uwetrottmann.shopr.model.ui.NavDrawerActivityConfiguration;
 import com.uwetrottmann.shopr.settings.AppSettings;
+import com.uwetrottmann.shopr.ui.explaination.AbstractNavDrawerActivity;
+import com.uwetrottmann.shopr.ui.explaination.PageSlidingTabStripFragment;
 
 import de.greenrobot.event.EventBus;
 

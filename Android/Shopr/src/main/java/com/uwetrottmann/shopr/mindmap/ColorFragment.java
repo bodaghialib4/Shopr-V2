@@ -4,7 +4,7 @@ import android.view.View;
 
 import com.uwetrottmann.shopr.algorithm.model.Attributes.Attribute;
 import com.uwetrottmann.shopr.algorithm.model.Color;
-import com.uwetrottmann.shopr.ui.ColorPreferenceActivity;
+import com.uwetrottmann.shopr.ui.explaination.ColorPreferenceActivity;
 
 public class ColorFragment extends MindMapFragment {
 
