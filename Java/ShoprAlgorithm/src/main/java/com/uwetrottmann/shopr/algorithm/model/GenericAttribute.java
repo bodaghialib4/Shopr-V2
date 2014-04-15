@@ -31,6 +31,10 @@ public abstract class GenericAttribute implements Attribute {
     }
 
     public abstract AttributeValue[] getValueSymbols();
+    
+    public AttributeValue getCurrentValue() {
+    	return currentValue;
+    }
 
     @Override
     public String getValueWeightsString() {

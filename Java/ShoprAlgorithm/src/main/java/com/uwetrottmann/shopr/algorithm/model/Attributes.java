@@ -30,6 +30,8 @@ public class Attributes {
         public void updateQuery(Query query, Set<AttributeValue> preferredValues);
         
         public AttributeValue[] getAttributeValues();
+        
+        public AttributeValue getCurrentValue();
     }
 
     public interface AttributeValue {
