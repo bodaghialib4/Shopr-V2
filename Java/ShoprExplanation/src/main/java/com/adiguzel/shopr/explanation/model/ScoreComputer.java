@@ -29,11 +29,12 @@ public class ScoreComputer {
 		int max = 1;
 		for(Double score: explanationScores) {
 			if(frequencyOfScores.containsKey(score)) {
-				frequencyOfScores.put(score, 1);
-			} else {
 				int newFreq = frequencyOfScores.get(score) + 1;
 				if(newFreq > max) max = newFreq;
 				frequencyOfScores.put(score, newFreq);
+				
+			} else {
+				frequencyOfScores.put(score, 1);
 			}
 		}
 		
