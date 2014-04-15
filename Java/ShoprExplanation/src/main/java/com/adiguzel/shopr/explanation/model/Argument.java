@@ -1,6 +1,6 @@
 package com.adiguzel.shopr.explanation.model;
 
-public class Argument implements Comparable<Argument>{
+public class Argument {
 	private Dimension dimension;
 	private boolean isPositive;
 	private Type type;
@@ -27,11 +27,6 @@ public class Argument implements Comparable<Argument>{
 		return dimension;
 	}
 
-	@Override
-	public int compareTo(Argument arg) {
-		return this.dimension.compareTo(arg.dimension);
-	}
-	
 	public Type getType() {
 		return type;
 	}
