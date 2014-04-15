@@ -13,7 +13,7 @@
         android:paddingLeft="4dp"
         android:paddingRight="4dp"
         android:text="@string/app_name"
-        android:textAppearance="@style/TextAppearance.Small.Light" />
+        android:textAppearance="@android:style/TextAppearance.Small" />
    
     <View
         android:id="@+id/divider"
@@ -131,6 +131,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/black_dim"
+        android:layout_below="@+id/divider"
         android:paddingBottom="2dp"
         android:paddingLeft="4dp"
         android:paddingRight="4dp"

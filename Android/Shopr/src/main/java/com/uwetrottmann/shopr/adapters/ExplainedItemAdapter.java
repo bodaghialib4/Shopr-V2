@@ -15,11 +15,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.adiguzel.shopr.explanation.Recommendation;
+import com.adiguzel.shopr.explanation.model.Argument.Type;
 import com.adiguzel.shopr.explanation.model.Explanation;
 import com.squareup.picasso.Picasso;
 import com.uwetrottmann.androidutils.CheatSheet;
 import com.uwetrottmann.shopr.R;
 import com.uwetrottmann.shopr.algorithm.AdaptiveSelection;
+import com.uwetrottmann.shopr.algorithm.model.Attributes.Attribute;
 import com.uwetrottmann.shopr.algorithm.model.Color;
 import com.uwetrottmann.shopr.algorithm.model.Item;
 import com.uwetrottmann.shopr.utils.ValueConverter;
@@ -35,6 +37,8 @@ public class ExplainedItemAdapter extends ArrayAdapter<Recommendation> {
     private OnItemDisplayListener mItemListener;
     
     private OnItemFavouriteListener mFavouriteListener;
+    
+    private Context context;
 
     public interface OnItemCritiqueListener {
         public void onItemCritique(Item item, boolean isLike);
@@ -51,6 +55,7 @@ public class ExplainedItemAdapter extends ArrayAdapter<Recommendation> {
     public ExplainedItemAdapter(Context context, OnItemCritiqueListener critiqueListener,
             OnItemDisplayListener itemListener, OnItemFavouriteListener favouriteListener) {
         super(context, LAYOUT);
+        this.context = context;
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mCritiqueListener = critiqueListener;
         mItemListener = itemListener;
@@ -82,7 +87,20 @@ public class ExplainedItemAdapter extends ArrayAdapter<Recommendation> {
         }
         final Explanation explanation = getItem(position).explanation();
         final Item item = getItem(position).item();
-        holder.explanation.setText("Because you like this and also that.");
+        String explanationText = "";
+        if(explanation.mainArgument().getType() == Type.NO_BETTER_ALTERNATIVES) {
+        	explanationText = context.getString(R.string.explanation_template_serendipidity); 
+        }
+        else if(explanation.mainArgument().getType() == Type.GOOD_AVERAGE) {
+        	explanationText = context.getString(R.string.explanation_template_average_item);
+        }
+        else if(explanation.mainArgument().getType() == Type.ON_DIMENSION) {
+        	Attribute attribute = explanation.mainArgument().dimension().attribute();
+        	explanationText =  String.format( context.getString(R.string.explanation_template_on_dimension_high), attribute.getCurrentValue().descriptor().toLowerCase());
+        }
+        
+        holder.explanation.setText(explanationText);
+     
         holder.name.setText(item.name());
         holder.label.setText(ValueConverter.getLocalizedStringForValue(getContext(), item
                 .attributes().getAttributeById(Color.ID).currentValue()

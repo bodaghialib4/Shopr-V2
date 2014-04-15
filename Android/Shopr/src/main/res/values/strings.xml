@@ -123,4 +123,8 @@
     
     <string name="attribute_value_preference_update_explanation">Select the %s(s) that you prefer the most right now.</string>
     <string name="update_preferences">Update preferences</string>
+    
+    <string name="explanation_template_on_dimension_high">Because you are currently interested in <b>%s</b>.</string>
+    <string name="explanation_template_average_item">This is an average item that you might like.</string>
+    <string name="explanation_template_serendipidity"><b>This might help</b> discovering your preferences.</string>
 </resources>

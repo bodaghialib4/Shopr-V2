@@ -102,12 +102,12 @@
         </activity>
         
         <activity
-            android:name="com.uwetrottmann.shopr.ui.GenderPreferenceActivity"
+            android:name="com.uwetrottmann.shopr.ui.explanation.GenderPreferenceActivity"
             android:label="@string/title_gender_preferences" >
         </activity>
         
         <activity
-			android:name="uwetrottmann.shopr.ui.explaination.PricePreferenceActivity"	
+			android:name="com.uwetrottmann.shopr.ui.explanation.PricePreferenceActivity"	
             android:label="@string/title_price_range_preferences" >
         </activity>
     </application>
