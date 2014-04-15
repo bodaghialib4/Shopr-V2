@@ -23,10 +23,10 @@ public class ScoreComputer {
 		return (n - h) / (n - 1);
 	}
 
-	private static int findNumMostFrequentX(List<Item> recommendations, Query query, Dimension dimension) {
+	protected static int findNumMostFrequentX(List<Item> recommendations, Query query, Dimension dimension) {
 		List<Double> explanationScores = mapToExplanationScore(recommendations, query, dimension);
 		Map<Double,Integer> frequencyOfScores = new HashMap<Double,Integer>();
-		int max = 1;
+		int max = 0;
 		for(Double score: explanationScores) {
 			if(frequencyOfScores.containsKey(score)) {
 				int newFreq = frequencyOfScores.get(score) + 1;
@@ -35,6 +35,7 @@ public class ScoreComputer {
 				
 			} else {
 				frequencyOfScores.put(score, 1);
+				if(max == 0) max = 1;
 			}
 		}
 		
