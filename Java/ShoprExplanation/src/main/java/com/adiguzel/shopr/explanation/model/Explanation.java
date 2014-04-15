@@ -7,10 +7,11 @@ import com.uwetrottmann.shopr.algorithm.model.Item;
 
 public class Explanation {
 	private Item item;
-	private Set<Argument> arguments = new LinkedHashSet<Argument>();
+	private Set<Argument> arguments;
 
 	public Explanation(Item item) {
 		this.item = item;
+		arguments = new LinkedHashSet<Argument>();
 	}
 
 	public Set<Argument> arguments() {

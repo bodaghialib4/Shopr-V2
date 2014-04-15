@@ -3,30 +3,41 @@ package com.adiguzel.shopr.explanation;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.adiguzel.shopr.explanation.model.Argument;
 import com.adiguzel.shopr.explanation.model.Explanation;
+import com.uwetrottmann.shopr.algorithm.AdaptiveSelection;
 import com.uwetrottmann.shopr.algorithm.Query;
+import com.uwetrottmann.shopr.algorithm.Utils;
 import com.uwetrottmann.shopr.algorithm.model.Item;
 
 public class Discloser {
-	
+
 	public List<Recommendation> explain(List<Item> recommendedItems, Query query) {
 		List<Recommendation> explainedRecommendations = new ArrayList<Recommendation>();
-		for(Item item: recommendedItems) {
-			explainedRecommendations.add(new Recommendation(item, explain(item, query)));
+		for (Item item : recommendedItems) {
+			explainedRecommendations.add(new Recommendation(item, explain(item,
+					query, recommendedItems)));
 		}
 		return explainedRecommendations;
 	}
-	
-	private Explanation explain(Item item, Query query) {
-		Explanation abstractExplanation = selectContent(item, query);
-		return generateSurface(abstractExplanation, query);
+
+	private Explanation explain(Item item, Query query,
+			List<Item> recommendedItems) {
+		Explanation abstractExplanation = new ContentSelector().select(item,
+				query, recommendedItems);
+		return abstractExplanation;
+		//return new SurfaceGenerator().generate(abstractExplanation, query);
 	}
-	
-	private Explanation selectContent(Item item, Query query) {
-		return null;
-	}
-	
-	private Explanation generateSurface(Explanation explanation, Query query) {
-		return null;
+
+	public static void main(String[] args) {
+		AdaptiveSelection as = AdaptiveSelection.get();
+		as.setInitialCaseBase(Utils.getLimitedCaseBase(), true);
+		for (Recommendation r : new Discloser().explain(as.getRecommendations(),
+				as.getCurrentQuery())) {
+			System.out.println("" + r.item().name());
+			for (Argument arg : r.explanation().arguments()) {
+				System.out.println("" + arg.getType());
+			}
+		}
 	}
 }
