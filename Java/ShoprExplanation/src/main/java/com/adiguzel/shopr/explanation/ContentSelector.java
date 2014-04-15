@@ -30,12 +30,61 @@ public class ContentSelector {
 		Explanation explanation = new Explanation(item);
 		List<Argument> sortedInitialArguments = generateSortedInitialArguments(
 				item, query);
+
+		List<Argument> primaryArguments = filterBy(sortedInitialArguments,
+				new PrimaryArgumentFilter());
+
+		if (primaryArguments.size() > 0) {
+			explanation.addPrimaryArguments(primaryArguments);
+
+			for (Argument arg : primaryArguments) {
+				double informationScore = ScoreComputer.informationScore(item,
+						query, arg.dimension(), recommendedItems);
+				arg.dimension().informationScore(informationScore);
+			}
+
+			Argument mainArgument = primaryArguments.get(0);
+
+			// Dimension provides low information, attempt to add a supporting
+			// arguments
+			if (mainArgument.dimension().informationScore() < GAMMA) {
+				explanation.addSupportingArguments(filterBy(
+						sortedInitialArguments, new SecondaryArgumentFilter()));
+			}
+
+		}
+		// No dimension is larger than alpha(α), no argument can be selected
+		else {
+			// Item is only a good average
+			if (ScoreComputer.globalScore(item, query) > BETA) {
+				explanation.addSupportingArgument(new Argument(
+						Type.GOOD_AVERAGE));
+
+				explanation.addSupportingArguments(filterBy(
+						sortedInitialArguments, new SecondaryArgumentFilter()));
+			}
+			// Recommender couldn't find better alternatives
+			else {
+				explanation.addSupportingArgument(new Argument(
+						Type.NO_BETTER_ALTERNATIVES));
+			}
+		}
+
+		return explanation;
+	}
+
+	public Explanation selectLegacy(Item item, Query query,
+			List<Item> recommendedItems) {
+
+		Explanation explanation = new Explanation(item);
+		List<Argument> sortedInitialArguments = generateSortedInitialArguments(
+				item, query);
 		Argument bestInitialArgument = sortedInitialArguments.get(0);
 		Argument secondBestInitialArgument = sortedInitialArguments.get(1);
 
 		// Dimension is good enough for a first argument
 		if (bestInitialArgument.dimension().explanationScore() > ALPHA) {
-			explanation.addArgument(bestInitialArgument);
+			explanation.addPrimaryArgument(bestInitialArgument);
 
 			double informationScore = ScoreComputer.informationScore(item,
 					query, bestInitialArgument.dimension(), recommendedItems);
@@ -45,21 +94,23 @@ public class ContentSelector {
 			// argument
 			if (informationScore < GAMMA
 					&& secondBestInitialArgument.dimension().explanationScore() > MU) {
-				explanation.addArgument(secondBestInitialArgument);
+				explanation.addSupportingArgument(secondBestInitialArgument);
 			}
 		}
 		// No dimension is larger than alpha(α), no argument can be selected
 		else {
 			// Item is only a good average
 			if (ScoreComputer.globalScore(item, query) > BETA) {
-				explanation.addArgument(new Argument(Type.GOOD_AVERAGE));
+				explanation.addSupportingArgument(new Argument(
+						Type.GOOD_AVERAGE));
 				if (secondBestInitialArgument.dimension().explanationScore() > MU) {
-					explanation.addArgument(secondBestInitialArgument);
+					explanation
+							.addSupportingArgument(secondBestInitialArgument);
 				}
 			}
 			// Recommender couldn't find better alternatives
 			else {
-				explanation.addArgument(new Argument(
+				explanation.addSupportingArgument(new Argument(
 						Type.NO_BETTER_ALTERNATIVES));
 			}
 		}
@@ -77,10 +128,10 @@ public class ContentSelector {
 			arguments.add(new Argument(dimension, true));
 		}
 		sortDesc(arguments);
-		System.out.println(item.name());
+		/*System.out.println(item.name());
 		for (Argument arg : arguments) {
 			System.out.println(arg.dimension().explanationScore());
-		}
+		}*/
 		return arguments;
 	}
 
@@ -102,6 +153,36 @@ public class ContentSelector {
 		};
 
 		Collections.sort(arguments, descComparator);
+	}
+
+	private <T> List<T> filterBy(List<T> elems,
+			Filter<T> filter) {
+		List<T> filtered = new ArrayList<T>();
+		for (T elem : elems) {
+			if (filter.applies(elem))
+				filtered.add(elem);
+		}
+		return filtered;
+	}
+
+	public interface Filter<T> {
+		public boolean applies(T elem);
+	}
+
+	public class SecondaryArgumentFilter implements Filter<Argument> {
+
+		public final boolean applies(Argument arg) {
+			return arg.dimension().explanationScore() > MU
+					&& arg.dimension().explanationScore() <= ALPHA;
+		}
+	}
+
+	public class PrimaryArgumentFilter implements Filter<Argument> {
+		
+		public final boolean applies(Argument arg) {
+			return arg.dimension().explanationScore() > ALPHA;
+		}
+		
 	}
 
 }
