@@ -2,6 +2,9 @@ package com.adiguzel.shopr.explanation.model;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Test;
 
 import com.uwetrottmann.shopr.algorithm.Preference;
@@ -135,6 +138,45 @@ public class ScoreSuit {
 		query.revise(preference);
 		
 		assertThat(ScoreComputer.globalScore(item, query)).isEqualTo(0.75);
+	}
+	
+	@Test
+	public void mostFrequentX() {
+		Item item = new Item();
+		Attribute colorBlack = new Color(Color.Value.BLACK);
+		Attribute colorBlue = new Color(Color.Value.BLUE);
+		Attributes attributes = new Attributes().putAttribute(colorBlack);
+		item.attributes(attributes);
+		
+		Query query = new Query();
+		query.attributes().putAttribute(colorBlack);
+		
+		List<Item> recommendations = new ArrayList<Item>();
+		recommendations.add(item);
+		recommendations.add(item);
+		recommendations.add(item);
+		
+		assertThat(ScoreComputer.findNumMostFrequentX(recommendations, query, new Dimension(new Color()))).isEqualTo(3);
+		
+		// same  attribute values
+		item.attributes(new Attributes().putAttribute(colorBlack));
+		Item item2 = new Item().attributes(new Attributes().putAttribute(colorBlack));
+		// different attribute value
+		Item item3 = new Item().attributes(new Attributes().putAttribute(colorBlue));
+		
+		recommendations.clear();
+		recommendations.add(item);
+		recommendations.add(item2);
+		recommendations.add(item3);
+		
+		assertThat(ScoreComputer.findNumMostFrequentX(recommendations, query, new Dimension(new Color()))).isEqualTo(2);
+		
+		recommendations.clear();
+		recommendations.add(item);
+		assertThat(ScoreComputer.findNumMostFrequentX(recommendations, query, new Dimension(new Color()))).isEqualTo(1);
+		
+		recommendations.clear();
+		assertThat(ScoreComputer.findNumMostFrequentX(recommendations, query, new Dimension(new Color()))).isEqualTo(0);
 	}
 
 }
