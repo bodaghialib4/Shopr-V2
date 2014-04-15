@@ -35,7 +35,12 @@ public class Discloser {
 		for (Recommendation r : new Discloser().explain(as.getRecommendations(),
 				as.getCurrentQuery())) {
 			System.out.println("" + r.item().name());
-			for (Argument arg : r.explanation().arguments()) {
+			System.out.println("Primary");
+			for (Argument arg : r.explanation().primaryArguments()) {
+				System.out.println("" + arg.getType());
+			}
+			System.out.println("Secondary");
+			for (Argument arg : r.explanation().supportingArguments()) {
 				System.out.println("" + arg.getType());
 			}
 		}
