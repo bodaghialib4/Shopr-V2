@@ -19,7 +19,7 @@ public class LocationContext extends Context {
 
 	@Override
 	public double explanationScore(Item item) {
-		double distanceInMeters = distanceToUser(item);
+		double distanceInMeters = distanceToUserInMeters(item);
 
 		if (distanceInMeters <= 10)
 			return 0.99;
@@ -45,7 +45,7 @@ public class LocationContext extends Context {
 			return 0;
 	}
 
-	public double distanceToUser(Item item) {
+	public double distanceToUserInMeters(Item item) {
 		double latitude = item.shop.latitude();
 		double longitude = item.shop.longitude();
 
