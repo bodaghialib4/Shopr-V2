@@ -21,14 +21,14 @@ public class Argument {
 		return !isPositive;
 	}
 	
-	public Type getType() {
+	public Type type() {
 		return type;
 	}
 	
 	public enum Type {
 		ON_DIMENSION,
 		GOOD_AVERAGE,
-		NO_BETTER_ALTERNATIVES,
+		SERENDIPITOUS,
 		CONTEXT
 	}
 }
