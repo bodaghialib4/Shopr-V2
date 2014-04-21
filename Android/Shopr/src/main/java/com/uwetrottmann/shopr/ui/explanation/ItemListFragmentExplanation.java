@@ -1,6 +1,7 @@
 
 package com.uwetrottmann.shopr.ui.explanation;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.adiguzel.shopr.explanation.Discloser;
+import com.adiguzel.shopr.explanation.model.LocationContext;
 import com.etsy.android.grid.StaggeredGridView;
 import com.google.android.gms.maps.model.LatLng;
 import com.uwetrottmann.androidutils.Maps;
@@ -139,11 +141,18 @@ public class ItemListFragmentExplanation extends Fragment implements LoaderCallb
     }
 
     @Override
-    public void onLoadFinished(Loader<List<Item>> loader, List<Item> data) {
+    public void onLoadFinished(Loader<List<Item>> loader, List<Item> items) {
         mAdapter.clear();
-        mAdapter.addAll(new Discloser().explain(data, AdaptiveSelection.get().getCurrentQuery(), null));
+        List<com.adiguzel.shopr.explanation.model.Context> contexts = 
+        		new ArrayList<com.adiguzel.shopr.explanation.model.Context>();
+        LatLng location = ((MainActivityExplanation) getActivity()).getLastLocation();
+        if(location != null) {
+        	contexts.add(new LocationContext(location.latitude, location.longitude));
+        }
+       
+        mAdapter.addAll(new Discloser().explain(items, AdaptiveSelection.get().getCurrentQuery(), contexts));
         onUpdateReason();
-        onUpdateShops(data);
+        onUpdateShops(items);
     }
 
     public class ShopUpdateEvent {
