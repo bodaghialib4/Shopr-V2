@@ -37,11 +37,10 @@ public class Explanation {
 		return supportingArguments;
 	}
 	
-	public Set<DimensionArgument> contexArguments() {
-		return supportingArguments;
+	public Set<ContextArgument> contextArguments() {
+		return contextArguments;
 	}
-
-
+	
 	public DimensionArgument mainArgument() {
 		if (primaryArguments.iterator().hasNext())
 			return primaryArguments.iterator().next();
@@ -71,6 +70,18 @@ public class Explanation {
 	
 	public void addContextArguments(Collection<ContextArgument> arguments) {
 		contextArguments.addAll(arguments);
+	}
+	
+	public boolean hasPrimaryArguments() {
+		return primaryArguments.size() > 0;
+	}
+	
+	public boolean hasSupportingArguments() {
+		return supportingArguments.size() > 0;
+	}
+	
+	public boolean hasContextArguments() {
+		return contextArguments.size() > 0;
 	}
 
 	public Item item() {
