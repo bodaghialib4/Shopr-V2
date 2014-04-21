@@ -72,7 +72,7 @@ public class ContentSelector {
 			// Recommender couldn't find better alternatives
 			else {
 				explanation.addSupportingArgument(new DimensionArgument(
-						Type.NO_BETTER_ALTERNATIVES));
+						Type.SERENDIPITOUS));
 				explanation.branch("No alternatives.");
 			}
 		}
@@ -118,7 +118,7 @@ public class ContentSelector {
 			// Recommender couldn't find better alternatives
 			else {
 				explanation.addSupportingArgument(new DimensionArgument(
-						Type.NO_BETTER_ALTERNATIVES));
+						Type.SERENDIPITOUS));
 			}
 		}
 
