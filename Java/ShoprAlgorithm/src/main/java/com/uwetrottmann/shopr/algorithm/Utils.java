@@ -45,7 +45,7 @@ public class Utils {
                             .name(name)
                             .price(price)
                             // use label to define shop
-                            .shopId(label.ordinal())
+                            //.shopId(label.ordinal())
                             .attributes(new Attributes()
                                     .putAttribute(new Color(color))
                                     .putAttribute(typeValue)

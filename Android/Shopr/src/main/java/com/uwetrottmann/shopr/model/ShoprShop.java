@@ -2,8 +2,9 @@
 package com.uwetrottmann.shopr.model;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.uwetrottmann.shopr.algorithm.model.Shop;
 
-public class Shop {
+public class ShoprShop extends Shop{
 
     private int id;
     private String name;
@@ -13,7 +14,7 @@ public class Shop {
         return id;
     }
 
-    public Shop id(int id) {
+    public ShoprShop id(int id) {
         this.id = id;
         return this;
     }
@@ -22,7 +23,7 @@ public class Shop {
         return name;
     }
 
-    public Shop name(String name) {
+    public ShoprShop name(String name) {
         this.name = name;
         return this;
     }
@@ -31,9 +32,19 @@ public class Shop {
         return location;
     }
 
-    public Shop location(LatLng location) {
+    public ShoprShop location(LatLng location) {
         this.location = location;
         return this;
+    }
+    
+    @Override
+    public double latitude() {
+		return location.latitude;
+    }
+    
+    @Override
+    public double longitude() {
+		return location.longitude;
     }
 
 }

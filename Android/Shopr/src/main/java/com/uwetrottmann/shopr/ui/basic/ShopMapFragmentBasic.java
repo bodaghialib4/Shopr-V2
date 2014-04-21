@@ -17,7 +17,7 @@ import com.uwetrottmann.androidutils.Lists;
 import com.uwetrottmann.shopr.R;
 import com.uwetrottmann.shopr.loaders.ShopLoader;
 import com.uwetrottmann.shopr.model.Constraints;
-import com.uwetrottmann.shopr.model.Shop;
+import com.uwetrottmann.shopr.model.ShoprShop;
 import com.uwetrottmann.shopr.settings.AppSettings;
 import com.uwetrottmann.shopr.ui.basic.ItemListFragmentBasic.ShopUpdateEvent;
 import com.uwetrottmann.shopr.ui.basic.MainActivityBasic.LocationUpdateEvent;
@@ -27,7 +27,7 @@ import de.greenrobot.event.EventBus;
 import java.util.List;
 import java.util.Map;
 
-public class ShopMapFragmentBasic extends SupportMapFragment implements LoaderCallbacks<List<Shop>> {
+public class ShopMapFragmentBasic extends SupportMapFragment implements LoaderCallbacks<List<ShoprShop>> {
 
     private static final int ZOOM_LEVEL_INITIAL = 14;
     public static final String TAG = "Shops Map";
@@ -90,7 +90,7 @@ public class ShopMapFragmentBasic extends SupportMapFragment implements LoaderCa
         }
     }
 
-    private void onUpdateShops(List<Shop> shops) {
+    private void onUpdateShops(List<ShoprShop> shops) {
         // remove existing markers
         if (mShopMarkers != null) {
             for (Marker marker : mShopMarkers) {
@@ -100,7 +100,7 @@ public class ShopMapFragmentBasic extends SupportMapFragment implements LoaderCa
 
         List<Marker> shopMarkersNew = Lists.newArrayList();
 
-        for (Shop shop : shops) {
+        for (ShoprShop shop : shops) {
             // determine color and recom. items in this shop
             float color;
             int itemCount;
@@ -135,17 +135,17 @@ public class ShopMapFragmentBasic extends SupportMapFragment implements LoaderCa
     }
 
     @Override
-    public Loader<List<Shop>> onCreateLoader(int loaderId, Bundle args) {
+    public Loader<List<ShoprShop>> onCreateLoader(int loaderId, Bundle args) {
         return new ShopLoader(getActivity());
     }
 
     @Override
-    public void onLoadFinished(Loader<List<Shop>> loader, List<Shop> data) {
+    public void onLoadFinished(Loader<List<ShoprShop>> loader, List<ShoprShop> data) {
         onUpdateShops(data);
     }
 
     @Override
-    public void onLoaderReset(Loader<List<Shop>> laoder) {
+    public void onLoaderReset(Loader<List<ShoprShop>> laoder) {
     }
 
 }

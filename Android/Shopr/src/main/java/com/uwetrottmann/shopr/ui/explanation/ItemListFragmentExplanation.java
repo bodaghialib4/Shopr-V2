@@ -20,11 +20,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.adiguzel.shopr.explanation.Discloser;
+import com.etsy.android.grid.StaggeredGridView;
 import com.google.android.gms.maps.model.LatLng;
 import com.uwetrottmann.androidutils.Maps;
 import com.uwetrottmann.shopr.R;
@@ -59,7 +59,7 @@ public class ItemListFragmentExplanation extends Fragment implements LoaderCallb
     private static final int LOADER_ID = 920;
     private static final int REQUEST_CODE = 12;
     private TextView mTextViewReason;
-    private GridView mGridView;
+    private StaggeredGridView mGridView;
     private ExplainedItemAdapter mAdapter;
 
     private boolean mIsInitialized;
@@ -78,7 +78,7 @@ public class ItemListFragmentExplanation extends Fragment implements LoaderCallb
         View v = inflater.inflate(R.layout.fragment_item_list, container, false);
 
         mTextViewReason = (TextView) v.findViewById(R.id.textViewItemListReason);
-        mGridView = (GridView) v.findViewById(R.id.gridViewItemList);
+        mGridView = (StaggeredGridView) v.findViewById(R.id.gridViewItemList);
         View emtpyView = v.findViewById(R.id.textViewItemListEmpty);
         mGridView.setEmptyView(emtpyView);
 
@@ -141,7 +141,7 @@ public class ItemListFragmentExplanation extends Fragment implements LoaderCallb
     @Override
     public void onLoadFinished(Loader<List<Item>> loader, List<Item> data) {
         mAdapter.clear();
-        mAdapter.addAll(new Discloser().explain(data, AdaptiveSelection.get().getCurrentQuery()));
+        mAdapter.addAll(new Discloser().explain(data, AdaptiveSelection.get().getCurrentQuery(), null));
         onUpdateReason();
         onUpdateShops(data);
     }

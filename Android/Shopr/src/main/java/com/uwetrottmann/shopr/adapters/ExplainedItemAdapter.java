@@ -14,8 +14,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.adiguzel.shopr.explanation.Recommendation;
-import com.adiguzel.shopr.explanation.model.Argument;
 import com.adiguzel.shopr.explanation.model.Argument.Type;
+import com.adiguzel.shopr.explanation.model.DimensionArgument;
 import com.adiguzel.shopr.explanation.model.Explanation;
 import com.squareup.picasso.Picasso;
 import com.uwetrottmann.androidutils.CheatSheet;
@@ -100,7 +100,7 @@ public class ExplainedItemAdapter extends ArrayAdapter<Recommendation> {
 		final Explanation explanation = getItem(position).explanation();
 		final Item item = getItem(position).item();
 		String explanationText = "1 - ";
-		for (Argument arg : explanation.primaryArguments()) {
+		for (DimensionArgument arg : explanation.primaryArguments()) {
 			if (arg.getType() == Type.NO_BETTER_ALTERNATIVES) {
 				explanationText += context
 						.getString(R.string.explanation_template_serendipidity);
@@ -122,7 +122,7 @@ public class ExplainedItemAdapter extends ArrayAdapter<Recommendation> {
 			}
 		}
 		explanationText += " 2- ";
-		for (Argument arg : explanation.supportingArguments()) {
+		for (DimensionArgument arg : explanation.supportingArguments()) {
 			if (arg.getType() == Type.NO_BETTER_ALTERNATIVES) {
 				explanationText += context
 						.getString(R.string.explanation_template_serendipidity);
@@ -134,7 +134,12 @@ public class ExplainedItemAdapter extends ArrayAdapter<Recommendation> {
 				explanationText += String
 						.format(context
 								.getString(R.string.explanation_template_on_dimension_high),
-								attribute.getCurrentValue().descriptor()
+								(attribute.getCurrentValue().descriptor() + "("
+										+ explanation.branch() 
+										+ "," 
+										+ arg.dimension().explanationScore()
+										+ ","
+										+ arg.dimension().informationScore() + ")")
 										.toLowerCase());
 			}
 		}

@@ -21,8 +21,9 @@ import com.uwetrottmann.shopr.algorithm.model.Color;
 import com.uwetrottmann.shopr.algorithm.model.Item;
 import com.uwetrottmann.shopr.algorithm.model.Price;
 import com.uwetrottmann.shopr.algorithm.model.Sex;
+import com.uwetrottmann.shopr.algorithm.model.Shop;
 import com.uwetrottmann.shopr.model.Constraints;
-import com.uwetrottmann.shopr.model.Shop;
+import com.uwetrottmann.shopr.model.ShoprShop;
 import com.uwetrottmann.shopr.provider.ShoprContract.Items;
 import com.uwetrottmann.shopr.provider.ShoprContract.Shops;
 import com.uwetrottmann.shopr.settings.AppSettings;
@@ -80,7 +81,7 @@ public class ItemLoader extends Loader<List<Item>> {
 
 	private List<Item> getItemsAtNearbyShops() {
 		List<Item> items = Lists.newArrayList();
-		Map<Integer, Shop> nearbyShops = getNearbyShops();
+		Map<Integer, ShoprShop> nearbyShops = getNearbyShops();
 
 		Cursor query = getContext().getContentResolver().query(
 				Items.CONTENT_URI,
@@ -92,11 +93,12 @@ public class ItemLoader extends Loader<List<Item>> {
 			while (query.moveToNext()) {
 				int shopId = query.getInt(7);
 				if (nearbyShops.get(shopId) != null) {
+					Shop shop = nearbyShops.get(shopId);
 					Item item = new Item();
 
 					item.id(query.getInt(0));
 					item.image(query.getString(4));
-					item.shopId(shopId);
+					item.shop(shop);
 					// name
 					ClothingType type = new ClothingType(query.getString(1));
 					String brand = query.getString(2);
@@ -123,10 +125,10 @@ public class ItemLoader extends Loader<List<Item>> {
 		return items;
 	}
 
-	private Map<Integer, Shop> getNearbyShops() {
-		Map<Integer, Shop> nearbyShops = Maps.newHashMap();
+	private Map<Integer, ShoprShop> getNearbyShops() {
+		Map<Integer, ShoprShop> nearbyShops = Maps.newHashMap();
 
-		for (Shop shop : ShopUtils.getShops(mContext)) {
+		for (ShoprShop shop : ShopUtils.getShops(mContext)) {
 			if (isShopWithinRadiusInMeters(shop, Constraints.RADIUS_METERS)) {
 				nearbyShops.put(Integer.valueOf(shop.id()), shop);
 			}
@@ -135,7 +137,7 @@ public class ItemLoader extends Loader<List<Item>> {
 		return nearbyShops;
 	}
 
-	private boolean isShopWithinRadiusInMeters(Shop shop, int radiusInMeters) {
+	private boolean isShopWithinRadiusInMeters(ShoprShop shop, int radiusInMeters) {
 		LatLng userPosition = ((MainActivityExplanation) mFragment.getActivity()).getLastLocation();
 		
 		float[] results = new float[1];	

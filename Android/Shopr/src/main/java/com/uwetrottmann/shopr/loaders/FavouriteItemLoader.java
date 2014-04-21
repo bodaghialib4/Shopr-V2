@@ -67,7 +67,7 @@ public class FavouriteItemLoader extends Loader<List<Item>> {
 
 				item.id(query.getInt(0));
 				item.image(query.getString(4));
-				item.shopId(query.getInt(7));
+				//item.shopId(query.getInt(7));
 				// name
 				ClothingType type = new ClothingType(query.getString(1));
 				String brand = query.getString(2);
