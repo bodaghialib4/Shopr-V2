@@ -124,7 +124,32 @@
     <string name="attribute_value_preference_update_explanation">Select the %s(s) that you prefer the most right now.</string>
     <string name="update_preferences">Update preferences</string>
     
-    <string name="explanation_template_on_dimension_high">Because you are currently interested in <b>%s</b>.</string>
+    
+    <string name="explanation_template_on_dimension_strong_1">Mainly because you like %s.</string>
+    <string name="explanation_template_on_dimension_strong_2">Mostly as you are interested in %s.</string>
+    
+    <string name="explanation_template_on_dimension_weak_1">Partially because you like %s.</string>
+    <string name="explanation_template_on_dimension_weak_2">Partly as you are interested in %s.</string>
+    
+    <string name="explanation_template_on_dimension_weak_supporting_1">Also, slightly because of your interest in &lt;b>%s&lt;/b>.</string>
+    
+    <string name="explanation_template_context_location">And it is just &lt;b>%s m&lt;/b> away from you.</string>
+    <string name="explanation_template_context_location_average">Plus it is quite near to you, only &lt;b>%s m&lt;/b> away.</string>
+    
+    <string name="explanation_template_on_dimension_high">Because you are currently interested in &lt;b>%s&lt;/b>.</string>
+    
     <string name="explanation_template_average_item">This is an average item that you might like.</string>
-    <string name="explanation_template_serendipidity"><b>This might help</b> discovering your preferences.</string>
+    
+    <string name="explanation_template_serendipidity_1">This might help us discovering your preferences.</string>
+    <string name="explanation_template_serendipidity_2">Might let us learn about what you like.</string>
+    <string name="explanation_template_serendipidity_3">A serendipitous item that you maybe like.</string>
+    
+    <string name="conjunction_And">And\u0020</string>
+    <string name="conjunction_Also">Also\u0020</string>
+    <string name="conjunction_Plus">Plus\u0020</string>
+     <string name="conjunction_and">\u0020and\u0020</string>
+    <string name="conjunction_also"> also </string>
+    <string name="conjunction_plus"> plus </string>
+    <string name="conjunction_comma">, </string>
+    
 </resources>
