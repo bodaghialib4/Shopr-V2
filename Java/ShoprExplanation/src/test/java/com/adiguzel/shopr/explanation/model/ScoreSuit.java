@@ -29,7 +29,7 @@ public class ScoreSuit {
 		Query query = new Query();
 		query.attributes().putAttribute(attr);
 		
-		double explanationScore = ScoreComputer.explanationScore(item, query, new Dimension(attr));
+		double explanationScore = Valuator.explanationScore(item, query, new Dimension(attr));
 		
 		assertThat(explanationScore).isLessThanOrEqualTo(1.0);
 		assertThat(explanationScore).isGreaterThanOrEqualTo(0.0);
@@ -45,7 +45,7 @@ public class ScoreSuit {
 		
 		Query query = new Query();
 		
-		double explanationScore = ScoreComputer.explanationScore(item, query, new Dimension(attr));
+		double explanationScore = Valuator.explanationScore(item, query, new Dimension(attr));
 		
 		assertThat(explanationScore).isLessThanOrEqualTo(1.0);
 		assertThat(explanationScore).isGreaterThanOrEqualTo(0.0);
@@ -62,7 +62,7 @@ public class ScoreSuit {
 		Query query = new Query();
 		query.attributes().putAttribute(attr);
 		
-		assertThat(ScoreComputer.explanationScore(item, query, new Dimension(attr))).isEqualTo(1.0);
+		assertThat(Valuator.explanationScore(item, query, new Dimension(attr))).isEqualTo(1.0);
 	}
 	
 	@Test
@@ -79,7 +79,7 @@ public class ScoreSuit {
 		preference.add(Color.Value.BLUE);
 		query.revise(preference);
 		
-		assertThat(ScoreComputer.explanationScore(item, query, new Dimension(new Color()))).isEqualTo(0.0);
+		assertThat(Valuator.explanationScore(item, query, new Dimension(new Color()))).isEqualTo(0.0);
 	}
 	
 	@Test
@@ -98,7 +98,7 @@ public class ScoreSuit {
 		preference.add(Color.Value.BLUE);
 		query.revise(preference);
 		
-		assertThat(ScoreComputer.explanationScore(item, query, new Dimension(new Color()))).isEqualTo(0.5);
+		assertThat(Valuator.explanationScore(item, query, new Dimension(new Color()))).isEqualTo(0.5);
 	}
 	
 	@Test
@@ -114,7 +114,7 @@ public class ScoreSuit {
 		Query query = new Query();
 		query.attributes().putAttribute(colorAttr).putAttribute(clothingAttr);
 		
-		assertThat(ScoreComputer.globalScore(item, query)).isEqualTo(1.0);
+		assertThat(Valuator.globalScore(item, query)).isEqualTo(1.0);
 	}
 	
 	@Test
@@ -137,7 +137,7 @@ public class ScoreSuit {
 		preference.add(anotherColor);
 		query.revise(preference);
 		
-		assertThat(ScoreComputer.globalScore(item, query)).isEqualTo(0.75);
+		assertThat(Valuator.globalScore(item, query)).isEqualTo(0.75);
 	}
 	
 	@Test
@@ -156,7 +156,7 @@ public class ScoreSuit {
 		recommendations.add(item);
 		recommendations.add(item);
 		
-		assertThat(ScoreComputer.findNumMostFrequentX(recommendations, query, new Dimension(new Color()))).isEqualTo(3);
+		assertThat(Valuator.findNumMostFrequentX(recommendations, query, new Dimension(new Color()))).isEqualTo(3);
 		
 		// same  attribute values
 		item.attributes(new Attributes().putAttribute(colorBlack));
@@ -169,14 +169,14 @@ public class ScoreSuit {
 		recommendations.add(item2);
 		recommendations.add(item3);
 		
-		assertThat(ScoreComputer.findNumMostFrequentX(recommendations, query, new Dimension(new Color()))).isEqualTo(2);
+		assertThat(Valuator.findNumMostFrequentX(recommendations, query, new Dimension(new Color()))).isEqualTo(2);
 		
 		recommendations.clear();
 		recommendations.add(item);
-		assertThat(ScoreComputer.findNumMostFrequentX(recommendations, query, new Dimension(new Color()))).isEqualTo(1);
+		assertThat(Valuator.findNumMostFrequentX(recommendations, query, new Dimension(new Color()))).isEqualTo(1);
 		
 		recommendations.clear();
-		assertThat(ScoreComputer.findNumMostFrequentX(recommendations, query, new Dimension(new Color()))).isEqualTo(0);
+		assertThat(Valuator.findNumMostFrequentX(recommendations, query, new Dimension(new Color()))).isEqualTo(0);
 	}
 
 }
