@@ -15,8 +15,8 @@ public class Item {
     private BigDecimal price;
 
     private String image_url;
-
-    private int shop_id;
+    
+    public Shop shop;
 
     private Attributes attrs;
 
@@ -61,12 +61,7 @@ public class Item {
     }
 
     public int shopId() {
-        return shop_id;
-    }
-
-    public Item shopId(int shop_id) {
-        this.shop_id = shop_id;
-        return this;
+        return shop.id();
     }
 
     public Attributes attributes() {
@@ -93,6 +88,15 @@ public class Item {
 
     public Item quality(double quality) {
         this.quality = quality;
+        return this;
+    }
+    
+    public Shop shop() {
+        return shop;
+    }
+
+    public Item shop(Shop shop) {
+        this.shop = shop;
         return this;
     }
 
