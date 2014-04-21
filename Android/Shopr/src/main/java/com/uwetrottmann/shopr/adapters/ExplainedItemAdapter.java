@@ -4,6 +4,7 @@ import java.text.NumberFormat;
 import java.util.Locale;
 
 import android.content.Context;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -15,8 +16,10 @@ import android.widget.TextView;
 
 import com.adiguzel.shopr.explanation.Recommendation;
 import com.adiguzel.shopr.explanation.model.Argument.Type;
+import com.adiguzel.shopr.explanation.model.ContextArgument;
 import com.adiguzel.shopr.explanation.model.DimensionArgument;
 import com.adiguzel.shopr.explanation.model.Explanation;
+import com.adiguzel.shopr.explanation.model.LocationContext;
 import com.squareup.picasso.Picasso;
 import com.uwetrottmann.androidutils.CheatSheet;
 import com.uwetrottmann.shopr.R;
@@ -24,6 +27,7 @@ import com.uwetrottmann.shopr.algorithm.AdaptiveSelection;
 import com.uwetrottmann.shopr.algorithm.model.Attributes.Attribute;
 import com.uwetrottmann.shopr.algorithm.model.Color;
 import com.uwetrottmann.shopr.algorithm.model.Item;
+import com.uwetrottmann.shopr.model.explanation.ShoprSurfaceGenerator;
 import com.uwetrottmann.shopr.utils.ValueConverter;
 
 public class ExplainedItemAdapter extends ArrayAdapter<Recommendation> {
@@ -99,52 +103,9 @@ public class ExplainedItemAdapter extends ArrayAdapter<Recommendation> {
 		}
 		final Explanation explanation = getItem(position).explanation();
 		final Item item = getItem(position).item();
-		String explanationText = "1 - ";
-		for (DimensionArgument arg : explanation.primaryArguments()) {
-			if (arg.getType() == Type.NO_BETTER_ALTERNATIVES) {
-				explanationText += context
-						.getString(R.string.explanation_template_serendipidity);
-			} else if (arg.getType() == Type.GOOD_AVERAGE) {
-				explanationText += context
-						.getString(R.string.explanation_template_average_item);
-			} else if (arg.getType() == Type.ON_DIMENSION) {
-				Attribute attribute = arg.dimension().attribute();
-				explanationText += String
-						.format(context
-								.getString(R.string.explanation_template_on_dimension_high),
-								(attribute.getCurrentValue().descriptor() + "("
-										+ explanation.branch() 
-										+ "," 
-										+ arg.dimension().explanationScore()
-										+ ","
-										+ arg.dimension().informationScore() + ")")
-										.toLowerCase());
-			}
-		}
-		explanationText += " 2- ";
-		for (DimensionArgument arg : explanation.supportingArguments()) {
-			if (arg.getType() == Type.NO_BETTER_ALTERNATIVES) {
-				explanationText += context
-						.getString(R.string.explanation_template_serendipidity);
-			} else if (arg.getType() == Type.GOOD_AVERAGE) {
-				explanationText += context
-						.getString(R.string.explanation_template_average_item);
-			} else if (arg.getType() == Type.ON_DIMENSION) {
-				Attribute attribute = arg.dimension().attribute();
-				explanationText += String
-						.format(context
-								.getString(R.string.explanation_template_on_dimension_high),
-								(attribute.getCurrentValue().descriptor() + "("
-										+ explanation.branch() 
-										+ "," 
-										+ arg.dimension().explanationScore()
-										+ ","
-										+ arg.dimension().informationScore() + ")")
-										.toLowerCase());
-			}
-		}
-
-		holder.explanation.setText(explanationText);
+		
+		holder.explanation.setText(new ShoprSurfaceGenerator(context).transform(explanation));
+		//holder.explanation.setText(Html.fromHtml(debugExplanationText(explanation)));
 
 		holder.name.setText(item.name());
 		holder.label.setText(ValueConverter.getLocalizedStringForValue(
@@ -208,6 +169,63 @@ public class ExplainedItemAdapter extends ArrayAdapter<Recommendation> {
 				.into(holder.picture);
 
 		return convertView;
+	}
+	
+	private String debugExplanationText(Explanation explanation) {
+		String explanationText = "1 - ";
+		for (DimensionArgument arg : explanation.primaryArguments()) {
+			if (arg.type() == Type.SERENDIPITOUS) {
+				explanationText += context
+						.getString(R.string.explanation_template_serendipidity_1);
+			} else if (arg.type() == Type.GOOD_AVERAGE) {
+				explanationText += context
+						.getString(R.string.explanation_template_average_item);
+			} else if (arg.type() == Type.ON_DIMENSION) {
+				Attribute attribute = arg.dimension().attribute();
+				explanationText += String
+						.format(context
+								.getString(R.string.explanation_template_on_dimension_high),
+								(attribute.getCurrentValue().descriptor() + "("
+										+ explanation.branch() 
+										+ "," 
+										+ arg.dimension().explanationScore()
+										+ ","
+										+ arg.dimension().informationScore() + ")")
+										.toLowerCase());
+			}
+		}
+		explanationText += " 2- ";
+		for (DimensionArgument arg : explanation.supportingArguments()) {
+	
+			if (arg.type() == Type.SERENDIPITOUS) {
+				explanationText += context
+						.getString(R.string.explanation_template_serendipidity_1);
+			} else if (arg.type() == Type.GOOD_AVERAGE) {
+				explanationText += context
+						.getString(R.string.explanation_template_average_item);
+			} else if (arg.type() == Type.ON_DIMENSION) {
+				Attribute attribute = arg.dimension().attribute();
+				explanationText += String
+						.format(context
+								.getString(R.string.explanation_template_on_dimension_high),
+								(attribute.getCurrentValue().descriptor() + "("
+										+ explanation.branch() 
+										+ "," 
+										+ arg.dimension().explanationScore()
+										+ ","
+										+ arg.dimension().informationScore() + ")")
+										.toLowerCase());
+			}
+		}
+		
+		for (ContextArgument arg : explanation.contextArguments()) {
+			if(arg.context() instanceof  LocationContext) {
+				LocationContext context = (LocationContext) arg.context();
+				explanationText += "Very close to you, only " +  context.distanceToUserInMeters(explanation.item())+ "m";
+			}
+				
+		}
+		return explanationText;
 	}
 
 	static class ViewHolder {
