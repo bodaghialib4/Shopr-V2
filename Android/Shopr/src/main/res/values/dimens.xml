@@ -7,6 +7,7 @@
     <dimen name="default_image_width">150dp</dimen>
     <dimen name="default_image_height">200dp</dimen>
 
+    <integer name="gridview_basic_num_columns">3</integer>
     <integer name="gridview_num_columns">2</integer>
     <integer name="favourite_items_gridview_num_columns">3</integer>
     

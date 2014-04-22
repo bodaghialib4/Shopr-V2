@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/textViewItemListReason"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:padding="8dp"
+        android:text="@string/reason_empty"
+        android:textAppearance="@style/TextAppearance.Small.Dim.Highlight" />
+  
+    <GridView
+        android:id="@+id/gridViewItemList"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:horizontalSpacing="4dp"
+        android:numColumns="@integer/gridview_basic_num_columns"
+        android:verticalSpacing="4dp"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:visibility="gone" >
+    </GridView>
+
+    <TextView
+        android:id="@+id/textViewItemListEmpty"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="@string/getting_your_location"
+        android:textAppearance="@style/TextAppearance.Small.Dim" />
+
+</LinearLayout>
