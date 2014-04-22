@@ -131,7 +131,7 @@
     <string name="explanation_template_on_dimension_weak_1">Partially because you like %s.</string>
     <string name="explanation_template_on_dimension_weak_2">Partly as you are interested in %s.</string>
     
-    <string name="explanation_template_on_dimension_weak_supporting_1">Also, slightly because of your interest in &lt;b>%s&lt;/b>.</string>
+    <string name="explanation_template_on_dimension_weak_supporting_1">Also, slightly because of your interest in %s.</string>
     
     <string name="explanation_template_context_location">And it is just &lt;b>%s m&lt;/b> away from you.</string>
     <string name="explanation_template_context_location_average">Plus it is quite near to you, only &lt;b>%s m&lt;/b> away.</string>
@@ -148,8 +148,8 @@
     <string name="conjunction_Also">Also\u0020</string>
     <string name="conjunction_Plus">Plus\u0020</string>
      <string name="conjunction_and">\u0020and\u0020</string>
-    <string name="conjunction_also"> also </string>
-    <string name="conjunction_plus"> plus </string>
-    <string name="conjunction_comma">, </string>
+    <string name="conjunction_also"> also\u0020</string>
+    <string name="conjunction_plus"> plus\u0020</string>
+    <string name="conjunction_comma">,\u0020</string>
     
 </resources>
