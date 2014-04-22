@@ -43,7 +43,8 @@ import com.uwetrottmann.shopr.loaders.ItemLoader;
 import com.uwetrottmann.shopr.provider.ShoprContract.Stats;
 import com.uwetrottmann.shopr.ui.CritiqueActivity;
 import com.uwetrottmann.shopr.ui.ItemDetailsActivity;
-import com.uwetrottmann.shopr.ui.explanation.MainActivityExplanation.LocationUpdateEvent;
+import com.uwetrottmann.shopr.ui.LocationHandler;
+import com.uwetrottmann.shopr.ui.LocationHandler.LocationUpdateEvent;
 import com.uwetrottmann.shopr.utils.FavouriteItemUtils;
 
 import de.greenrobot.event.EventBus;
@@ -77,7 +78,7 @@ public class ItemListFragmentExplanation extends Fragment implements LoaderCallb
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_item_list, container, false);
+        View v = inflater.inflate(R.layout.fragment_item_list_explanation, container, false);
 
         mTextViewReason = (TextView) v.findViewById(R.id.textViewItemListReason);
         mGridView = (StaggeredGridView) v.findViewById(R.id.gridViewItemList);
@@ -136,7 +137,8 @@ public class ItemListFragmentExplanation extends Fragment implements LoaderCallb
         if (args != null) {
             isInit = args.getBoolean("isinit");
         }
-        LatLng location = ((MainActivityExplanation) getActivity()).getLastLocation();
+        LatLng location = LocationHandler.getInstance(getActivity()).getLastLocation();
+        
         return new ItemLoader(getActivity(), this, location, isInit);
     }
 
@@ -145,7 +147,8 @@ public class ItemListFragmentExplanation extends Fragment implements LoaderCallb
         mAdapter.clear();
         List<com.adiguzel.shopr.explanation.model.Context> contexts = 
         		new ArrayList<com.adiguzel.shopr.explanation.model.Context>();
-        LatLng location = ((MainActivityExplanation) getActivity()).getLastLocation();
+        LatLng location = LocationHandler.getInstance( getActivity()).getLastLocation();
+        		//((MainActivityExplanation) getActivity()).getLastLocation();
         if(location != null) {
         	contexts.add(new LocationContext(location.latitude, location.longitude));
         }

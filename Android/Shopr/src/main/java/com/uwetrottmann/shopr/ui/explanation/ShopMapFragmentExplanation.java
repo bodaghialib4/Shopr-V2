@@ -1,6 +1,9 @@
 
 package com.uwetrottmann.shopr.ui.explanation;
 
+import java.util.List;
+import java.util.Map;
+
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
@@ -19,13 +22,11 @@ import com.uwetrottmann.shopr.loaders.ShopLoader;
 import com.uwetrottmann.shopr.model.Constraints;
 import com.uwetrottmann.shopr.model.ShoprShop;
 import com.uwetrottmann.shopr.settings.AppSettings;
+import com.uwetrottmann.shopr.ui.LocationHandler;
+import com.uwetrottmann.shopr.ui.LocationHandler.LocationUpdateEvent;
 import com.uwetrottmann.shopr.ui.explanation.ItemListFragmentExplanation.ShopUpdateEvent;
-import com.uwetrottmann.shopr.ui.explanation.MainActivityExplanation.LocationUpdateEvent;
 
 import de.greenrobot.event.EventBus;
-
-import java.util.List;
-import java.util.Map;
 
 public class ShopMapFragmentExplanation extends SupportMapFragment implements LoaderCallbacks<List<ShoprShop>> {
 
@@ -70,7 +71,8 @@ public class ShopMapFragmentExplanation extends SupportMapFragment implements Lo
         if (!mIsInitialized) {
             Log.d(TAG, "Initializing map.");
 
-            LatLng userPosition = ((MainActivityExplanation) getActivity()).getLastLocation();
+            LatLng userPosition = LocationHandler.getInstance( getActivity()).getLastLocation();
+            		//((MainActivityExplanation) getActivity()).getLastLocation();
             if (userPosition == null) {
                 return;
             }
