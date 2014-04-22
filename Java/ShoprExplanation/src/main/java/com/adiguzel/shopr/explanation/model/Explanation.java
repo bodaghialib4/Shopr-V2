@@ -11,7 +11,7 @@ public class Explanation {
 	private Set<DimensionArgument> primaryArguments;
 	private Set<DimensionArgument> supportingArguments;
 	private Set<ContextArgument> contextArguments;
-	private String branch;
+	private Category category;
 	
 	public Explanation(Item item) {
 		this.item = item;
@@ -20,13 +20,13 @@ public class Explanation {
 		contextArguments = new LinkedHashSet<ContextArgument>();
 	}
 	
-	public Explanation branch(String branch) {
-		this.branch = branch;
+	public Explanation category(Category category) {
+		this.category = category;
 		return this;
 	}
 	
-	public String branch() {
-		return branch;
+	public Category category() {
+		return category;
 	}
 
 	public Set<DimensionArgument> primaryArguments() {
@@ -86,5 +86,12 @@ public class Explanation {
 
 	public Item item() {
 		return item;
+	}
+	
+	public enum Category {
+		BY_STRONG_ARGUMENTS,
+		BY_WEAK_ARGUMENTS,
+		BY_GOOD_AVERAGE,
+		BY_SERENDIPITOUSITY
 	}
 }
