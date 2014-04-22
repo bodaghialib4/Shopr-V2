@@ -59,7 +59,7 @@ public class CritiqueActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         //requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_critique);
+        setContentView(R.layout.common_activity_critique);
 
         Bundle extras = getIntent().getExtras();
         if (extras == null) {
@@ -191,7 +191,7 @@ public class CritiqueActivity extends Activity {
 
     public class ItemFeatureAdapter extends ArrayAdapter<Attribute> {
 
-        private static final int LAYOUT = R.layout.feature_row;
+        private static final int LAYOUT = R.layout.common_feature_row;
         private LayoutInflater mLayoutInflater;
         private SparseBooleanArray mCheckedPositions = new SparseBooleanArray();
 

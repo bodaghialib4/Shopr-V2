@@ -41,7 +41,7 @@ public class ItemDetailsActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_item_details);
+        setContentView(R.layout.common_activity_item_details);
 
         Bundle extras = getIntent().getExtras();
         if (extras == null) {

@@ -78,7 +78,7 @@ public class ItemListFragmentExplanation extends Fragment implements LoaderCallb
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_item_list_explanation, container, false);
+        View v = inflater.inflate(R.layout.explanation_fragment_item_list, container, false);
 
         mTextViewReason = (TextView) v.findViewById(R.id.textViewItemListReason);
         mGridView = (StaggeredGridView) v.findViewById(R.id.gridViewItemList);

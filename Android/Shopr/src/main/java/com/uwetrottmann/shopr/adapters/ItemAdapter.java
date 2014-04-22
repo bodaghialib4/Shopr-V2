@@ -24,7 +24,7 @@ import com.uwetrottmann.shopr.utils.ValueConverter;
 
 public class ItemAdapter extends ArrayAdapter<Item> {
 
-    private static final int LAYOUT = R.layout.item_layout;
+    private static final int LAYOUT = R.layout.basic_item_layout;
 
     private LayoutInflater mInflater;
 

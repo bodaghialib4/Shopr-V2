@@ -23,7 +23,7 @@ public abstract class MindMapFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View v = inflater.inflate(R.layout.fragment_mind_map,
+		View v = inflater.inflate(R.layout.explanation_fragment_mind_map,
 				container, false);
 		
 		preferenceChart = (LinearLayout) v.findViewById(R.id.preferenceChart);	

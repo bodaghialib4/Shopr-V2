@@ -20,7 +20,7 @@ import android.widget.Toast;
 import com.uwetrottmann.shopr.R;
 import com.uwetrottmann.shopr.settings.AppSettings;
 import com.uwetrottmann.shopr.ui.SettingsActivity;
-import com.uwetrottmann.shopr.ui.explanation.MainActivityExplanation;
+import com.uwetrottmann.shopr.ui.basic.MainActivityBasic;
 
 public class TestSetupActivity extends Activity {
 
@@ -32,7 +32,7 @@ public class TestSetupActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_test_setup);
+        setContentView(R.layout.common_activity_test_setup);
 
         setupViews();
         setupActionBar();
@@ -81,7 +81,7 @@ public class TestSetupActivity extends Activity {
                 mDiversityCheckBox.isChecked());
 
         // start the task
-        startActivity(new Intent(this, MainActivityExplanation.class));
+        startActivity(new Intent(this, MainActivityBasic.class));
     }
 
     @Override

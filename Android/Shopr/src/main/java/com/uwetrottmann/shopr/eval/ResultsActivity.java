@@ -35,7 +35,7 @@ public class ResultsActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_results);
+        setContentView(R.layout.common_activity_results);
 
         // extract stat id
         Bundle extras = getIntent().getExtras();

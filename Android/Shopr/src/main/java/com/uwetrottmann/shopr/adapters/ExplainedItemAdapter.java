@@ -33,7 +33,7 @@ import com.uwetrottmann.shopr.utils.ValueConverter;
 
 public class ExplainedItemAdapter extends ArrayAdapter<Recommendation> {
 
-	private static final int LAYOUT = R.layout.item_layout_explanation;
+	private static final int LAYOUT = R.layout.explanation_item_layout;
 
 	private LayoutInflater mInflater;
 

@@ -54,7 +54,7 @@ public class FavouriteItemListFragment extends Fragment implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View v = inflater.inflate(R.layout.fragment_favourite_items_list,
+		View v = inflater.inflate(R.layout.common_fragment_favourite_items_list,
 				container, false);
 
 		mGridView = (GridView) v.findViewById(R.id.gridViewItemList);

@@ -58,7 +58,7 @@ public class MainActivityBasic extends FragmentActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main_basic);
+		setContentView(R.layout.basic_activity_main);
 
 		// Set up the action bar.
 		final ActionBar actionBar = getActionBar();

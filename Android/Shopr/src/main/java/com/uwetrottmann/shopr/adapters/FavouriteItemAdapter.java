@@ -21,7 +21,7 @@ import com.uwetrottmann.shopr.utils.ValueConverter;
 
 public class FavouriteItemAdapter extends ArrayAdapter<Item> {
 
-    private static final int LAYOUT = R.layout.favourite_items_layout;
+    private static final int LAYOUT = R.layout.common_favourite_items_layout;
 
     private LayoutInflater mInflater;
 

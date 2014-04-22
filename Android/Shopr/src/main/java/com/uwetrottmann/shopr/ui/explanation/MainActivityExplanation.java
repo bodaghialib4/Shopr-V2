@@ -63,7 +63,7 @@ public class MainActivityExplanation extends AbstractNavDrawerActivity {
 
 		navDrawerActivityConfiguration = new NavDrawerActivityConfiguration();
 		navDrawerActivityConfiguration
-				.setMainLayout(R.layout.activity_main_explanation);
+				.setMainLayout(R.layout.explanation_activity_main);
 		navDrawerActivityConfiguration.setDrawerLayoutId(R.id.drawer_layout);
 		navDrawerActivityConfiguration.setLeftDrawerId(R.id.left_drawer);
 		navDrawerActivityConfiguration.setNavItems(menu);
@@ -73,7 +73,7 @@ public class MainActivityExplanation extends AbstractNavDrawerActivity {
 		navDrawerActivityConfiguration
 				.setDrawerCloseDesc(R.string.drawer_close);
 		navDrawerActivityConfiguration.setBaseAdapter(new NavDrawerAdapter(
-				this, R.layout.drawer_list_item, menu));
+				this, R.layout.common_drawer_list_item, menu));
 		return navDrawerActivityConfiguration;
 	}
 

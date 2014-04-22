@@ -22,7 +22,7 @@ public class PricePreferenceActivity extends PreferenceActivity {
 	}
 	
 	protected final int layout() {
-		return R.layout.price_preference;
+		return R.layout.explanation_price_preference;
 	}
 	
 	protected final TextView explanationView() {
@@ -43,7 +43,7 @@ public class PricePreferenceActivity extends PreferenceActivity {
 
 	public class PriceRangeAdapter extends ArrayAdapter<AttributeValue> {
 
-		private static final int LAYOUT = R.layout.checkable_row;
+		private static final int LAYOUT = R.layout.common_checkable_row;
 		private LayoutInflater mInflater;
 
 		public PriceRangeAdapter(Context context) {

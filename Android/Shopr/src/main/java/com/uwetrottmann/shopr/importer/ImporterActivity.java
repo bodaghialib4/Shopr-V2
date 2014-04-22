@@ -26,7 +26,7 @@ public class ImporterActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_importer);
+        setContentView(R.layout.common_activity_importer);
 
         setupActionBar();
         setupViews();

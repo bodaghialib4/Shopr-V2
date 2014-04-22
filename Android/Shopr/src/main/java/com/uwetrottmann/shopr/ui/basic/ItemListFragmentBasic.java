@@ -75,13 +75,12 @@ public class ItemListFragmentBasic extends Fragment implements LoaderCallbacks<L
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_item_list_basic, container, false);
+        View v = inflater.inflate(R.layout.basic_fragment_item_list, container, false);
 
         mTextViewReason = (TextView) v.findViewById(R.id.textViewItemListReason);
         mGridView = (GridView) v.findViewById(R.id.gridViewItemList);
         View emtpyView = v.findViewById(R.id.textViewItemListEmpty);
         mGridView.setEmptyView(emtpyView);
-
         return v;
     }
 

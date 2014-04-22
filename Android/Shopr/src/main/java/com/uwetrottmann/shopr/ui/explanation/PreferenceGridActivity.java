@@ -24,7 +24,7 @@ public abstract class PreferenceGridActivity extends
 	
 	@Override
 	protected int layout() {
-		return R.layout.attribute_value_preference;
+		return R.layout.explanation_attribute_value_preference;
 	}	
 	
 	protected final TextView explanationView() {
@@ -51,7 +51,7 @@ public abstract class PreferenceGridActivity extends
 
 	public class AttributeValueAdapter extends ArrayAdapter<AttributeValue> {
 
-		private static final int LAYOUT = R.layout.attribute_value_layout;
+		private static final int LAYOUT = R.layout.explanation_attribute_value_layout;
 		private LayoutInflater mInflater;
 
 		public AttributeValueAdapter(Context context) {

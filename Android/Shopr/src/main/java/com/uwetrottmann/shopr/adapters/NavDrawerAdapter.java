@@ -41,7 +41,7 @@ public class NavDrawerAdapter extends ArrayAdapter<NavDrawerItem> {
         NavMenuItemHolder navMenuItemHolder = null;
         
         if (convertView == null) {
-            convertView = inflater.inflate( R.layout.drawer_list_item, parentView, false);
+            convertView = inflater.inflate( R.layout.common_drawer_list_item, parentView, false);
             TextView labelView = (TextView) convertView
                     .findViewById( R.id.drawerItemTitle );
             ImageView iconView = (ImageView) convertView
@@ -71,7 +71,7 @@ public class NavDrawerAdapter extends ArrayAdapter<NavDrawerItem> {
         NavMenuSectionHolder navMenuItemHolder = null;
         
         if (convertView == null) {
-            convertView = inflater.inflate( R.layout.drawer_section, parentView, false);
+            convertView = inflater.inflate( R.layout.common_drawer_section, parentView, false);
             TextView labelView = (TextView) convertView
                     .findViewById( R.id.navmenusection_label );
 
