@@ -20,10 +20,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.etsy.android.grid.StaggeredGridView;
 import com.google.android.gms.maps.model.LatLng;
 import com.uwetrottmann.androidutils.Maps;
 import com.uwetrottmann.shopr.R;
@@ -40,8 +40,8 @@ import com.uwetrottmann.shopr.loaders.ItemLoader;
 import com.uwetrottmann.shopr.provider.ShoprContract.Stats;
 import com.uwetrottmann.shopr.ui.CritiqueActivity;
 import com.uwetrottmann.shopr.ui.ItemDetailsActivity;
-import com.uwetrottmann.shopr.ui.explanation.MainActivityExplanation;
-import com.uwetrottmann.shopr.ui.explanation.MainActivityExplanation.LocationUpdateEvent;
+import com.uwetrottmann.shopr.ui.LocationHandler;
+import com.uwetrottmann.shopr.ui.LocationHandler.LocationUpdateEvent;
 import com.uwetrottmann.shopr.utils.FavouriteItemUtils;
 
 import de.greenrobot.event.EventBus;
@@ -59,7 +59,7 @@ public class ItemListFragmentBasic extends Fragment implements LoaderCallbacks<L
     private static final int LOADER_ID = 920;
     private static final int REQUEST_CODE = 12;
     private TextView mTextViewReason;
-    private StaggeredGridView mGridView;
+    private GridView mGridView;
     private ItemAdapter mAdapter;
 
     private boolean mIsInitialized;
@@ -75,10 +75,10 @@ public class ItemListFragmentBasic extends Fragment implements LoaderCallbacks<L
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_item_list, container, false);
+        View v = inflater.inflate(R.layout.fragment_item_list_basic, container, false);
 
         mTextViewReason = (TextView) v.findViewById(R.id.textViewItemListReason);
-        mGridView = (StaggeredGridView) v.findViewById(R.id.gridViewItemList);
+        mGridView = (GridView) v.findViewById(R.id.gridViewItemList);
         View emtpyView = v.findViewById(R.id.textViewItemListEmpty);
         mGridView.setEmptyView(emtpyView);
 
@@ -134,7 +134,8 @@ public class ItemListFragmentBasic extends Fragment implements LoaderCallbacks<L
         if (args != null) {
             isInit = args.getBoolean("isinit");
         }
-        LatLng location = ((MainActivityExplanation) getActivity()).getLastLocation();
+        LatLng location = LocationHandler.getInstance( getActivity()).getLastLocation();
+        		//((MainActivityExplanation) getActivity()).getLastLocation();
         return new ItemLoader(getActivity(), this, location, isInit);
     }
 
