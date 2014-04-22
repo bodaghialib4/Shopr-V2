@@ -23,6 +23,8 @@ public class Item {
     private double querySimilarity;
 
     private double quality;
+    
+    private int shopId;
 
     public int id() {
         return id;
@@ -59,9 +61,17 @@ public class Item {
         this.image_url = image_url;
         return this;
     }
+    
+    public Item shopId(int shopId) {
+        this.shopId = shopId;
+        return this;
+    }
 
     public int shopId() {
-        return shop.id();
+    	if(shop != null)
+    		return shop.id();
+    	else 
+    		return shopId;
     }
 
     public Attributes attributes() {

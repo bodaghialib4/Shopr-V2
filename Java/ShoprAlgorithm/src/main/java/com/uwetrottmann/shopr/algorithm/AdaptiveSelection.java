@@ -52,6 +52,14 @@ public class AdaptiveSelection {
         mIsUsingDiversity = IS_USING_DIVERSITY_DEFAULT;
         mCurrentRecommendations = new ArrayList<Item>();
     }
+    
+    public Item getItem(int itemId) {
+    	for(Item casebaseItem: mCaseBase) {
+    		if(casebaseItem.id() == itemId)
+    			return casebaseItem;
+    	}
+    	return null;
+    }
 
     public void setLocalizationModule(LocalizationModule localizer) {
         mLocalizer = localizer;
