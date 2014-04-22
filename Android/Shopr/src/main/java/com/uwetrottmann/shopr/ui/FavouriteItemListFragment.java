@@ -137,23 +137,6 @@ public class FavouriteItemListFragment extends Fragment implements
 	 * @param data
 	 */
 	private void onUpdateShops(List<Item> data) {
-		ShopUpdateEvent event = new ShopUpdateEvent();
-
-		// get shops and number of items per shop
-		event.shopMap = Maps.newHashMap();
-		for (Item item : data) {
-			int shopId = item.shopId();
-			int count = 1;
-
-			if (event.shopMap.containsKey(shopId)) {
-				count = event.shopMap.get(shopId);
-				count++;
-			}
-
-			event.shopMap.put(shopId, count);
-		}
-
-		EventBus.getDefault().postSticky(event);
 	}
 
 	@Override
