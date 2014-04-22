@@ -105,6 +105,7 @@ public abstract class PreferenceActivity extends Activity implements
 	}
 
 	protected void onPreferencesUpdateFinish() {
+		setResult(RESULT_OK);
 		finish();
 	}
 

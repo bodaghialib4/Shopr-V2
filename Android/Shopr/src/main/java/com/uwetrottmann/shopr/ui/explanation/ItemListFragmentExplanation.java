@@ -59,7 +59,7 @@ public class ItemListFragmentExplanation extends Fragment implements LoaderCallb
 
     // I = 9, T = 20
     private static final int LOADER_ID = 920;
-    private static final int REQUEST_CODE = 12;
+    public static final int REQUEST_CODE = 12;
     private TextView mTextViewReason;
     private StaggeredGridView mGridView;
     private ExplainedItemAdapter mAdapter;
@@ -91,7 +91,7 @@ public class ItemListFragmentExplanation extends Fragment implements LoaderCallb
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mAdapter = new ExplainedItemAdapter(getActivity(), this, this, this);
+        mAdapter = new ExplainedItemAdapter(getActivity(), this, this, this, this);
 
         mGridView.setAdapter(mAdapter);
         

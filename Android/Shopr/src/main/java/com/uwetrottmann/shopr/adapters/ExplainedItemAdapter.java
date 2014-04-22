@@ -4,7 +4,9 @@ import java.text.NumberFormat;
 import java.util.Locale;
 
 import android.content.Context;
+import android.support.v4.app.Fragment;
 import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -43,6 +45,7 @@ public class ExplainedItemAdapter extends ArrayAdapter<Recommendation> {
 	private OnItemFavouriteListener mFavouriteListener;
 
 	private Context context;
+	private Fragment fragment;
 
 	public interface OnItemCritiqueListener {
 		public void onItemCritique(Item item, boolean isLike);
@@ -57,11 +60,13 @@ public class ExplainedItemAdapter extends ArrayAdapter<Recommendation> {
 	}
 
 	public ExplainedItemAdapter(Context context,
+			Fragment fragment,
 			OnItemCritiqueListener critiqueListener,
 			OnItemDisplayListener itemListener,
 			OnItemFavouriteListener favouriteListener) {
 		super(context, LAYOUT);
 		this.context = context;
+		this.fragment = fragment;
 		mInflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mCritiqueListener = critiqueListener;
@@ -104,7 +109,8 @@ public class ExplainedItemAdapter extends ArrayAdapter<Recommendation> {
 		final Explanation explanation = getItem(position).explanation();
 		final Item item = getItem(position).item();
 		
-		holder.explanation.setText(new ShoprSurfaceGenerator(context).transform(explanation));
+		holder.explanation.setText(new ShoprSurfaceGenerator(context, fragment).transform(explanation));
+		holder.explanation.setMovementMethod(LinkMovementMethod.getInstance());
 		//holder.explanation.setText(Html.fromHtml(debugExplanationText(explanation)));
 
 		holder.name.setText(item.name());
@@ -186,7 +192,7 @@ public class ExplainedItemAdapter extends ArrayAdapter<Recommendation> {
 						.format(context
 								.getString(R.string.explanation_template_on_dimension_high),
 								(attribute.getCurrentValue().descriptor() + "("
-										+ explanation.branch() 
+										+ explanation.category() 
 										+ "," 
 										+ arg.dimension().explanationScore()
 										+ ","
@@ -209,7 +215,7 @@ public class ExplainedItemAdapter extends ArrayAdapter<Recommendation> {
 						.format(context
 								.getString(R.string.explanation_template_on_dimension_high),
 								(attribute.getCurrentValue().descriptor() + "("
-										+ explanation.branch() 
+										+ explanation.category() 
 										+ "," 
 										+ arg.dimension().explanationScore()
 										+ ","
