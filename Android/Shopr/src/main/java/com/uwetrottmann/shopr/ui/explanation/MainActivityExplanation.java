@@ -21,7 +21,6 @@ import com.uwetrottmann.shopr.model.NavMenuItem;
 import com.uwetrottmann.shopr.model.NavMenuSection;
 import com.uwetrottmann.shopr.model.ui.NavDrawerActivityConfiguration;
 import com.uwetrottmann.shopr.settings.AppSettings;
-import com.uwetrottmann.shopr.ui.FavouriteItemListFragment;
 import com.uwetrottmann.shopr.ui.LocationHandler;
 import com.uwetrottmann.shopr.ui.SettingsActivity;
 
@@ -40,7 +39,7 @@ public class MainActivityExplanation extends AbstractNavDrawerActivity {
 			getSupportFragmentManager()
 					.beginTransaction()
 					.replace(R.id.content,
-							PageSlidingTabStripFragment.newInstance()).commit();
+							RecommendationsFragment.newInstance()).commit();
 		}
 	}
 
@@ -81,10 +80,10 @@ public class MainActivityExplanation extends AbstractNavDrawerActivity {
 	protected void onNavItemSelected(int id) {
 		switch ((int) id) {
 		case 101:
-			replaceContent(PageSlidingTabStripFragment.newInstance());
+			replaceContent(RecommendationsFragment.newInstance());
 			break;
 		case 102:
-			replaceContent(FavouriteItemListFragment.newInstance());
+			replaceContent(FavouritesFragment.newInstance());
 			break;
 		case 202:
 			replaceContent(new ClothingTypeFragment());
