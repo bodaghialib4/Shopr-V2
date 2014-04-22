@@ -5,7 +5,6 @@ import java.util.Locale;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
-import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -177,6 +176,7 @@ public class ExplainedItemAdapter extends ArrayAdapter<Recommendation> {
 		return convertView;
 	}
 	
+	@SuppressWarnings("unused")
 	private String debugExplanationText(Explanation explanation) {
 		String explanationText = "1 - ";
 		for (DimensionArgument arg : explanation.primaryArguments()) {
@@ -197,7 +197,7 @@ public class ExplainedItemAdapter extends ArrayAdapter<Recommendation> {
 										+ arg.dimension().explanationScore()
 										+ ","
 										+ arg.dimension().informationScore() + ")")
-										.toLowerCase());
+										.toLowerCase(Locale.ENGLISH));
 			}
 		}
 		explanationText += " 2- ";
@@ -220,7 +220,7 @@ public class ExplainedItemAdapter extends ArrayAdapter<Recommendation> {
 										+ arg.dimension().explanationScore()
 										+ ","
 										+ arg.dimension().informationScore() + ")")
-										.toLowerCase());
+										.toLowerCase(Locale.ENGLISH));
 			}
 		}
 		

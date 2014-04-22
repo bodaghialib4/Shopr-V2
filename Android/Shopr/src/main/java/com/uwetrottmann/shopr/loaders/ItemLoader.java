@@ -7,13 +7,11 @@ import java.util.Map;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.location.Location;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.uwetrottmann.androidutils.Lists;
-import com.uwetrottmann.androidutils.Maps;
 import com.uwetrottmann.shopr.algorithm.AdaptiveSelection;
 import com.uwetrottmann.shopr.algorithm.model.Attributes;
 import com.uwetrottmann.shopr.algorithm.model.ClothingType;
@@ -22,12 +20,10 @@ import com.uwetrottmann.shopr.algorithm.model.Item;
 import com.uwetrottmann.shopr.algorithm.model.Price;
 import com.uwetrottmann.shopr.algorithm.model.Sex;
 import com.uwetrottmann.shopr.algorithm.model.Shop;
-import com.uwetrottmann.shopr.model.Constraints;
 import com.uwetrottmann.shopr.model.ShoprShop;
 import com.uwetrottmann.shopr.provider.ShoprContract.Items;
 import com.uwetrottmann.shopr.provider.ShoprContract.Shops;
 import com.uwetrottmann.shopr.settings.AppSettings;
-import com.uwetrottmann.shopr.ui.explanation.MainActivityExplanation;
 import com.uwetrottmann.shopr.utils.ShopUtils;
 import com.uwetrottmann.shopr.utils.ShoprLocalizer;
 import com.uwetrottmann.shopr.utils.ValueConverter;
@@ -81,7 +77,7 @@ public class ItemLoader extends Loader<List<Item>> {
 
 	private List<Item> getItemsAtNearbyShops() {
 		List<Item> items = Lists.newArrayList();
-		Map<Integer, ShoprShop> nearbyShops = getNearbyShops();
+		Map<Integer, ShoprShop> nearbyShops = ShopUtils.getNearbyShops(mContext, mFragment);
 
 		Cursor query = getContext().getContentResolver().query(
 				Items.CONTENT_URI,
@@ -123,28 +119,6 @@ public class ItemLoader extends Loader<List<Item>> {
 		}
 
 		return items;
-	}
-
-	private Map<Integer, ShoprShop> getNearbyShops() {
-		Map<Integer, ShoprShop> nearbyShops = Maps.newHashMap();
-
-		for (ShoprShop shop : ShopUtils.getShops(mContext)) {
-			if (isShopWithinRadiusInMeters(shop, Constraints.RADIUS_METERS)) {
-				nearbyShops.put(Integer.valueOf(shop.id()), shop);
-			}
-		}
-
-		return nearbyShops;
-	}
-
-	private boolean isShopWithinRadiusInMeters(ShoprShop shop, int radiusInMeters) {
-		LatLng userPosition = ((MainActivityExplanation) mFragment.getActivity()).getLastLocation();
-		
-		float[] results = new float[1];	
-		Location.distanceBetween(userPosition.latitude, userPosition.longitude, shop.location().latitude, shop.location().longitude, results);
-		float distance = results[0];
-		
-		return distance <= radiusInMeters;
 	}
 
 	/*

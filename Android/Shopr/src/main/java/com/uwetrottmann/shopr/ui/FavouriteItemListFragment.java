@@ -25,7 +25,7 @@ import com.uwetrottmann.shopr.adapters.FavouriteItemAdapter;
 import com.uwetrottmann.shopr.adapters.FavouriteItemAdapter.OnFavouriteItemDisplayListener;
 import com.uwetrottmann.shopr.algorithm.model.Item;
 import com.uwetrottmann.shopr.loaders.FavouriteItemLoader;
-import com.uwetrottmann.shopr.ui.explanation.MainActivityExplanation.LocationUpdateEvent;
+import com.uwetrottmann.shopr.ui.LocationHandler.LocationUpdateEvent;
 
 import de.greenrobot.event.EventBus;
 
@@ -137,6 +137,23 @@ public class FavouriteItemListFragment extends Fragment implements
 	 * @param data
 	 */
 	private void onUpdateShops(List<Item> data) {
+		ShopUpdateEvent event = new ShopUpdateEvent();
+
+		// get shops and number of items per shop
+		event.shopMap = Maps.newHashMap();
+		for (Item item : data) {
+			int shopId = item.shopId();
+			int count = 1;
+
+			if (event.shopMap.containsKey(shopId)) {
+				count = event.shopMap.get(shopId);
+				count++;
+			}
+
+			event.shopMap.put(shopId, count);
+		}
+
+		EventBus.getDefault().postSticky(event);
 	}
 
 	@Override
