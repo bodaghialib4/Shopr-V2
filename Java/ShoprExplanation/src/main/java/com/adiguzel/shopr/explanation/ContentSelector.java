@@ -20,7 +20,7 @@ public class ContentSelector {
 	// α - compares explanation score
 	public static double ALPHA = 0.11;// 0.6;
 	// µ - second criteria for explanation score (µ < α)
-	public static double MU = 0.06;// 0.51;
+	public static double MU = 0.09;// 0.51;
 	// β - compares global score
 	public static double BETA = 0.6;
 	// γ - compares information score
@@ -36,18 +36,19 @@ public class ContentSelector {
 		List<DimensionArgument> strongPrimaryArguments = filterBy(
 				sortedInitialArguments, new StrongPrimaryArgumentFilter());
 
-		List<DimensionArgument> weakPrimaryArguments = filterBy(sortedInitialArguments,
-				new WeakPrimaryArgumentFilter());
-		
+		List<DimensionArgument> weakPrimaryArguments = filterBy(
+				sortedInitialArguments, new WeakPrimaryArgumentFilter());
+
 		// Select context arguments
-		for(Context context : contexts) {
-			if(context.isValidArgument(item, recommendedItems))
-				explanation.addContextArgument(new ContextArgument(context, true));
+		for (Context context : contexts) {
+			if (context.isValidArgument(item, recommendedItems))
+				explanation.addContextArgument(new ContextArgument(context,
+						true));
 		}
-		
+
 		if (strongPrimaryArguments.size() > 0) {
 			explanation.addPrimaryArguments(strongPrimaryArguments);
-			explanation.branch("Strong.");
+			explanation.category(Explanation.Category.BY_STRONG_ARGUMENTS);
 		}
 		// Dimension provides low information, attempt to add supporting
 		// arguments
@@ -55,7 +56,7 @@ public class ContentSelector {
 			explanation.addPrimaryArguments(weakPrimaryArguments);
 			explanation.addSupportingArguments(filterBy(sortedInitialArguments,
 					new SecondaryArgumentFilter()));
-			explanation.branch("Weak.");
+			explanation.category(Explanation.Category.BY_WEAK_ARGUMENTS);
 
 		}
 		// No dimension is larger than alpha(α), no argument can be selected
@@ -64,16 +65,15 @@ public class ContentSelector {
 			if (Valuator.globalScore(item, query) > BETA) {
 				explanation.addSupportingArgument(new DimensionArgument(
 						Type.GOOD_AVERAGE));
-				explanation.branch("Average.");
-
 				explanation.addSupportingArguments(filterBy(
 						sortedInitialArguments, new SecondaryArgumentFilter()));
+				explanation.category(Explanation.Category.BY_GOOD_AVERAGE);
 			}
 			// Recommender couldn't find better alternatives
 			else {
 				explanation.addSupportingArgument(new DimensionArgument(
 						Type.SERENDIPITOUS));
-				explanation.branch("No alternatives.");
+				explanation.category(Explanation.Category.BY_SERENDIPITOUSITY);
 			}
 		}
 
@@ -87,7 +87,8 @@ public class ContentSelector {
 		List<DimensionArgument> sortedInitialArguments = generateSortedInitialArguments(
 				item, query, recommendedItems);
 		DimensionArgument bestInitialArgument = sortedInitialArguments.get(0);
-		DimensionArgument secondBestInitialArgument = sortedInitialArguments.get(1);
+		DimensionArgument secondBestInitialArgument = sortedInitialArguments
+				.get(1);
 
 		// Dimension is good enough for a first argument
 		if (bestInitialArgument.dimension().explanationScore() > ALPHA) {
@@ -131,8 +132,8 @@ public class ContentSelector {
 
 		for (Attribute attribute : item.attributes().values()) {
 			Dimension dimension = new Dimension(attribute);
-			dimension.explanationScore(Valuator.explanationScore(item,
-					query, dimension));
+			dimension.explanationScore(Valuator.explanationScore(item, query,
+					dimension));
 			dimension.informationScore(Valuator.informationScore(item, query,
 					dimension, recommendedItems));
 			arguments.add(new DimensionArgument(dimension, true));
@@ -191,7 +192,8 @@ public class ContentSelector {
 
 	}
 
-	public class StrongPrimaryArgumentFilter implements Filter<DimensionArgument> {
+	public class StrongPrimaryArgumentFilter implements
+			Filter<DimensionArgument> {
 
 		public final boolean applies(DimensionArgument arg) {
 			return arg.dimension().explanationScore() > ALPHA
