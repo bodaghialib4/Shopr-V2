@@ -201,7 +201,7 @@ public class MainActivityBasic extends FragmentActivity implements
         	Tuple<Fragment, String> itemFragment = 
         			new Tuple<Fragment, String>(ItemListFragmentBasic.newInstance(), getString(R.string.title_list).toUpperCase(l));
         	Tuple<Fragment, String> shopMapFragment = 
-        			new Tuple<Fragment, String>(ShopMapFragmentBasic.newInstance(), getString(R.string.title_map).toUpperCase(l));
+        			new Tuple<Fragment, String>(RecommendationsShopMapBasic.newInstance(), getString(R.string.title_map).toUpperCase(l));
         	/* Tuple<Fragment, String> favouritesFragment = 
         			new Tuple<Fragment, String>(FavouriteItemListFragment.newInstance(), getString(R.string.title_favourites).toUpperCase(l)); 
         			*/
