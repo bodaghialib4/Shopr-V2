@@ -39,7 +39,7 @@ public class MainActivityExplanation extends AbstractNavDrawerActivity {
 			getSupportFragmentManager()
 					.beginTransaction()
 					.replace(R.id.content,
-							RecommendationsFragment.newInstance()).commit();
+							RecommendationsTabFragment.newInstance()).commit();
 		}
 	}
 
@@ -80,7 +80,7 @@ public class MainActivityExplanation extends AbstractNavDrawerActivity {
 	protected void onNavItemSelected(int id) {
 		switch ((int) id) {
 		case 101:
-			replaceContent(RecommendationsFragment.newInstance());
+			replaceContent(RecommendationsTabFragment.newInstance());
 			break;
 		case 102:
 			replaceContent(FavouritesFragment.newInstance());

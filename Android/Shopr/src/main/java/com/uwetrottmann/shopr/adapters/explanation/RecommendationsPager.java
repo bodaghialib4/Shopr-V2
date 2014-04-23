@@ -7,7 +7,7 @@ import android.support.v4.app.Fragment;
 
 import com.uwetrottmann.shopr.R;
 import com.uwetrottmann.shopr.model.SectionItem;
-import com.uwetrottmann.shopr.ui.explanation.ItemListFragmentExplanation;
+import com.uwetrottmann.shopr.ui.explanation.RecommendationsFragment;
 import com.uwetrottmann.shopr.ui.explanation.RecommendationsShopMap;
 
 public class RecommendationsPager extends SlidingTabStripPagerAdapter{
@@ -21,7 +21,7 @@ public class RecommendationsPager extends SlidingTabStripPagerAdapter{
 
 		sections.add(new SectionItem()
 				.title(getFragment().getString(R.string.title_list)).fragment(
-						ItemListFragmentExplanation.newInstance()));
+						RecommendationsFragment.newInstance()));
 
 		sections.add(new SectionItem().title(getFragment().getString(R.string.title_map))
 				.fragment(RecommendationsShopMap.newInstance()));
