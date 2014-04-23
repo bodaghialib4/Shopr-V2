@@ -8,7 +8,7 @@ import android.support.v4.app.Fragment;
 import com.uwetrottmann.shopr.R;
 import com.uwetrottmann.shopr.model.SectionItem;
 import com.uwetrottmann.shopr.ui.FavouriteItemListFragment;
-import com.uwetrottmann.shopr.ui.explanation.RecommendationsShopMap;
+import com.uwetrottmann.shopr.ui.explanation.FavouritesShopMap;
 
 public class FavouritesPager extends SlidingTabStripPagerAdapter{
 	
@@ -24,7 +24,7 @@ public class FavouritesPager extends SlidingTabStripPagerAdapter{
 						FavouriteItemListFragment.newInstance()));
 
 		sections.add(new SectionItem().title(getFragment().getString(R.string.title_map))
-				.fragment(RecommendationsShopMap.newInstance()));
+				.fragment(FavouritesShopMap.newInstance()));
 
 		return sections;
 	}
