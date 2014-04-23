@@ -17,6 +17,7 @@ import com.squareup.picasso.Picasso;
 import com.uwetrottmann.shopr.R;
 import com.uwetrottmann.shopr.algorithm.model.Color;
 import com.uwetrottmann.shopr.algorithm.model.Item;
+import com.uwetrottmann.shopr.listeners.ShoprListeners.OnItemDisplayListener;
 import com.uwetrottmann.shopr.utils.ValueConverter;
 
 public class FavouriteItemAdapter extends ArrayAdapter<Item> {
@@ -25,18 +26,10 @@ public class FavouriteItemAdapter extends ArrayAdapter<Item> {
 
     private LayoutInflater mInflater;
 
-    private OnFavouriteItemDisplayListener mItemDisplayListener;
-
-    public interface OnItemCritiqueListener {
-        public void onItemCritique(Item item, boolean isLike);
-    }
-
-    public interface OnFavouriteItemDisplayListener {
-        public void onItemDisplay(Item item);
-    }
+    private OnItemDisplayListener mItemDisplayListener;
 
     public FavouriteItemAdapter(Context context,
-            OnFavouriteItemDisplayListener itemDisplayListener) {
+    		OnItemDisplayListener itemDisplayListener) {
         super(context, LAYOUT);
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mItemDisplayListener = itemDisplayListener;

@@ -28,6 +28,10 @@ import com.uwetrottmann.shopr.algorithm.AdaptiveSelection;
 import com.uwetrottmann.shopr.algorithm.model.Attributes.Attribute;
 import com.uwetrottmann.shopr.algorithm.model.Color;
 import com.uwetrottmann.shopr.algorithm.model.Item;
+import com.uwetrottmann.shopr.listeners.ShoprListeners;
+import com.uwetrottmann.shopr.listeners.ShoprListeners.OnItemCritiqueListener;
+import com.uwetrottmann.shopr.listeners.ShoprListeners.OnItemDisplayListener;
+import com.uwetrottmann.shopr.listeners.ShoprListeners.OnItemFavouriteListener;
 import com.uwetrottmann.shopr.model.explanation.ShoprSurfaceGenerator;
 import com.uwetrottmann.shopr.utils.ValueConverter;
 
@@ -37,7 +41,7 @@ public class ExplainedItemAdapter extends ArrayAdapter<Recommendation> {
 
 	private LayoutInflater mInflater;
 
-	private OnItemCritiqueListener mCritiqueListener;
+	private ShoprListeners.OnItemCritiqueListener mCritiqueListener;
 
 	private OnItemDisplayListener mItemListener;
 
@@ -45,18 +49,6 @@ public class ExplainedItemAdapter extends ArrayAdapter<Recommendation> {
 
 	private Context context;
 	private Fragment fragment;
-
-	public interface OnItemCritiqueListener {
-		public void onItemCritique(Item item, boolean isLike);
-	}
-
-	public interface OnItemDisplayListener {
-		public void onItemDisplay(Item item);
-	}
-
-	public interface OnItemFavouriteListener {
-		public void onItemFavourite(Item item);
-	}
 
 	public ExplainedItemAdapter(Context context,
 			Fragment fragment,

@@ -20,9 +20,12 @@ import com.uwetrottmann.shopr.R;
 import com.uwetrottmann.shopr.algorithm.AdaptiveSelection;
 import com.uwetrottmann.shopr.algorithm.model.Color;
 import com.uwetrottmann.shopr.algorithm.model.Item;
+import com.uwetrottmann.shopr.listeners.ShoprListeners.OnItemCritiqueListener;
+import com.uwetrottmann.shopr.listeners.ShoprListeners.OnItemDisplayListener;
+import com.uwetrottmann.shopr.listeners.ShoprListeners.OnItemFavouriteListener;
 import com.uwetrottmann.shopr.utils.ValueConverter;
 
-public class ItemAdapter extends ArrayAdapter<Item> {
+public class BasicItemAdapter extends ArrayAdapter<Item> {
 
     private static final int LAYOUT = R.layout.basic_item_layout;
 
@@ -34,19 +37,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
     
     private OnItemFavouriteListener mFavouriteListener;
 
-    public interface OnItemCritiqueListener {
-        public void onItemCritique(Item item, boolean isLike);
-    }
-
-    public interface OnItemDisplayListener {
-        public void onItemDisplay(Item item);
-    }
-    
-    public interface OnItemFavouriteListener {
-        public void onItemFavourite(Item item);
-    }
-
-    public ItemAdapter(Context context, OnItemCritiqueListener critiqueListener,
+    public BasicItemAdapter(Context context, OnItemCritiqueListener critiqueListener,
             OnItemDisplayListener itemListener, OnItemFavouriteListener favouriteListener) {
         super(context, LAYOUT);
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
