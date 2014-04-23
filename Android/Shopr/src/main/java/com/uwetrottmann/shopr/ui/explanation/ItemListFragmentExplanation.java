@@ -3,7 +3,6 @@ package com.uwetrottmann.shopr.ui.explanation;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import android.app.Activity;
 import android.content.Context;
@@ -39,6 +38,7 @@ import com.uwetrottmann.shopr.algorithm.Query;
 import com.uwetrottmann.shopr.algorithm.model.Item;
 import com.uwetrottmann.shopr.eval.ResultsActivity;
 import com.uwetrottmann.shopr.eval.Statistics;
+import com.uwetrottmann.shopr.event.ShopUpdateEvent;
 import com.uwetrottmann.shopr.loaders.ItemLoader;
 import com.uwetrottmann.shopr.provider.ShoprContract.Stats;
 import com.uwetrottmann.shopr.ui.CritiqueActivity;
@@ -156,14 +156,6 @@ public class ItemListFragmentExplanation extends Fragment implements LoaderCallb
         mAdapter.addAll(new Discloser().explain(items, AdaptiveSelection.get().getCurrentQuery(), contexts));
         onUpdateReason();
         onUpdateShops(items);
-    }
-
-    public class ShopUpdateEvent {
-        /**
-         * Holds a list of shop ids and how many recommendations are shown for
-         * each shop.
-         */
-        Map<Integer, Integer> shopMap;
     }
 
     /**

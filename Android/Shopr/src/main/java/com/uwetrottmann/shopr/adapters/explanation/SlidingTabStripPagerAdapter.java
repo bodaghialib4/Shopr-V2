@@ -1,15 +1,11 @@
 package com.uwetrottmann.shopr.adapters.explanation;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.uwetrottmann.shopr.R;
 import com.uwetrottmann.shopr.model.SectionItem;
-import com.uwetrottmann.shopr.ui.explanation.ItemListFragmentExplanation;
-import com.uwetrottmann.shopr.ui.explanation.ShopMapFragmentExplanation;
 
 public abstract class SlidingTabStripPagerAdapter extends FragmentPagerAdapter {
 	private List<SectionItem> fragmentSections;
