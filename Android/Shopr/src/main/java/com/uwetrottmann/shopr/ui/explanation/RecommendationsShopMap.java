@@ -11,10 +11,10 @@ import com.uwetrottmann.shopr.loaders.ShopLoader;
 import com.uwetrottmann.shopr.model.ShoprShop;
 import com.uwetrottmann.shopr.ui.ShopMapFragment;
 
-public class ShopMapFragmentExplanation extends ShopMapFragment {
+public class RecommendationsShopMap extends ShopMapFragment {
 
-    public static ShopMapFragmentExplanation newInstance() {
-        return new ShopMapFragmentExplanation();
+    public static RecommendationsShopMap newInstance() {
+        return new RecommendationsShopMap();
     }
 
     protected final int loaderId(){
