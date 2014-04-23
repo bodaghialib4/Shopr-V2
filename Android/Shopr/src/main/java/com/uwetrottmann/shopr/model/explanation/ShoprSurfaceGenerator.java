@@ -34,7 +34,7 @@ import com.uwetrottmann.shopr.algorithm.model.Sex;
 import com.uwetrottmann.shopr.ui.explanation.ClothingTypePreferenceActivity;
 import com.uwetrottmann.shopr.ui.explanation.ColorPreferenceActivity;
 import com.uwetrottmann.shopr.ui.explanation.GenderPreferenceActivity;
-import com.uwetrottmann.shopr.ui.explanation.ItemListFragmentExplanation;
+import com.uwetrottmann.shopr.ui.explanation.RecommendationsFragment;
 import com.uwetrottmann.shopr.ui.explanation.PricePreferenceActivity;
 
 public class ShoprSurfaceGenerator implements SurfaceGenerator {
@@ -125,7 +125,7 @@ public class ShoprSurfaceGenerator implements SurfaceGenerator {
 							}
 							Intent intent = new Intent(context, cls);
 							fragment.startActivityForResult(intent,
-									ItemListFragmentExplanation.REQUEST_CODE);
+									RecommendationsFragment.REQUEST_CODE);
 						}
 					});
 		}
