@@ -105,8 +105,6 @@ public class MainActivityExplanation extends AbstractNavDrawerActivity {
 				.replace(R.id.content, fragment).commit();
 	}
 
-	
-
 	@Override
 	public void onStart() {
 		super.onStart();
@@ -162,7 +160,5 @@ public class MainActivityExplanation extends AbstractNavDrawerActivity {
 
 		return super.onOptionsItemSelected(item);
 	}
-
-	
 	
 }

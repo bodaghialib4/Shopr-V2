@@ -30,6 +30,7 @@ import com.uwetrottmann.shopr.listeners.ShoprListeners.OnItemFavouriteListener;
 import com.uwetrottmann.shopr.loaders.ItemLoader;
 import com.uwetrottmann.shopr.provider.ShoprContract.Stats;
 import com.uwetrottmann.shopr.ui.LocationHandler.LocationUpdateEvent;
+import com.uwetrottmann.shopr.ui.basic.ItemDetailsActivityBasic;
 import com.uwetrottmann.shopr.utils.FavouriteItemUtils;
 
 import de.greenrobot.event.EventBus;
@@ -152,8 +153,8 @@ OnItemCritiqueListener, OnItemDisplayListener, OnItemFavouriteListener{
     @Override
     public void onItemDisplay(Item item) {
         // display details
-        Intent intent = new Intent(getActivity(), ItemDetailsActivity.class);
-        intent.putExtra(ItemDetailsActivity.InitBundle.ITEM_ID, item.id());
+        Intent intent = new Intent(getActivity(), ItemDetailsActivityBasic.class);
+        intent.putExtra(ItemDetailsActivityBasic.InitBundle.ITEM_ID, item.id());
         startActivity(intent);
     }
 

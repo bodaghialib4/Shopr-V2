@@ -1,5 +1,5 @@
 
-package com.uwetrottmann.shopr.ui;
+package com.uwetrottmann.shopr.ui.basic;
 
 import java.text.NumberFormat;
 import java.util.List;
@@ -30,7 +30,7 @@ import com.uwetrottmann.shopr.provider.ShoprContract.Stats;
 import com.uwetrottmann.shopr.utils.FavouriteItemUtils;
 import com.uwetrottmann.shopr.utils.ValueConverter;
 
-public class ItemDetailsActivity extends Activity {
+public class ItemDetailsActivityBasic extends Activity {
 
     public interface InitBundle {
         String ITEM_ID = "item_id";
@@ -41,7 +41,7 @@ public class ItemDetailsActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.common_activity_item_details);
+        setContentView(R.layout.basic_activity_item_details);
 
         Bundle extras = getIntent().getExtras();
         if (extras == null) {
