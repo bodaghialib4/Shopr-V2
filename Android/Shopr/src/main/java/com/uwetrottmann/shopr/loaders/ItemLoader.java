@@ -104,6 +104,7 @@ public class ItemLoader extends Loader<List<Item>> {
 					// price
 					BigDecimal price = new BigDecimal(query.getDouble(3));
 					item.price(price);
+					item.brand(brand);
 					// critiquable attributes
 					item.attributes(new Attributes().putAttribute(type)
 							.putAttribute(new Color(query.getString(5)))

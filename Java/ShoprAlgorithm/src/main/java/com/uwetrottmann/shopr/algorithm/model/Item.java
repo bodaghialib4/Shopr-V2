@@ -11,6 +11,8 @@ public class Item {
     private int id;
 
     private String name;
+    
+    private String brand;
 
     private BigDecimal price;
 
@@ -41,6 +43,15 @@ public class Item {
 
     public Item name(String name) {
         this.name = name;
+        return this;
+    }
+    
+    public String brand() {
+        return brand;
+    }
+
+    public Item brand(String brand) {
+        this.brand = brand;
         return this;
     }
 

@@ -30,8 +30,8 @@ import com.uwetrottmann.shopr.algorithm.model.Color;
 import com.uwetrottmann.shopr.algorithm.model.Item;
 import com.uwetrottmann.shopr.listeners.ShoprListeners;
 import com.uwetrottmann.shopr.listeners.ShoprListeners.OnItemCritiqueListener;
-import com.uwetrottmann.shopr.listeners.ShoprListeners.OnItemDisplayListener;
 import com.uwetrottmann.shopr.listeners.ShoprListeners.OnItemFavouriteListener;
+import com.uwetrottmann.shopr.listeners.ShoprListeners.OnRecommendationDisplayListener;
 import com.uwetrottmann.shopr.model.explanation.ShoprSurfaceGenerator;
 import com.uwetrottmann.shopr.utils.ValueConverter;
 
@@ -43,7 +43,7 @@ public class ExplainedItemAdapter extends ArrayAdapter<Recommendation> {
 
 	private ShoprListeners.OnItemCritiqueListener mCritiqueListener;
 
-	private OnItemDisplayListener mItemListener;
+	private OnRecommendationDisplayListener mRecommendationListener;
 
 	private OnItemFavouriteListener mFavouriteListener;
 
@@ -53,7 +53,7 @@ public class ExplainedItemAdapter extends ArrayAdapter<Recommendation> {
 	public ExplainedItemAdapter(Context context,
 			Fragment fragment,
 			OnItemCritiqueListener critiqueListener,
-			OnItemDisplayListener itemListener,
+			OnRecommendationDisplayListener recommendationListener,
 			OnItemFavouriteListener favouriteListener) {
 		super(context, LAYOUT);
 		this.context = context;
@@ -61,7 +61,7 @@ public class ExplainedItemAdapter extends ArrayAdapter<Recommendation> {
 		mInflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mCritiqueListener = critiqueListener;
-		mItemListener = itemListener;
+		mRecommendationListener = recommendationListener;
 		mFavouriteListener = favouriteListener;
 	}
 
@@ -142,8 +142,8 @@ public class ExplainedItemAdapter extends ArrayAdapter<Recommendation> {
 		holder.pictureContainer.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (mItemListener != null) {
-					mItemListener.onItemDisplay(item);
+				if (mRecommendationListener != null) {
+					mRecommendationListener.onRecommendationDisplay(new Recommendation(item, explanation));
 				}
 			}
 		});

@@ -101,7 +101,9 @@ public class ShoprSurfaceGenerator implements SurfaceGenerator {
 	private CharSequence render(String template,
 			Collection<DimensionArgument> arguments) {
 		String text = String.format(template, textify(arguments));
-		return renderSpannable(text, arguments);
+		if(fragment != null)
+			return renderSpannable(text, arguments);
+		else return text;
 	}
 
 	private CharSequence renderSpannable(String text,

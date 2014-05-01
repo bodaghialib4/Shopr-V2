@@ -3,6 +3,7 @@ package com.uwetrottmann.shopr.ui.explanation;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -21,15 +22,16 @@ import com.uwetrottmann.shopr.adapters.ExplainedItemAdapter;
 import com.uwetrottmann.shopr.algorithm.AdaptiveSelection;
 import com.uwetrottmann.shopr.algorithm.Query;
 import com.uwetrottmann.shopr.algorithm.model.Item;
-import com.uwetrottmann.shopr.ui.LocationHandler;
+import com.uwetrottmann.shopr.listeners.ShoprListeners.OnRecommendationDisplayListener;
 import com.uwetrottmann.shopr.ui.ItemListFragment;
+import com.uwetrottmann.shopr.ui.LocationHandler;
 
 /**
  * Shows a list of clothing items with explanations the user can critique by
  * tapping an up or down vote button.
  */
 public class RecommendationsFragment extends
-		ItemListFragment<Recommendation> {
+		ItemListFragment<Recommendation> implements OnRecommendationDisplayListener {
 
 	private TextView mTextViewReason;
 	private StaggeredGridView mGridView;
@@ -74,7 +76,6 @@ public class RecommendationsFragment extends
 		List<com.adiguzel.shopr.explanation.model.Context> contexts = new ArrayList<com.adiguzel.shopr.explanation.model.Context>();
 		LatLng location = LocationHandler.getInstance(getActivity())
 				.getLastLocation();
-		// ((MainActivityExplanation) getActivity()).getLastLocation();
 		if (location != null) {
 			contexts.add(new LocationContext(location.latitude,
 					location.longitude));
@@ -96,5 +97,13 @@ public class RecommendationsFragment extends
 	@Override
 	public void setAdapter(ArrayAdapter<Recommendation> adapter) {
 		mGridView.setAdapter(adapter);
+	}
+	
+	@Override
+	public void onRecommendationDisplay(Recommendation recommendation) {
+		  // display details
+        Intent intent = new Intent(getActivity(), ItemDetailsActivity.class);
+        ItemDetailsActivity.RecommendationDisplayHelper.recommendation = recommendation;
+        startActivity(intent);
 	}
 }

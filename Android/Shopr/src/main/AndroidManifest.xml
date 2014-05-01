@@ -102,6 +102,10 @@
             android:label="@string/title_activity_item_details" >
         </activity>
         <activity
+            android:name="com.uwetrottmann.shopr.ui.explanation.ItemDetailsActivity"
+            android:label="@string/title_activity_item_details" >
+        </activity>
+        <activity
             android:name="com.uwetrottmann.shopr.ui.explanation.ClothingTypePreferenceActivity"
             android:label="@string/title_clothing_type_preferences" >
         </activity>
