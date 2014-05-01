@@ -10,7 +10,7 @@
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
-        android:contentDescription="Icon"
+        android:contentDescription="@string/content_description_icon"
         android:layout_centerVertical="true" />
  
     <TextView
@@ -20,24 +20,8 @@
         android:layout_toRightOf="@id/drawerItemIcon"
         android:minHeight="?android:attr/listPreferredItemHeightSmall"
         android:textAppearance="?android:attr/textAppearanceListItemSmall"
-        android:textColor="#fff"
+        android:textColor="#404040"
         android:gravity="center_vertical"
         android:paddingRight="40dp"/>
-     
-   <!--  
-    
-    <TextView 
-    android:id="@android:id/text1"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:textAppearance="?android:attr/textAppearanceListItemSmall"
-    android:gravity="center_vertical"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:textColor="#fff"
-    android:background="@drawable/drawer_item_background"
-    android:minHeight="?android:attr/listPreferredItemHeightSmall"/>
-  -->
-  
- 
+      
 </RelativeLayout>

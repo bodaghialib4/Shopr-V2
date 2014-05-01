@@ -52,7 +52,7 @@ public class MainActivityExplanation extends AbstractNavDrawerActivity {
 						"ic_menu_home", false, this),
 				NavMenuItem.create(102,
 						getString(R.string.drawer_section_title_favourites),
-						"ic_menu_star", true, this),
+						"ic_action_heart", true, this),
 				NavMenuSection.create(200,
 						getString(R.string.drawer_section_title_mind_map)),
 				NavMenuItem.create(202, "Clothing Type", "", false, this),

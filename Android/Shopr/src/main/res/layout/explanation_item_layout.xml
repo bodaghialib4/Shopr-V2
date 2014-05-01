@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/card_background_editable" >
+    android:background="@drawable/explanation_card_background_editable" >
     
    <TextView
         android:id="@+id/explanation"
@@ -122,7 +122,7 @@
             android:layout_weight="1"
             android:background="@drawable/selectable_background_shopr"
             android:contentDescription="@string/favourite"
-            android:src="@drawable/ic_action_star_10" />
+            android:src="@drawable/ic_action_heart" />
 
     </LinearLayout>
 
