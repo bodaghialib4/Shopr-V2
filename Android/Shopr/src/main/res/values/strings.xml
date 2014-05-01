@@ -153,4 +153,5 @@
     <string name="conjunction_plus"> plus\u0020</string>
     <string name="conjunction_comma">,\u0020</string>
     
+    <string name="save_item_to_interests">Save this</string>
 </resources>
