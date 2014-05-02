@@ -6,21 +6,21 @@ import java.util.Set;
 
 import com.uwetrottmann.shopr.algorithm.model.Item;
 
-public class Explanation {
+public class AbstractExplanation {
 	private Item item;
 	private Set<DimensionArgument> primaryArguments;
 	private Set<DimensionArgument> supportingArguments;
 	private Set<ContextArgument> contextArguments;
 	private Category category;
 	
-	public Explanation(Item item) {
+	public AbstractExplanation(Item item) {
 		this.item = item;
 		primaryArguments = new LinkedHashSet<DimensionArgument>();
 		supportingArguments = new LinkedHashSet<DimensionArgument>();
 		contextArguments = new LinkedHashSet<ContextArgument>();
 	}
 	
-	public Explanation category(Category category) {
+	public AbstractExplanation category(Category category) {
 		this.category = category;
 		return this;
 	}

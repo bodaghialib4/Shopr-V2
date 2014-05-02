@@ -10,7 +10,7 @@ import com.adiguzel.shopr.explanation.model.Context;
 import com.adiguzel.shopr.explanation.model.ContextArgument;
 import com.adiguzel.shopr.explanation.model.Dimension;
 import com.adiguzel.shopr.explanation.model.DimensionArgument;
-import com.adiguzel.shopr.explanation.model.Explanation;
+import com.adiguzel.shopr.explanation.model.AbstractExplanation;
 import com.adiguzel.shopr.explanation.model.Valuator;
 import com.uwetrottmann.shopr.algorithm.Query;
 import com.uwetrottmann.shopr.algorithm.model.Attributes.Attribute;
@@ -25,11 +25,11 @@ public class ContentSelector {
 	public static double BETA = 0.6;
 	// γ - compares information score
 	public static double GAMMA = 0.5;
-
-	public Explanation select(Item item, Query query,
+	
+	public AbstractExplanation select(Item item, Query query,
 			List<Item> recommendedItems, List<Context> contexts) {
 
-		Explanation explanation = new Explanation(item);
+		AbstractExplanation explanation = new AbstractExplanation(item);
 		List<DimensionArgument> sortedInitialArguments = generateSortedInitialArguments(
 				item, query, recommendedItems);
 
@@ -48,7 +48,7 @@ public class ContentSelector {
 
 		if (strongPrimaryArguments.size() > 0) {
 			explanation.addPrimaryArguments(strongPrimaryArguments);
-			explanation.category(Explanation.Category.BY_STRONG_ARGUMENTS);
+			explanation.category(AbstractExplanation.Category.BY_STRONG_ARGUMENTS);
 		}
 		// Dimension provides low information, attempt to add supporting
 		// arguments
@@ -56,7 +56,7 @@ public class ContentSelector {
 			explanation.addPrimaryArguments(weakPrimaryArguments);
 			explanation.addSupportingArguments(filterBy(sortedInitialArguments,
 					new SecondaryArgumentFilter()));
-			explanation.category(Explanation.Category.BY_WEAK_ARGUMENTS);
+			explanation.category(AbstractExplanation.Category.BY_WEAK_ARGUMENTS);
 
 		}
 		// No dimension is larger than alpha(α), no argument can be selected
@@ -67,23 +67,23 @@ public class ContentSelector {
 						Type.GOOD_AVERAGE));
 				explanation.addSupportingArguments(filterBy(
 						sortedInitialArguments, new SecondaryArgumentFilter()));
-				explanation.category(Explanation.Category.BY_GOOD_AVERAGE);
+				explanation.category(AbstractExplanation.Category.BY_GOOD_AVERAGE);
 			}
 			// Recommender couldn't find better alternatives
 			else {
 				explanation.addSupportingArgument(new DimensionArgument(
 						Type.SERENDIPITOUS));
-				explanation.category(Explanation.Category.BY_SERENDIPITOUSITY);
+				explanation.category(AbstractExplanation.Category.BY_SERENDIPITOUSITY);
 			}
 		}
 
 		return explanation;
 	}
 
-	public Explanation selectLegacy(Item item, Query query,
+	public AbstractExplanation selectLegacy(Item item, Query query,
 			List<Item> recommendedItems) {
 
-		Explanation explanation = new Explanation(item);
+		AbstractExplanation explanation = new AbstractExplanation(item);
 		List<DimensionArgument> sortedInitialArguments = generateSortedInitialArguments(
 				item, query, recommendedItems);
 		DimensionArgument bestInitialArgument = sortedInitialArguments.get(0);

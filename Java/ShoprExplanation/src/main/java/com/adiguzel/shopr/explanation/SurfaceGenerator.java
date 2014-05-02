@@ -1,9 +1,9 @@
 package com.adiguzel.shopr.explanation;
 
-import com.adiguzel.shopr.explanation.model.Explanation;
+import com.adiguzel.shopr.explanation.model.AbstractExplanation;
 
 public interface SurfaceGenerator {
 	
-	public CharSequence transform(Explanation abstractExplanation);
+	public CharSequence transform(AbstractExplanation abstractExplanation);
 
 }

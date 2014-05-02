@@ -21,8 +21,8 @@ import android.view.View;
 
 import com.adiguzel.shopr.explanation.SurfaceGenerator;
 import com.adiguzel.shopr.explanation.model.DimensionArgument;
-import com.adiguzel.shopr.explanation.model.Explanation;
-import com.adiguzel.shopr.explanation.model.Explanation.Category;
+import com.adiguzel.shopr.explanation.model.AbstractExplanation;
+import com.adiguzel.shopr.explanation.model.AbstractExplanation.Category;
 import com.adiguzel.shopr.explanation.model.LocationContext;
 import com.uwetrottmann.shopr.R;
 import com.uwetrottmann.shopr.algorithm.model.Attributes.Attribute;
@@ -60,12 +60,12 @@ public class ShoprSurfaceGenerator implements SurfaceGenerator {
 				.getString(R.string.explanation_template_average_item);
 	}
 
-	public CharSequence transform(Explanation explanation) {
+	public CharSequence transform(AbstractExplanation explanation) {
 		return TextUtils.concat(renderDimensionArguments(explanation),
 				renderContextArguments(explanation));
 	}
 
-	public CharSequence renderDimensionArguments(Explanation explanation) {
+	public CharSequence renderDimensionArguments(AbstractExplanation explanation) {
 		if (explanation.category() == Category.BY_STRONG_ARGUMENTS) {
 			String template = chooseRandomTemplate(strongArgumentTemplates);
 			return render(template, explanation.primaryArguments());
@@ -86,7 +86,7 @@ public class ShoprSurfaceGenerator implements SurfaceGenerator {
 			return "";
 	}
 
-	public CharSequence renderContextArguments(Explanation explanation) {
+	public CharSequence renderContextArguments(AbstractExplanation explanation) {
 		if (explanation.hasContextArguments()) {
 			String template = chooseRandomTemplate(contextArgumentTemplates);
 			LocationContext locContext = (LocationContext) explanation
