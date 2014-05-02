@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.adiguzel.shopr.explanation.model.Context;
 import com.adiguzel.shopr.explanation.model.AbstractExplanation;
+import com.adiguzel.shopr.explanation.model.Explanation;
 import com.uwetrottmann.shopr.algorithm.AdaptiveSelection;
 import com.uwetrottmann.shopr.algorithm.Query;
 import com.uwetrottmann.shopr.algorithm.Utils;
@@ -28,7 +29,7 @@ public class Expositor {
 		return explainedRecommendations;
 	}
 
-	private CharSequence explain(Item item, Query query,
+	private Explanation explain(Item item, Query query,
 			List<Item> recommendedItems, List<Context> contexts) {
 		AbstractExplanation abstractExplanation = new ArgumentGenerator().select(item, query,
 				recommendedItems, contexts);

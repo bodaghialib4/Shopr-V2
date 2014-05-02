@@ -23,6 +23,7 @@ import com.adiguzel.shopr.explanation.SurfaceGenerator;
 import com.adiguzel.shopr.explanation.model.DimensionArgument;
 import com.adiguzel.shopr.explanation.model.AbstractExplanation;
 import com.adiguzel.shopr.explanation.model.AbstractExplanation.Category;
+import com.adiguzel.shopr.explanation.model.Explanation;
 import com.adiguzel.shopr.explanation.model.LocationContext;
 import com.uwetrottmann.shopr.R;
 import com.uwetrottmann.shopr.algorithm.model.Attributes.Attribute;
@@ -60,9 +61,17 @@ public class ShoprSurfaceGenerator implements SurfaceGenerator {
 				.getString(R.string.explanation_template_average_item);
 	}
 
-	public CharSequence transform(AbstractExplanation explanation) {
-		return TextUtils.concat(renderDimensionArguments(explanation),
-				renderContextArguments(explanation));
+	public Explanation transform(AbstractExplanation abstractExplanation) {
+		Explanation explanation = new Explanation();
+		CharSequence dimensionArguments = renderDimensionArguments(abstractExplanation);
+		CharSequence contextArguments = renderContextArguments(abstractExplanation);
+		
+		explanation.addPositiveReason(dimensionArguments);
+		if(!contextArguments.toString().isEmpty())
+			explanation.addPositiveReason(contextArguments);
+		
+		explanation.simple(TextUtils.concat(dimensionArguments, contextArguments));
+		return explanation;
 	}
 
 	public CharSequence renderDimensionArguments(AbstractExplanation explanation) {

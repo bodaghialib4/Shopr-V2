@@ -95,7 +95,7 @@ public class ExplainedItemAdapter extends ArrayAdapter<Recommendation> {
 		final Recommendation recommendation = getItem(position);
 		final Item item = getItem(position).item();
 		
-		holder.explanation.setText(recommendation.explanation());
+		holder.explanation.setText(recommendation.explanation().simple());
 		holder.explanation.setMovementMethod(LinkMovementMethod.getInstance());
 		//holder.explanation.setText(Html.fromHtml(debugExplanationText(explanation)));
 

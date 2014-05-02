@@ -1,12 +1,13 @@
 package com.adiguzel.shopr.explanation;
 
+import com.adiguzel.shopr.explanation.model.Explanation;
 import com.uwetrottmann.shopr.algorithm.model.Item;
 
 public class Recommendation {
 	private Item item;
-	private CharSequence explanation;
+	private Explanation explanation;
 	
-	public Recommendation(Item item, CharSequence explanation) {
+	public Recommendation(Item item, Explanation explanation) {
 		this.item = item;
 		this.explanation = explanation;
 	}
@@ -15,7 +16,7 @@ public class Recommendation {
 		return item;
 	}
 	
-	public CharSequence explanation() {
+	public Explanation explanation() {
 		return explanation;
 	}
 

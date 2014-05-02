@@ -15,10 +15,12 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.adiguzel.shopr.explanation.Recommendation;
+import com.adiguzel.shopr.explanation.model.Explanation;
 import com.squareup.picasso.Picasso;
 import com.uwetrottmann.shopr.R;
 import com.uwetrottmann.shopr.algorithm.model.ClothingType;
@@ -124,20 +126,16 @@ public class ItemDetailsActivity extends Activity {
 	}
 
 	private void setupExplanation() {
-		/*LinearLayout explanations = (LinearLayout) findViewById(R.id.explanations);
-		ShoprSurfaceGenerator surfaceGenerator = new ShoprSurfaceGenerator(
-				this, null);
-
-		CharSequence dimensionArguments = surfaceGenerator
-				.renderDimensionArguments(recommendation.explanation());
+		Explanation explanation = recommendation.explanation();
+		LinearLayout explanations = (LinearLayout) findViewById(R.id.explanations);
 		
-		CharSequence contextArguments = surfaceGenerator
-				.renderContextArguments(recommendation.explanation());
-
-		explanations.addView(generateTextView("+ " + dimensionArguments));
-		if(!contextArguments.toString().isEmpty())
-			explanations.addView(generateTextView("+ " + contextArguments));
-			*/
+		for(CharSequence reason: explanation.positiveReasons()) {
+			explanations.addView(generateTextView("+ " + reason));
+		}
+		
+		for(CharSequence reason: explanation.negativeReasons()) {
+			explanations.addView(generateTextView("-" + reason));
+		}			
 	}
 	
 	private TextView generateTextView(CharSequence text) {
