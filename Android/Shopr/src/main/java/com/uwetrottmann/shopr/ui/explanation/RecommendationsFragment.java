@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.adiguzel.shopr.explanation.Discloser;
+import com.adiguzel.shopr.explanation.Expositor;
 import com.adiguzel.shopr.explanation.Recommendation;
 import com.adiguzel.shopr.explanation.model.LocationContext;
 import com.etsy.android.grid.StaggeredGridView;
@@ -23,6 +23,7 @@ import com.uwetrottmann.shopr.algorithm.AdaptiveSelection;
 import com.uwetrottmann.shopr.algorithm.Query;
 import com.uwetrottmann.shopr.algorithm.model.Item;
 import com.uwetrottmann.shopr.listeners.ShoprListeners.OnRecommendationDisplayListener;
+import com.uwetrottmann.shopr.model.explanation.ShoprSurfaceGenerator;
 import com.uwetrottmann.shopr.ui.ItemListFragment;
 import com.uwetrottmann.shopr.ui.LocationHandler;
 
@@ -80,7 +81,7 @@ public class RecommendationsFragment extends
 			contexts.add(new LocationContext(location.latitude,
 					location.longitude));
 		}
-		return new Discloser().explain(items, AdaptiveSelection.get()
+		return new Expositor(new ShoprSurfaceGenerator(getActivity(), this)).explain(items, AdaptiveSelection.get()
 				.getCurrentQuery(), contexts);
 	}
 
@@ -91,7 +92,7 @@ public class RecommendationsFragment extends
 
 	@Override
 	public ArrayAdapter<Recommendation> createAdapter() {
-		return new ExplainedItemAdapter(getActivity(), this, this, this, this);
+		return new ExplainedItemAdapter(getActivity(), this, this, this);
 	}
 
 	@Override

@@ -4,7 +4,6 @@ import java.text.NumberFormat;
 import java.util.Locale;
 
 import android.content.Context;
-import android.support.v4.app.Fragment;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,10 +15,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.adiguzel.shopr.explanation.Recommendation;
+import com.adiguzel.shopr.explanation.model.AbstractExplanation;
 import com.adiguzel.shopr.explanation.model.Argument.Type;
 import com.adiguzel.shopr.explanation.model.ContextArgument;
 import com.adiguzel.shopr.explanation.model.DimensionArgument;
-import com.adiguzel.shopr.explanation.model.Explanation;
 import com.adiguzel.shopr.explanation.model.LocationContext;
 import com.squareup.picasso.Picasso;
 import com.uwetrottmann.androidutils.CheatSheet;
@@ -32,7 +31,6 @@ import com.uwetrottmann.shopr.listeners.ShoprListeners;
 import com.uwetrottmann.shopr.listeners.ShoprListeners.OnItemCritiqueListener;
 import com.uwetrottmann.shopr.listeners.ShoprListeners.OnItemFavouriteListener;
 import com.uwetrottmann.shopr.listeners.ShoprListeners.OnRecommendationDisplayListener;
-import com.uwetrottmann.shopr.model.explanation.ShoprSurfaceGenerator;
 import com.uwetrottmann.shopr.utils.ValueConverter;
 
 public class ExplainedItemAdapter extends ArrayAdapter<Recommendation> {
@@ -48,16 +46,13 @@ public class ExplainedItemAdapter extends ArrayAdapter<Recommendation> {
 	private OnItemFavouriteListener mFavouriteListener;
 
 	private Context context;
-	private Fragment fragment;
 
 	public ExplainedItemAdapter(Context context,
-			Fragment fragment,
 			OnItemCritiqueListener critiqueListener,
 			OnRecommendationDisplayListener recommendationListener,
 			OnItemFavouriteListener favouriteListener) {
 		super(context, LAYOUT);
 		this.context = context;
-		this.fragment = fragment;
 		mInflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mCritiqueListener = critiqueListener;
@@ -97,10 +92,10 @@ public class ExplainedItemAdapter extends ArrayAdapter<Recommendation> {
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
-		final Explanation explanation = getItem(position).explanation();
+		final Recommendation recommendation = getItem(position);
 		final Item item = getItem(position).item();
 		
-		holder.explanation.setText(new ShoprSurfaceGenerator(context, fragment).transform(explanation));
+		holder.explanation.setText(recommendation.explanation());
 		holder.explanation.setMovementMethod(LinkMovementMethod.getInstance());
 		//holder.explanation.setText(Html.fromHtml(debugExplanationText(explanation)));
 
@@ -143,7 +138,7 @@ public class ExplainedItemAdapter extends ArrayAdapter<Recommendation> {
 			@Override
 			public void onClick(View v) {
 				if (mRecommendationListener != null) {
-					mRecommendationListener.onRecommendationDisplay(new Recommendation(item, explanation));
+					mRecommendationListener.onRecommendationDisplay(recommendation);
 				}
 			}
 		});
@@ -169,7 +164,7 @@ public class ExplainedItemAdapter extends ArrayAdapter<Recommendation> {
 	}
 	
 	@SuppressWarnings("unused")
-	private String debugExplanationText(Explanation explanation) {
+	private String debugExplanationText(AbstractExplanation explanation) {
 		String explanationText = "1 - ";
 		for (DimensionArgument arg : explanation.primaryArguments()) {
 			if (arg.type() == Type.SERENDIPITOUS) {

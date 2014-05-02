@@ -126,7 +126,7 @@ public class ItemDetailsActivity extends Activity {
 	}
 
 	private void setupExplanation() {
-		LinearLayout explanations = (LinearLayout) findViewById(R.id.explanations);
+		/*LinearLayout explanations = (LinearLayout) findViewById(R.id.explanations);
 		ShoprSurfaceGenerator surfaceGenerator = new ShoprSurfaceGenerator(
 				this, null);
 
@@ -139,6 +139,7 @@ public class ItemDetailsActivity extends Activity {
 		explanations.addView(generateTextView("+ " + dimensionArguments));
 		if(!contextArguments.toString().isEmpty())
 			explanations.addView(generateTextView("+ " + contextArguments));
+			*/
 	}
 	
 	private TextView generateTextView(CharSequence text) {
