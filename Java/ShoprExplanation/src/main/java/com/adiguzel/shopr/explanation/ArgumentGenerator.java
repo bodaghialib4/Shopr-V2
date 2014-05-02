@@ -16,7 +16,7 @@ import com.uwetrottmann.shopr.algorithm.Query;
 import com.uwetrottmann.shopr.algorithm.model.Attributes.Attribute;
 import com.uwetrottmann.shopr.algorithm.model.Item;
 
-public class ContentSelector {
+public class ArgumentGenerator {
 	// α - compares explanation score
 	public static double ALPHA = 0.11;// 0.6;
 	// µ - second criteria for explanation score (µ < α)

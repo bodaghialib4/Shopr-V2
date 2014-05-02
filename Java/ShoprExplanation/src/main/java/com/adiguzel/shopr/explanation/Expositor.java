@@ -30,7 +30,7 @@ public class Expositor {
 
 	private CharSequence explain(Item item, Query query,
 			List<Item> recommendedItems, List<Context> contexts) {
-		AbstractExplanation abstractExplanation = new ContentSelector().select(item, query,
+		AbstractExplanation abstractExplanation = new ArgumentGenerator().select(item, query,
 				recommendedItems, contexts);
 		
 		return surfaceGenerator.transform(abstractExplanation);
