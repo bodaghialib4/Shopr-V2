@@ -157,4 +157,9 @@
     <string name="delete_item_from_interests">Delete this</string>
     
     <string name="content_description_icon">Icon</string>
+    
+    <string name="explanation_on_preference_only_interested_in_some">You are interested &lt;i>only&lt;/i> in %s.</string>
+    <string name="explanation_on_preference_avoiding_some">You are &lt;i>avoiding&lt;/i> %s.</string>
+    <string name="explanation_on_preference_prefer_some">You prefer %s.</string>
+    <string name="explanation_on_preference_indifferent">You are &lt;i>indifferent to&lt;/i> &lt;b>%s&lt;/b>.</string>
 </resources>
