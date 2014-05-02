@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        app:item_margin="1dp"
+        app:item_margin="3dp"
         app:column_count="@integer/gridview_num_columns" />
 
     <TextView
