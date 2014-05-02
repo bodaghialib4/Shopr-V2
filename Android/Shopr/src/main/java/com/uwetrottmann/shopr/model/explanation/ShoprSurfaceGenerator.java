@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Random;
 
 import android.content.Context;
@@ -20,14 +19,13 @@ import android.text.style.ClickableSpan;
 import android.view.View;
 
 import com.adiguzel.shopr.explanation.SurfaceGenerator;
-import com.adiguzel.shopr.explanation.model.DimensionArgument;
 import com.adiguzel.shopr.explanation.model.AbstractExplanation;
 import com.adiguzel.shopr.explanation.model.AbstractExplanation.Category;
+import com.adiguzel.shopr.explanation.model.DimensionArgument;
 import com.adiguzel.shopr.explanation.model.Explanation;
 import com.adiguzel.shopr.explanation.model.LocationContext;
 import com.uwetrottmann.shopr.R;
 import com.uwetrottmann.shopr.algorithm.model.Attributes.Attribute;
-import com.uwetrottmann.shopr.algorithm.model.Attributes.AttributeValue;
 import com.uwetrottmann.shopr.algorithm.model.ClothingType;
 import com.uwetrottmann.shopr.algorithm.model.Color;
 import com.uwetrottmann.shopr.algorithm.model.Price;
@@ -35,8 +33,9 @@ import com.uwetrottmann.shopr.algorithm.model.Sex;
 import com.uwetrottmann.shopr.ui.explanation.ClothingTypePreferenceActivity;
 import com.uwetrottmann.shopr.ui.explanation.ColorPreferenceActivity;
 import com.uwetrottmann.shopr.ui.explanation.GenderPreferenceActivity;
-import com.uwetrottmann.shopr.ui.explanation.RecommendationsFragment;
 import com.uwetrottmann.shopr.ui.explanation.PricePreferenceActivity;
+import com.uwetrottmann.shopr.ui.explanation.RecommendationsFragment;
+import com.uwetrottmann.shopr.utils.ShoprLocalizer;
 
 public class ShoprSurfaceGenerator implements SurfaceGenerator {
 
@@ -47,10 +46,13 @@ public class ShoprSurfaceGenerator implements SurfaceGenerator {
 
 	private Context context;
 	private Fragment fragment;
+	private ShoprLocalizer localizer;
 
 	public ShoprSurfaceGenerator(Context context, Fragment fragment) {
 		this.context = context;
 		this.fragment = fragment;
+
+		localizer = new ShoprLocalizer(context);
 		initStrongArgumentTemplates(context);
 		initWeakArgumentTemplates(context);
 		initContextArgumentTemplates(context);
@@ -65,12 +67,13 @@ public class ShoprSurfaceGenerator implements SurfaceGenerator {
 		Explanation explanation = new Explanation();
 		CharSequence dimensionArguments = renderDimensionArguments(abstractExplanation);
 		CharSequence contextArguments = renderContextArguments(abstractExplanation);
-		
+
 		explanation.addPositiveReason(dimensionArguments);
-		if(!contextArguments.toString().isEmpty())
+		if (!contextArguments.toString().isEmpty())
 			explanation.addPositiveReason(contextArguments);
-		
-		explanation.simple(TextUtils.concat(dimensionArguments, contextArguments));
+
+		explanation.simple(TextUtils.concat(dimensionArguments,
+				contextArguments));
 		return explanation;
 	}
 
@@ -83,9 +86,9 @@ public class ShoprSurfaceGenerator implements SurfaceGenerator {
 			CharSequence primaryPart = render(template,
 					explanation.primaryArguments());
 			CharSequence supportingPart = "";
-			if(explanation.hasSupportingArguments())
-			  supportingPart = render(supportingArgumentTemplate,
-					explanation.supportingArguments());
+			if (explanation.hasSupportingArguments())
+				supportingPart = render(supportingArgumentTemplate,
+						explanation.supportingArguments());
 			return TextUtils.concat(primaryPart, supportingPart);
 		} else if (explanation.category() == Category.BY_SERENDIPITOUSITY) {
 			return chooseRandomTemplate(serendipitousityTemplates);
@@ -110,9 +113,10 @@ public class ShoprSurfaceGenerator implements SurfaceGenerator {
 	private CharSequence render(String template,
 			Collection<DimensionArgument> arguments) {
 		String text = String.format(template, textify(arguments));
-		if(fragment != null)
+		if (fragment != null)
 			return renderSpannable(text, arguments);
-		else return text;
+		else
+			return text;
 	}
 
 	private CharSequence renderSpannable(String text,
@@ -120,7 +124,9 @@ public class ShoprSurfaceGenerator implements SurfaceGenerator {
 		SpannableString ss = new SpannableString(text);
 		for (DimensionArgument dimensionArg : dimensionArguments) {
 			final Attribute attr = dimensionArg.dimension().attribute();
-			setSpanOnLink(ss, textOf(attr.currentValue()),
+			setSpanOnLink(ss,
+					com.adiguzel.shopr.explanation.util.TextUtils.textOf(
+							localizer, attr.currentValue()),
 					new ShoprClickableSpan() {
 						@Override
 						public void onClick(View widget) {
@@ -143,56 +149,18 @@ public class ShoprSurfaceGenerator implements SurfaceGenerator {
 		return ss;
 	}
 
-	private String textOf(AttributeValue value) {
-		return value.descriptor().toLowerCase(Locale.ENGLISH);
-	}
-
 	private String textify(Collection<DimensionArgument> arguments) {
 		Iterator<DimensionArgument> iterator = arguments.iterator();
 
 		List<String> argumentValues = new ArrayList<String>();
 		while (iterator.hasNext()) {
 			DimensionArgument arg = iterator.next();
-			argumentValues.add(textOf(arg.dimension().attribute()
-					.getCurrentValue()));
+			argumentValues.add(com.adiguzel.shopr.explanation.util.TextUtils
+					.textOf(localizer, arg.dimension().attribute()
+							.getCurrentValue()));
 		}
-		return textify(argumentValues);
-	}
-
-	private String textify(List<String> elements) {
-		String and = context.getString(R.string.conjunction_and);
-
-		if (elements.size() == 0) {
-			return "";
-		} else if (elements.size() == 1) {
-			return elements.get(0);
-		} else if (elements.size() == 2) {
-			String first = elements.get(0);
-			String second = elements.get(1);
-			return first + and + second;
-		} else {
-			String last = elements.get(elements.size() - 1);
-			List<String> headList = elements.subList(0, elements.size() - 1);
-			return commaSeperated(headList) + and + last;
-		}
-	}
-
-	private String commaSeperated(List<String> elements) {
-		String comma = context.getString(R.string.conjunction_comma);
-
-		if (elements.size() == 0) {
-			return "";
-		} else if (elements.size() == 1) {
-			return elements.get(0);
-		} else if (elements.size() == 2) {
-			String first = elements.get(0);
-			String second = elements.get(1);
-			return first + comma + second;
-		} else {
-			String last = elements.get(elements.size() - 1);
-			List<String> headList = elements.subList(0, elements.size() - 1);
-			return commaSeperated(headList) + comma + last;
-		}
+		return com.adiguzel.shopr.explanation.util.TextUtils.textify(localizer,
+				argumentValues);
 	}
 
 	private void setSpanOnLink(SpannableString ss, String link, ClickableSpan cs) {
