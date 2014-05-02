@@ -7,7 +7,7 @@ import android.support.v4.app.Fragment;
 
 import com.uwetrottmann.shopr.R;
 import com.uwetrottmann.shopr.model.SectionItem;
-import com.uwetrottmann.shopr.ui.FavouriteItemListFragment;
+import com.uwetrottmann.shopr.ui.explanation.FavouriteItemListFragment;
 import com.uwetrottmann.shopr.ui.explanation.FavouritesShopMap;
 
 public class FavouritesPager extends SlidingTabStripPagerAdapter{

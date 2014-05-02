@@ -1,7 +1,8 @@
-package com.uwetrottmann.shopr.ui;
+package com.uwetrottmann.shopr.ui.explanation;
 
 import java.util.List;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import com.uwetrottmann.shopr.R;
 import com.uwetrottmann.shopr.adapters.FavouriteItemAdapter;
 import com.uwetrottmann.shopr.algorithm.model.Item;
 import com.uwetrottmann.shopr.loaders.FavouriteItemLoader;
+import com.uwetrottmann.shopr.ui.ItemListFragment;
 
 /**
  * Shows a list of clothing items the user can critique by tapping an up or down
@@ -42,6 +44,11 @@ public class FavouriteItemListFragment extends ItemListFragment<Item> {
 		return v;
 	}	
 
+	@Override
+	public void onResume() {
+		super.onResume();
+		reloadItems();
+	}
 	
 	@Override
 	public Loader<List<Item>> onCreateLoader(int loaderId, Bundle args) {
@@ -76,4 +83,11 @@ public class FavouriteItemListFragment extends ItemListFragment<Item> {
 	protected void afterUpdateItems() {
 	}
 
+	@Override
+    public void onItemDisplay(Item item) {
+        // display details
+        Intent intent = new Intent(getActivity(), FavouriteItemDetailsActivity.class);
+        FavouriteItemDetailsActivity.ItemDisplayHelper.item = item;
+        startActivity(intent);
+    }
 }

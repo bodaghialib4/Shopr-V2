@@ -121,6 +121,11 @@
             android:name="com.uwetrottmann.shopr.ui.explanation.PricePreferenceActivity"
             android:label="@string/title_price_range_preferences" >
         </activity>
+        <activity
+            android:name="com.uwetrottmann.shopr.ui.explanation.FavouriteItemDetailsActivity"
+            android:label="@string/title_activity_item_details" >
+        </activity>
+        
     </application>
 
 </manifest>

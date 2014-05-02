@@ -154,6 +154,7 @@
     <string name="conjunction_comma">,\u0020</string>
     
     <string name="save_item_to_interests">Save this</string>
+    <string name="delete_item_from_interests">Delete this</string>
     
     <string name="content_description_icon">Icon</string>
 </resources>

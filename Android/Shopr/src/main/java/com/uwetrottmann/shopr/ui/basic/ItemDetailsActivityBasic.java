@@ -126,7 +126,7 @@ public class ItemDetailsActivityBasic extends Activity {
             return;
         }
         
-        FavouriteItemUtils.addToFavourites(this, mItem);
+        FavouriteItemUtils.add(this, mItem);
 
         // display results
         Intent intent = new Intent(this, ResultsActivity.class);

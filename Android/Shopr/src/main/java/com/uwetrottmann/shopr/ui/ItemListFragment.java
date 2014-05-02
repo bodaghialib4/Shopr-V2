@@ -176,7 +176,7 @@ OnItemCritiqueListener, OnItemDisplayListener, OnItemFavouriteListener{
             return;
         }
         
-        FavouriteItemUtils.addToFavourites(context, item);
+        FavouriteItemUtils.add(context, item);
 
         // display results
         Intent intent = new Intent(context, ResultsActivity.class);
@@ -191,8 +191,12 @@ OnItemCritiqueListener, OnItemDisplayListener, OnItemFavouriteListener{
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE) {
             Log.d(TAG, "Received recommendation update, requerying");
-            getLoaderManager().restartLoader(LOADER_ID, null, this);
+            reloadItems();
         }
+    }
+    
+    public void reloadItems() {
+    	getLoaderManager().restartLoader(LOADER_ID, null, this);
     }
 
     public void onEvent(LocationUpdateEvent event) {

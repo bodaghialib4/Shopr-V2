@@ -5,40 +5,30 @@ import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup.LayoutParams;
+import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.adiguzel.shopr.explanation.Recommendation;
 import com.squareup.picasso.Picasso;
 import com.uwetrottmann.shopr.R;
 import com.uwetrottmann.shopr.algorithm.model.ClothingType;
 import com.uwetrottmann.shopr.algorithm.model.Color;
 import com.uwetrottmann.shopr.algorithm.model.Item;
 import com.uwetrottmann.shopr.algorithm.model.Sex;
-import com.uwetrottmann.shopr.eval.ResultsActivity;
-import com.uwetrottmann.shopr.eval.Statistics;
-import com.uwetrottmann.shopr.model.explanation.ShoprSurfaceGenerator;
-import com.uwetrottmann.shopr.provider.ShoprContract.Stats;
 import com.uwetrottmann.shopr.utils.FavouriteItemUtils;
 import com.uwetrottmann.shopr.utils.ValueConverter;
 import com.viewpagerindicator.CirclePageIndicator;
 
-public class ItemDetailsActivity extends Activity {
-	private Recommendation recommendation;
+public class FavouriteItemDetailsActivity extends Activity {
+	private Item item;
 
-	public static class RecommendationDisplayHelper {
-		public static Recommendation recommendation;
+	public static class ItemDisplayHelper {
+		public static Item item;
 	}
 
 	private class ImagePagerAdapter extends PagerAdapter {
@@ -76,7 +66,7 @@ public class ItemDetailsActivity extends Activity {
 		@Override
 		public Object instantiateItem(final ViewGroup container,
 				final int position) {
-			final ImageView imageView = getImage(recommendation.item().image());
+			final ImageView imageView = getImage(item.image());
 			((ViewPager) container).addView(imageView, 0);
 			return imageView;
 		}
@@ -90,10 +80,10 @@ public class ItemDetailsActivity extends Activity {
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.explanation_activity_item_details);
+		setContentView(R.layout.explanation_activity_fav_item_details);
 
-		recommendation = RecommendationDisplayHelper.recommendation;
-		if (recommendation == null) {
+		item = ItemDisplayHelper.item;
+		if (item == null) {
 			finish();
 			return;
 		}
@@ -103,14 +93,13 @@ public class ItemDetailsActivity extends Activity {
 
 	private void setupViews() {
 		setupImagePager();
-		setupExplanation();
 		setupItemDetails();
 
-		findViewById(R.id.saveItemButton).setOnClickListener(
+		findViewById(R.id.deleteFavouriteButton).setOnClickListener(
 				new OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						onFinishTask();
+						onFavouriteDelete();
 					}
 				});
 
@@ -124,34 +113,8 @@ public class ItemDetailsActivity extends Activity {
 		final CirclePageIndicator circleIndicator = (CirclePageIndicator) findViewById(R.id.indicator);
 		circleIndicator.setViewPager(viewPager);
 	}
-
-	private void setupExplanation() {
-		LinearLayout explanations = (LinearLayout) findViewById(R.id.explanations);
-		ShoprSurfaceGenerator surfaceGenerator = new ShoprSurfaceGenerator(
-				this, null);
-
-		CharSequence dimensionArguments = surfaceGenerator
-				.renderDimensionArguments(recommendation.explanation());
-		
-		CharSequence contextArguments = surfaceGenerator
-				.renderContextArguments(recommendation.explanation());
-
-		explanations.addView(generateTextView("+ " + dimensionArguments));
-		if(!contextArguments.toString().isEmpty())
-			explanations.addView(generateTextView("+ " + contextArguments));
-	}
 	
-	private TextView generateTextView(CharSequence text) {
-		TextView view = new TextView(this);
-		view.setLayoutParams(new LayoutParams(
-				LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-		view.setText(text);
-		return view;
-	}
-
 	private void setupItemDetails() {
-		Item item = recommendation.item();
-
 		String clothingType = ValueConverter.getLocalizedStringForValue(this,
 				item.attributes().getAttributeById(ClothingType.ID)
 						.currentValue().descriptor());
@@ -180,23 +143,10 @@ public class ItemDetailsActivity extends Activity {
 		genderText.setText(gender);
 	}
 
-	protected void onFinishTask() {
-		// finish task, store stats to database
-		Uri statUri = Statistics.get().finishTask(this);
-		if (statUri == null) {
-			Toast.makeText(this, "Task was not started.", Toast.LENGTH_LONG)
-					.show();
-			return;
-		}
-
-		FavouriteItemUtils.add(this, recommendation.item());
-
-		// display results
-		Intent intent = new Intent(this, ResultsActivity.class);
-		intent.putExtra(ResultsActivity.InitBundle.STATS_ID,
-				Integer.valueOf(Stats.getStatId(statUri)));
-		intent.putExtra(ResultsActivity.InitBundle.ITEM_ID, recommendation
-				.item().id());
-		startActivity(intent);
+	protected void onFavouriteDelete() {
+		FavouriteItemUtils.remove(this, item);
+		
+		setResult(RESULT_OK);
+		finish();
 	}
 }
