@@ -10,7 +10,7 @@ import com.uwetrottmann.shopr.algorithm.Query;
 import com.uwetrottmann.shopr.algorithm.Utils;
 import com.uwetrottmann.shopr.algorithm.model.Item;
 
-public class Discloser {
+public class Expositor {
 
 	public List<Recommendation> explain(List<Item> recommendedItems, Query query, List<Context> contexts) {
 		List<Recommendation> explainedRecommendations = new ArrayList<Recommendation>();
@@ -26,7 +26,6 @@ public class Discloser {
 		Explanation abstractExplanation = new ContentSelector().select(item,
 				query, recommendedItems, contexts);
 		return abstractExplanation;
-		//return new SurfaceGenerator().generate(abstractExplanation, query);
 	}
 
 	public static void main(String[] args) {
