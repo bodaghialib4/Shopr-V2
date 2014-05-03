@@ -2,8 +2,36 @@ package com.adiguzel.shopr.explanation;
 
 import java.util.List;
 
+import com.uwetrottmann.shopr.algorithm.model.Attributes.Attribute;
+
+
 public interface TextFormatter {
 	public CharSequence fromHtml(String html);
-
-	public CharSequence renderSpannable(String text, List<String> toSpan);
+	
+	public CharSequence renderClickable(AttributeText attributeText);
+	
+	public class AttributeText {
+		private CharSequence originalText;
+		private Attribute attribute;
+		private List<String> replacableTexts;
+		
+		public AttributeText(CharSequence originalText, Attribute attribute, List<String> replacableTexts) {
+			this.originalText = originalText;
+			this.attribute = attribute;
+			this.replacableTexts = replacableTexts;
+		}
+		
+		public CharSequence originalText() {
+			return originalText;
+		}
+		
+		public Attribute attribute() {
+			return attribute;
+		}
+		
+		public List<String> replacableTexts() {
+			return replacableTexts;
+		}
+		
+	}
 }

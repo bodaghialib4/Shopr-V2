@@ -89,7 +89,7 @@ public abstract class MindMapFragment extends Fragment {
 
 	private void resetExplanation() {
 		CharSequence explanation = new PreferenceExpositor(new ShoprLocalizer(
-				getActivity()), new ShoprTextFormatter()).explain(queryAttribute());
+				getActivity()), new ShoprTextFormatter(this)).explain(queryAttribute());
 		preferenceExplanation.setText(explanation);
 	}
 

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.adiguzel.shopr.explanation.TextFormatter.AttributeText;
 import com.adiguzel.shopr.explanation.util.TextUtils;
 import com.uwetrottmann.shopr.algorithm.model.Attributes.Attribute;
 
@@ -19,28 +20,25 @@ public class PreferenceExpositor {
 
 	public CharSequence explain(Attribute attribute) {
 		double[] attributeValueWeights = attribute.getValueWeights();
-		// Indifferent to any value
-		if (isIndifferent(attributeValueWeights)) {
+		
+		if (isIndifferentAnyValue(attributeValueWeights)) {
 			return toText(localizer.getIndifferentToAnyTemplate(), attribute);
 		}
-		// Prefers only some and avoids others
 		else if (hasPreferenceOnlyOverSome(attributeValueWeights)) {
 			List<String> preferredOnly = filterByNonzero(attribute);
-			return toText(localizer.getOnlySomeTemplate(), preferredOnly);
+			return toText(localizer.getOnlySomeTemplate(), attribute, preferredOnly);
 		}
-		// Avoids some, indifferent to the others
 		else if (avoidsSome(attributeValueWeights)) {
 			List<String> avoided = filterAvoided(attribute);
-			return toText(localizer.getAvoidsSomeTemplate(), avoided);
+			return toText(localizer.getAvoidsSomeTemplate(), attribute, avoided);
 		}
-		// prefers some more than others
 		else {
 			Map<Double, List<String>> attributeValueGroups = groupByWeight(attribute);
 			Double[] values = attributeValueGroups.keySet().toArray(
 					new Double[attributeValueGroups.size()]);
 			double biggest = max(values);
 			List<String> preferred = attributeValueGroups.get(biggest);
-			return toText(localizer.getPrefersSomeTemplate(), preferred);
+			return toText(localizer.getPrefersSomeTemplate(), attribute, preferred);
 		}
 	}
 	
@@ -49,9 +47,10 @@ public class PreferenceExpositor {
 		return formatter.fromHtml(text);
 	}
 	
-	private CharSequence toText(String template, List<String> reasons) {
+	private CharSequence toText(String template, Attribute attribute, List<String> reasons) {
 		String text = String.format(template, TextUtils.textify(localizer, reasons));
-		return formatter.fromHtml(text);
+		CharSequence htmlText = formatter.fromHtml(text);
+		return formatter.renderClickable(new AttributeText(htmlText, attribute, reasons));
 	}
 	
 	public Double max(Double[] values) {
@@ -123,7 +122,7 @@ public class PreferenceExpositor {
 				&& allNonZeroValuesEqual(weights);
 	}
 
-	private boolean isIndifferent(double[] values) {
+	private boolean isIndifferentAnyValue(double[] values) {
 		return allNonzeroAndEqual(values);
 	}
 
