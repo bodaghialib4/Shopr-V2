@@ -23,9 +23,10 @@ import com.uwetrottmann.shopr.algorithm.AdaptiveSelection;
 import com.uwetrottmann.shopr.algorithm.Query;
 import com.uwetrottmann.shopr.algorithm.model.Item;
 import com.uwetrottmann.shopr.listeners.ShoprListeners.OnRecommendationDisplayListener;
-import com.uwetrottmann.shopr.model.explanation.ShoprSurfaceGenerator;
 import com.uwetrottmann.shopr.ui.ItemListFragment;
 import com.uwetrottmann.shopr.ui.LocationHandler;
+import com.uwetrottmann.shopr.utils.ShoprLocalizer;
+import com.uwetrottmann.shopr.utils.ShoprTextFormatter;
 
 /**
  * Shows a list of clothing items with explanations the user can critique by
@@ -81,7 +82,7 @@ public class RecommendationsFragment extends
 			contexts.add(new LocationContext(location.latitude,
 					location.longitude));
 		}
-		return new Expositor(new ShoprSurfaceGenerator(getActivity(), this)).explain(items, AdaptiveSelection.get()
+		return new Expositor(new ShoprLocalizer(getActivity()), new ShoprTextFormatter(this)).explain(items, AdaptiveSelection.get()
 				.getCurrentQuery(), contexts);
 	}
 

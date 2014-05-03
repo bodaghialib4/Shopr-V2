@@ -13,46 +13,55 @@ public class PreferenceExpositor {
 	private ExplanationLocalizer localizer;
 	private TextFormatter formatter;
 
-	public PreferenceExpositor(ExplanationLocalizer localizer, TextFormatter formatter) {
+	public PreferenceExpositor(ExplanationLocalizer localizer,
+			TextFormatter formatter) {
 		this.localizer = localizer;
 		this.formatter = formatter;
 	}
 
+	/*
+	 * NOTE: Whole algorithm can be optimised quite a lot, however as the number of
+	 * attribute values are low, algorithm is designed to be more readable
+	 * instead.
+	 */
 	public CharSequence explain(Attribute attribute) {
 		double[] attributeValueWeights = attribute.getValueWeights();
-		
+
 		if (isIndifferentAnyValue(attributeValueWeights)) {
 			return toText(localizer.getIndifferentToAnyTemplate(), attribute);
-		}
-		else if (hasPreferenceOnlyOverSome(attributeValueWeights)) {
+		} else if (hasPreferenceOnlyOverSome(attributeValueWeights)) {
 			List<String> preferredOnly = filterByNonzero(attribute);
-			return toText(localizer.getOnlySomeTemplate(), attribute, preferredOnly);
-		}
-		else if (avoidsSome(attributeValueWeights)) {
+			return toClickableText(localizer.getOnlySomeTemplate(), attribute,
+					preferredOnly);
+		} else if (avoidsSome(attributeValueWeights)) {
 			List<String> avoided = filterAvoided(attribute);
-			return toText(localizer.getAvoidsSomeTemplate(), attribute, avoided);
-		}
-		else {
+			return toClickableText(localizer.getAvoidsSomeTemplate(), attribute, avoided);
+		} else {
 			Map<Double, List<String>> attributeValueGroups = groupByWeight(attribute);
 			Double[] values = attributeValueGroups.keySet().toArray(
 					new Double[attributeValueGroups.size()]);
 			double biggest = max(values);
 			List<String> preferred = attributeValueGroups.get(biggest);
-			return toText(localizer.getPrefersSomeTemplate(), attribute, preferred);
+			return toClickableText(localizer.getPrefersSomeTemplate(), attribute,
+					preferred);
 		}
 	}
-	
+
 	private CharSequence toText(String template, Attribute attribute) {
-		String text =  String.format(template, TextUtils.textOf(localizer, attribute.id()));
+		String text = String.format(template,
+				TextUtils.textOf(localizer, attribute.id()));
 		return formatter.fromHtml(text);
 	}
-	
-	private CharSequence toText(String template, Attribute attribute, List<String> reasons) {
-		String text = String.format(template, TextUtils.textify(localizer, reasons));
+
+	private CharSequence toClickableText(String template, Attribute attribute,
+			List<String> reasons) {
+		String text = String.format(template,
+				TextUtils.textify(localizer, reasons));
 		CharSequence htmlText = formatter.fromHtml(text);
-		return formatter.renderClickable(new AttributeText(htmlText, attribute, reasons));
+		return formatter.renderClickable(new AttributeText(htmlText, attribute,
+				reasons));
 	}
-	
+
 	public Double max(Double[] values) {
 		Double max = 0.0;
 		for (int i = 0; i < values.length; i++) {
@@ -68,8 +77,8 @@ public class PreferenceExpositor {
 		double[] valueWeights = attribute.getValueWeights();
 
 		for (int i = 0; i < valueWeights.length; i++) {
-			List<String> currentValues = attributeGroups
-					.get(new Double(valueWeights[i]));
+			List<String> currentValues = attributeGroups.get(new Double(
+					valueWeights[i]));
 			if (currentValues == null) {
 				currentValues = new ArrayList<String>();
 			}

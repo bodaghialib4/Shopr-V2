@@ -9,6 +9,10 @@ public interface TextFormatter {
 	public CharSequence fromHtml(String html);
 	
 	public CharSequence renderClickable(AttributeText attributeText);
+		
+	public CharSequence renderClickable(CharSequence originalText, Attribute attribute, String toRender);
+	
+	public CharSequence concat(CharSequence... text);
 	
 	public class AttributeText {
 		private CharSequence originalText;
@@ -32,6 +36,5 @@ public interface TextFormatter {
 		public List<String> replacableTexts() {
 			return replacableTexts;
 		}
-		
 	}
 }

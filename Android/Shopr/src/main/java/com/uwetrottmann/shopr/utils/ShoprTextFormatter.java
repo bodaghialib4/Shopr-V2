@@ -7,6 +7,7 @@ import android.text.Html;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextPaint;
+import android.text.TextUtils;
 import android.text.style.ClickableSpan;
 import android.view.View;
 
@@ -86,6 +87,19 @@ public class ShoprTextFormatter implements TextFormatter {
 			ds.setTypeface(Typeface.DEFAULT_BOLD);
 			ds.setUnderlineText(false);
 		}
+	}
+
+	@Override
+	public CharSequence renderClickable(CharSequence originalText,
+			Attribute attribute, String toRender) {
+		SpannableString ss = new SpannableString(originalText);
+		setSpanOnLink(ss, toRender, new PreferenceClickableSpan(attribute));
+		return ss;
+	}
+
+	@Override
+	public CharSequence concat(CharSequence... text) {
+		return TextUtils.concat(text);
 	}
 
 }
