@@ -162,4 +162,7 @@
     <string name="explanation_on_preference_avoiding_some">You are &lt;i>avoiding&lt;/i> %s.</string>
     <string name="explanation_on_preference_prefer_some">You prefer %s.</string>
     <string name="explanation_on_preference_indifferent">You are &lt;i>indifferent to&lt;/i> &lt;b>%s&lt;/b>.</string>
+    
+    <string name="user_position_you">You</string>
+    <string name="user_position_definition">You are currently here.</string>
 </resources>

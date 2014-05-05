@@ -103,9 +103,17 @@ public abstract class ShopMapFragment extends SupportMapFragment implements
 		if (userPosition == null) {
 			return;
 		}
-
+		drawUserIndicator(userPosition);
 		moveCameraTo(userPosition);
 		drawCircleAround(userPosition);
+	}
+	
+	private void drawUserIndicator(LatLng position) {
+		getMap().addMarker(
+				new MarkerOptions().position(position)
+						.title(getString(R.string.user_position_you))
+						.snippet(getString(R.string.user_position_definition))
+						.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
 	}
 
 	private void moveCameraTo(LatLng position) {
@@ -129,7 +137,7 @@ public abstract class ShopMapFragment extends SupportMapFragment implements
 								getResources().getColor(
 										R.color.lilac_transparent)));
 	}
-
+	
 	private void onUpdateShops(List<ShoprShop> shops) {
 		cleanupMarkers();
 		drawShopMarkers(shops);
@@ -149,7 +157,7 @@ public abstract class ShopMapFragment extends SupportMapFragment implements
 		}
 
 	}
-
+		
 	private void drawShopMarkers(List<ShoprShop> shops) {
 		for (ShoprShop shop : shops) {
 			if (hasRelativeItems(shop)) {
