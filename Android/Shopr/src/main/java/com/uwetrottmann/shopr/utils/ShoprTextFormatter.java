@@ -50,7 +50,8 @@ public class ShoprTextFormatter implements TextFormatter {
 		String text = ss.toString();
 		int start = text.indexOf(link);
 		int end = start + link.length();
-		ss.setSpan(cs, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+		if(start >= 0)
+			ss.setSpan(cs, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 	}
 
 	class PreferenceClickableSpan extends ShoprClickableSpan {
