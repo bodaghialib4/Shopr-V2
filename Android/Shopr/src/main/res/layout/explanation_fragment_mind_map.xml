@@ -12,7 +12,8 @@
 	    android:id="@+id/preferenceExplanation"
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
-	    android:text="@string/mind_map_definition"/>
+	    android:text="@string/mind_map_definition"
+	    android:textAppearance="@style/TextAppearance.Medium"/>
 
 	
 	<LinearLayout  
