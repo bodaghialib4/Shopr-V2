@@ -11,7 +11,8 @@
         android:gravity="center_horizontal"
         android:padding="8dp"
         android:text="@string/reason_empty"
-        android:textAppearance="@style/TextAppearance.Small.Dim.Highlight" />
+        android:textAppearance="@style/TextAppearance.Small.Dim.Highlight"
+        android:visibility="gone" />
     
     <com.etsy.android.grid.StaggeredGridView
         android:id="@+id/gridViewItemList"
