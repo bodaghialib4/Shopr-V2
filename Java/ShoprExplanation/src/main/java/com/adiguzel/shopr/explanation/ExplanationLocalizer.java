@@ -17,4 +17,5 @@ public interface ExplanationLocalizer extends LocalizationModule {
 	
 	public String getSupportingArgumentTemplate();
 	public String getGoodAverageTemplate();
+	public String getLastCritiqueTemplate();
 }

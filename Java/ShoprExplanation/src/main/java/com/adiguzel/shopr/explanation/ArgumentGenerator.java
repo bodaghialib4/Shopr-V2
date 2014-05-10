@@ -12,6 +12,7 @@ import com.adiguzel.shopr.explanation.model.Dimension;
 import com.adiguzel.shopr.explanation.model.DimensionArgument;
 import com.adiguzel.shopr.explanation.model.AbstractExplanation;
 import com.adiguzel.shopr.explanation.model.Valuator;
+import com.uwetrottmann.shopr.algorithm.AdaptiveSelection;
 import com.uwetrottmann.shopr.algorithm.Query;
 import com.uwetrottmann.shopr.algorithm.model.Attributes.Attribute;
 import com.uwetrottmann.shopr.algorithm.model.Item;
@@ -45,8 +46,17 @@ public class ArgumentGenerator {
 				explanation.addContextArgument(new ContextArgument(context,
 						true));
 		}
-
-		if (strongPrimaryArguments.size() > 0) {
+		
+		// last critique tag
+        int lastCritiquedId = AdaptiveSelection.get().getLastCritiquedItem() != null ?
+                AdaptiveSelection.get().getLastCritiquedItem().id()
+                : -1;
+                
+         
+		if(item.id() == lastCritiquedId){
+			explanation.category(AbstractExplanation.Category.BY_LAST_CRITIQUE);
+		}
+		else if (strongPrimaryArguments.size() > 0) {
 			explanation.addPrimaryArguments(strongPrimaryArguments);
 			explanation.category(AbstractExplanation.Category.BY_STRONG_ARGUMENTS);
 		}

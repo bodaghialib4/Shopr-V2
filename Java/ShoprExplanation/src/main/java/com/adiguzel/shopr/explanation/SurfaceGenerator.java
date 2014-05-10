@@ -31,20 +31,23 @@ public class SurfaceGenerator {
 		if (!contextArguments.toString().isEmpty())
 			explanation.addPositiveReason(contextArguments);
 
-		explanation.simple(formatter.concat(dimensionArguments, contextArguments));
+		explanation.simple(formatter.concat(dimensionArguments,
+				contextArguments));
 		return explanation;
 	}
 
 	private CharSequence renderDimensionArguments(
 			AbstractExplanation explanation) {
-		if (explanation.category() == Category.BY_STRONG_ARGUMENTS) {
+
+		switch (explanation.category()) {
+		case BY_STRONG_ARGUMENTS:
 			String template = chooseRandomOne(localizer
 					.getStrongArgumentTemplates());
 			return render(template, explanation.primaryArguments());
-		} else if (explanation.category() == Category.BY_WEAK_ARGUMENTS) {
-			String template = chooseRandomOne(localizer
+		case BY_WEAK_ARGUMENTS:
+			String templ = chooseRandomOne(localizer
 					.getWeakArgumentTemplates());
-			CharSequence primaryPart = render(template,
+			CharSequence primaryPart = render(templ,
 					explanation.primaryArguments());
 			CharSequence supportingPart = "";
 			if (explanation.hasSupportingArguments())
@@ -52,12 +55,16 @@ public class SurfaceGenerator {
 						localizer.getSupportingArgumentTemplate(),
 						explanation.supportingArguments());
 			return formatter.concat(primaryPart, supportingPart);
-		} else if (explanation.category() == Category.BY_SERENDIPITOUSITY) {
+
+		case BY_SERENDIPITOUSITY:
 			return chooseRandomOne(localizer.getSerendipitousityTemplates());
-		} else if (explanation.category() == Category.BY_GOOD_AVERAGE) {
+		case BY_GOOD_AVERAGE:
 			return localizer.getGoodAverageTemplate();
-		} else
+		case BY_LAST_CRITIQUE:
+			return localizer.getLastCritiqueTemplate();
+		default:
 			return "";
+		}
 	}
 
 	private CharSequence renderContextArguments(AbstractExplanation explanation) {

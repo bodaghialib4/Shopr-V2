@@ -145,6 +145,8 @@
     <string name="explanation_template_serendipidity_2">Might let us learn about what you like.</string>
     <string name="explanation_template_serendipidity_3">A serendipitous item that you maybe like.</string>
     
+    <string name="explanation_last_critique">Kept to keep track of your progress.</string>
+    
     <string name="conjunction_And">And\u0020</string>
     <string name="conjunction_Also">Also\u0020</string>
     <string name="conjunction_Plus">Plus\u0020</string>
