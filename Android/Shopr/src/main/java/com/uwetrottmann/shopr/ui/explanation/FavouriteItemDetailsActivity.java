@@ -60,13 +60,14 @@ public class FavouriteItemDetailsActivity extends Activity {
 
 		@Override
 		public int getCount() {
-			return 2;
+			return item.imageUrls().length;
 		}
 
 		@Override
 		public Object instantiateItem(final ViewGroup container,
 				final int position) {
-			final ImageView imageView = getImage(item.image());
+			String imageUrl = item.imageUrls()[position];
+			final ImageView imageView = getImage(imageUrl);
 			((ViewPager) container).addView(imageView, 0);
 			return imageView;
 		}

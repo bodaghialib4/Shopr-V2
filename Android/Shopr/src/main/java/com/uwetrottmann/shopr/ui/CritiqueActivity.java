@@ -98,7 +98,7 @@ public class CritiqueActivity extends Activity {
         ImageView image = (ImageView) findViewById(R.id.imageViewCritiqueImage);
         // load picture
         Picasso.with(this)
-                .load(mItem.image())
+                .load(mItem.mainImage())
                 .placeholder(null)
                 .error(R.drawable.ic_action_tshirt)
                 .resizeDimen(R.dimen.default_image_width, R.dimen.default_image_height)

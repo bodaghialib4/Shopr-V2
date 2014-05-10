@@ -11,5 +11,9 @@ public class Utils {
         String url = arrayAsString.split(" | ")[0];
         return url;
     }
+    
+    public static String[] extractUrls(String arrayAsString) {
+        return arrayAsString.split(" \\| ");
+    }
 
 }

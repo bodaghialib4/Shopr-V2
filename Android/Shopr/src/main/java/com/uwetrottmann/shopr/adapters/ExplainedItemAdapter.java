@@ -153,7 +153,7 @@ public class ExplainedItemAdapter extends ArrayAdapter<Recommendation> {
 
 		// load picture
 		Picasso.with(getContext())
-				.load(item.image())
+				.load(item.mainImage())
 				.placeholder(null)
 				.error(R.drawable.ic_action_tshirt)
 				.resizeDimen(R.dimen.default_image_width,

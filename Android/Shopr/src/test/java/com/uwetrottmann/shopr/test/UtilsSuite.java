@@ -23,5 +23,21 @@ public class UtilsSuite {
         expected = "http://i1.ztat.net/detail/MA/32/1D/03/UA/00/MA321D03U-A00@1.1.jpg";
         assertThat(actual).isEqualTo(expected);
     }
+    
+    
+    @Test
+    public void testExtractUrls() {
+
+        String[] actual = Utils
+                .extractUrls("http://i1.ztat.net/detail/MA/32/1D/03/UA/00/MA321D03U-A00@1.1.jpg | http://i2.ztat.net/detail/MA/32/1D/03/UA/00/MA321D03U-A00@2.1.jpg");
+        String[] expected = new String[] {"http://i1.ztat.net/detail/MA/32/1D/03/UA/00/MA321D03U-A00@1.1.jpg", "http://i2.ztat.net/detail/MA/32/1D/03/UA/00/MA321D03U-A00@2.1.jpg"};
+        assertThat(actual).isEqualTo(expected);
+
+        // only one
+        actual = Utils
+                .extractUrls("http://i1.ztat.net/detail/MA/32/1D/03/UA/00/MA321D03U-A00@1.1.jpg");
+        expected = new String[] {"http://i1.ztat.net/detail/MA/32/1D/03/UA/00/MA321D03U-A00@1.1.jpg"};
+        assertThat(actual).isEqualTo(expected);
+    }
 
 }

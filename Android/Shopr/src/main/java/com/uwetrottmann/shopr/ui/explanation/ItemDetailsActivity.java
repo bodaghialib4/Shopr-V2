@@ -70,13 +70,14 @@ public class ItemDetailsActivity extends Activity {
 
 		@Override
 		public int getCount() {
-			return 2;
+			return recommendation.item().imageUrls().length;
 		}
 
 		@Override
 		public Object instantiateItem(final ViewGroup container,
 				final int position) {
-			final ImageView imageView = getImage(recommendation.item().image());
+			String imageUrl = recommendation.item().imageUrls()[position];
+			final ImageView imageView = getImage(imageUrl);
 			((ViewPager) container).addView(imageView, 0);
 			return imageView;
 		}

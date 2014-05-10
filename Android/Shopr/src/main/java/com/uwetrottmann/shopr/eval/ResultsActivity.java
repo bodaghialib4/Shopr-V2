@@ -90,7 +90,7 @@ public class ResultsActivity extends Activity {
                 + mItem.attributes().getReasonString());
         ImageView imageViewItem = (ImageView) findViewById(R.id.imageViewResultsItemPicture);
         Picasso.with(this)
-                .load(mItem.image())
+                .load(mItem.mainImage())
                 .resizeDimen(R.dimen.default_image_width, R.dimen.default_image_height)
                 .centerCrop()
                 .into(imageViewItem);
