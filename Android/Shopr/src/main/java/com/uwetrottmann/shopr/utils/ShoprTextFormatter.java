@@ -1,5 +1,7 @@
 package com.uwetrottmann.shopr.utils;
 
+import java.util.Locale;
+
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.v4.app.Fragment;
@@ -9,6 +11,7 @@ import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.view.View;
 
 import com.adiguzel.shopr.explanation.TextFormatter;
@@ -48,10 +51,11 @@ public class ShoprTextFormatter implements TextFormatter {
 
 	private void setSpanOnLink(SpannableString ss, String link, ClickableSpan cs) {
 		String text = ss.toString();
-		int start = text.indexOf(link);
+		// by lowercasing avoid having capital letters causing no match
+		int start = text.toLowerCase(Locale.ENGLISH).indexOf(
+				link.toLowerCase(Locale.ENGLISH));
 		int end = start + link.length();
-		if(start >= 0)
-			ss.setSpan(cs, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+		ss.setSpan(cs, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 	}
 
 	class PreferenceClickableSpan extends ShoprClickableSpan {
