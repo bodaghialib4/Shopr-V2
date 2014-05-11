@@ -22,6 +22,7 @@ import com.uwetrottmann.shopr.algorithm.model.Sex;
 import com.uwetrottmann.shopr.ui.explanation.ClothingTypePreferenceActivity;
 import com.uwetrottmann.shopr.ui.explanation.ColorPreferenceActivity;
 import com.uwetrottmann.shopr.ui.explanation.GenderPreferenceActivity;
+import com.uwetrottmann.shopr.ui.explanation.PreferenceActivity;
 import com.uwetrottmann.shopr.ui.explanation.PricePreferenceActivity;
 import com.uwetrottmann.shopr.ui.explanation.RecommendationsFragment;
 
@@ -54,6 +55,10 @@ public class ShoprTextFormatter implements TextFormatter {
 		int start = text.toLowerCase(Locale.ENGLISH).indexOf(
 				link.toLowerCase(Locale.ENGLISH));
 		int end = start + link.length();
+		if (start == -1) {
+			start = 0;
+			end = 0;
+		}
 		ss.setSpan(cs, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 	}
 
@@ -77,6 +82,9 @@ public class ShoprTextFormatter implements TextFormatter {
 				cls = GenderPreferenceActivity.class;
 			}
 			Intent intent = new Intent(fragment.getActivity(), cls);
+			intent.putExtra(PreferenceActivity.EXTRAS_ATTRIBUTE_VALUE,
+					attribute.currentValue().explanatoryDescriptor()
+							.toLowerCase(Locale.ENGLISH));
 			fragment.startActivityForResult(intent,
 					RecommendationsFragment.REQUEST_CODE);
 		}

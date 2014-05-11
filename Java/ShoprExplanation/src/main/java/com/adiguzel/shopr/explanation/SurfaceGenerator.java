@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 import com.adiguzel.shopr.explanation.model.AbstractExplanation;
@@ -85,9 +86,9 @@ public class SurfaceGenerator {
 		CharSequence formatted = formatter.fromHtml(text);
 		for (DimensionArgument argument : arguments) {
 			formatted = formatter.renderClickable(formatted, argument
-					.dimension().attribute(), localizer
-					.getLocalizedValueDescriptor(argument.dimension()
-							.attribute().currentValue().descriptor()));
+					.dimension().attribute(), com.adiguzel.shopr.explanation.util.TextUtils
+					.textOf(localizer, argument.dimension().attribute()
+							.getCurrentValue()));
 		}
 		return formatted;
 	}
@@ -98,9 +99,8 @@ public class SurfaceGenerator {
 		List<String> argumentValues = new ArrayList<String>();
 		while (iterator.hasNext()) {
 			DimensionArgument arg = iterator.next();
-			argumentValues.add(com.adiguzel.shopr.explanation.util.TextUtils
-					.textOf(localizer, arg.dimension().attribute()
-							.getCurrentValue()));
+			argumentValues.add(arg.dimension()
+					.attribute().currentValue().explanatoryDescriptor().toLowerCase(Locale.ENGLISH));
 		}
 		return com.adiguzel.shopr.explanation.util.TextUtils.textify(localizer,
 				argumentValues);

@@ -101,6 +101,11 @@ public class Color extends GenericAttribute {
         public String color() {
         	return mColor;
         }
+
+		@Override
+		public String explanatoryDescriptor() {
+			return mDescriptor;
+		}
     }
 
     public Color() {

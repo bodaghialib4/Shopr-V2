@@ -97,6 +97,11 @@ public class ClothingType extends GenericAttribute {
 		public String color() {
 			return mColor;
 		}
+
+		@Override
+		public String explanatoryDescriptor() {
+			return mDescriptor;
+		}
 	}
 
 	public ClothingType() {

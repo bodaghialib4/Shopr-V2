@@ -39,20 +39,22 @@ public class Price extends GenericAttribute {
 	public static final String ID = "price";
 
 	public enum Value implements AttributeValue {
-		SUB_25("less than 25 €", Colors.GREEN),
-		BETWEEN_25_50("25 to 50 €",Colors.OLIVE), 
-		BETWEEN_50_75("50 to 75 €", Colors.YELLOW), 
-		BETWEEN_75_100("75 to 100 €", Colors.ORANGE), 
-		BETWEEN_100_150("100 to 150 €",Colors.PINK), 
-		BETWEEN_150_200("150 to 200 €", Colors.PURPLE),
-		ABOVE_200("200 € or more", Colors.RED);
+		SUB_25("less than 25 €", "items pricing ", Colors.GREEN),
+		BETWEEN_25_50("25 to 50 €", "items ranging from ",Colors.OLIVE), 
+		BETWEEN_50_75("50 to 75 €", "items ranging from ",Colors.YELLOW), 
+		BETWEEN_75_100("75 to 100 €","items ranging from ", Colors.ORANGE), 
+		BETWEEN_100_150("100 to 150 €", "items ranging from ",Colors.PINK), 
+		BETWEEN_150_200("150 to 200 €", "items ranging from ", Colors.PURPLE),
+		ABOVE_200("200 € or more", "items pricing ", Colors.RED);
 
 		private String mDescriptor;
+		private String mExplanatoryDescriptor;
 		private String mColor;
 
-		Value(String name, String color) {
+		Value(String name, String explanatoryDescriptor, String color) {
 			mDescriptor = name;
 			mColor = color;
+			mExplanatoryDescriptor = explanatoryDescriptor;
 		}
 
 		@Override
@@ -75,6 +77,13 @@ public class Price extends GenericAttribute {
 		public String color() {
 			return mColor;
 		}
+
+		@Override
+		public String explanatoryDescriptor() {
+			return mExplanatoryDescriptor + mDescriptor;
+		}
+		
+		
 
 	}
 

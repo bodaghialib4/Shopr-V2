@@ -43,6 +43,11 @@ public class Sex extends GenericAttribute {
 		public String color() {
 			return mColor;
 		}
+
+		@Override
+		public String explanatoryDescriptor() {
+			return mDescriptor + " items";
+		}
 	}
 
 	public Sex() {

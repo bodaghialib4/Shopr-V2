@@ -122,6 +122,7 @@
     <string name="title_gender_preferences">Gender Preferences</string>
     <string name="title_price_range_preferences">Price Range Preferences</string>
     
+    <string name="attribute_value_preference_update_explanation_attribute_value">You are not interested in &lt;b>%s&lt;/b>? </string>
     <string name="attribute_value_preference_update_explanation">Select the %s(s) that you currently prefer the most right now.</string>
     <string name="update_preferences">Update preferences</string>
     

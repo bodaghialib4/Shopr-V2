@@ -2,6 +2,8 @@ package com.uwetrottmann.shopr.ui.explanation;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.TextUtils;
 import android.util.SparseBooleanArray;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,14 +23,18 @@ import com.uwetrottmann.shopr.algorithm.model.Attributes.AttributeValue;
 
 public abstract class PreferenceActivity extends Activity implements
 		OnItemClickListener {
+	
+	public static String EXTRAS_ATTRIBUTE_VALUE = "toEdit";
 
 	private Button mButtonUpdatePreferences;
 	private ArrayAdapter<AttributeValue> mAdapter;
 	private AbsListView mAttributeValueListView;
+	private String attributeValue;
 
 	@Override
 	protected final void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		attributeValue = getIntent().getExtras().getString(EXTRAS_ATTRIBUTE_VALUE, "");
 		setContentView(layout());
 		setupViews();
 	}
@@ -44,7 +50,10 @@ public abstract class PreferenceActivity extends Activity implements
 
 	protected final TextView initExplanationView() {
 		TextView explanation = explanationView();
-		explanation.setText(getPreferenceExplanation());
+		String template = getString(R.string.attribute_value_preference_update_explanation_attribute_value);
+		CharSequence changingAttributeValue = Html.fromHtml(String.format(template, attributeValue));
+		CharSequence exp = attributeValue.isEmpty() ? getPreferenceExplanation() : TextUtils.concat(changingAttributeValue, getPreferenceExplanation());
+		explanation.setText(exp);
 		return explanation;
 	}
 
