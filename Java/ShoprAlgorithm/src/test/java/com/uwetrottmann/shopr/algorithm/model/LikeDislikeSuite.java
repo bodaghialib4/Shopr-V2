@@ -17,7 +17,7 @@ public class LikeDislikeSuite {
         /*
          * Using specifically created UNKNOWN type because it has no similar types.
          */
-    	int index = ClothingType.Value.UNKNOWN.index();
+    	int index = ClothingType.Value.TOP.index();
         // all equal
         double[] actual = new double[] {
                 0.25, 0.25, 0.25, 0.25
@@ -141,7 +141,7 @@ public class LikeDislikeSuite {
         /*
          * Using specifically created UNKNOWN type because it has no similar types.
          */
-    	int index = ClothingType.Value.UNKNOWN.index();
+    	int index = ClothingType.Value.TOP.index();
         // first dislike
         double[] actual = new double[] {
                 0.25, 0.25, 0.25, 0.25

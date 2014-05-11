@@ -122,17 +122,17 @@
     <string name="title_gender_preferences">Gender Preferences</string>
     <string name="title_price_range_preferences">Price Range Preferences</string>
     
-    <string name="attribute_value_preference_update_explanation">Select the %s(s) that you prefer the most right now.</string>
+    <string name="attribute_value_preference_update_explanation">Select the %s(s) that you currently prefer the most right now.</string>
     <string name="update_preferences">Update preferences</string>
     
     
-    <string name="explanation_template_on_dimension_strong_1">Mainly because you like %s.</string>
-    <string name="explanation_template_on_dimension_strong_2">Mostly as you are interested in %s.</string>
+    <string name="explanation_template_on_dimension_strong_1">Mainly because you currently like %s.</string>
+    <string name="explanation_template_on_dimension_strong_2">Mostly as you are currently interested in %s.</string>
     
-    <string name="explanation_template_on_dimension_weak_1">Partially because you like %s.</string>
-    <string name="explanation_template_on_dimension_weak_2">Partly as you are interested in %s.</string>
+    <string name="explanation_template_on_dimension_weak_1">Partially because you currently like %s.</string>
+    <string name="explanation_template_on_dimension_weak_2">Partly as you are currently interested in %s.</string>
     
-    <string name="explanation_template_on_dimension_weak_supporting_1">Also, slightly because of your interest in %s.</string>
+    <string name="explanation_template_on_dimension_weak_supporting_1">Also, slightly because of your current interest in %s.</string>
     
     <string name="explanation_template_context_location">And it is just &lt;b>%s m&lt;/b> away from you.</string>
     <string name="explanation_template_context_location_average">Plus it is quite near to you, only &lt;b>%s m&lt;/b> away.</string>
@@ -160,10 +160,10 @@
     
     <string name="content_description_icon">Icon</string>
     
-    <string name="explanation_on_preference_only_interested_in_some">You are interested &lt;i>only&lt;/i> in %s.</string>
-    <string name="explanation_on_preference_avoiding_some">You are &lt;i>avoiding&lt;/i> %s.</string>
-    <string name="explanation_on_preference_prefer_some">You prefer %s.</string>
-    <string name="explanation_on_preference_indifferent">You are &lt;i>indifferent to&lt;/i> &lt;b>%s&lt;/b>.</string>
+    <string name="explanation_on_preference_only_interested_in_some">You are currently interested &lt;i>only&lt;/i> in %s.</string>
+    <string name="explanation_on_preference_avoiding_some">You are currently &lt;i>avoiding&lt;/i> %s.</string>
+    <string name="explanation_on_preference_prefer_some">It seems, you currently prefer %s.</string>
+    <string name="explanation_on_preference_indifferent">You are currently &lt;i>indifferent to&lt;/i> &lt;b>%s&lt;/b>.</string>
     
     <string name="user_position_you">You</string>
     <string name="user_position_definition">You are currently here.</string>

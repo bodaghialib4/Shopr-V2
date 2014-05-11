@@ -3,6 +3,7 @@ package com.uwetrottmann.shopr.mindmap;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -91,6 +92,7 @@ public abstract class MindMapFragment extends Fragment {
 		CharSequence explanation = new PreferenceExpositor(new ShoprLocalizer(
 				getActivity()), new ShoprTextFormatter(this)).explain(queryAttribute());
 		preferenceExplanation.setText(explanation);
+		preferenceExplanation.setMovementMethod(LinkMovementMethod.getInstance());
 	}
 
 	@Override

@@ -47,7 +47,6 @@ public class ClothingType extends GenericAttribute {
 	public static final String ID = "clothing-type";
 
 	public enum Value implements AttributeValue {
-		UNKNOWN("Unknown", "unknown", Colors.BLACK), 
 		SWIMSUIT("Swim suit", "swimsuit", Colors.GOLD), 
 		TRUNKS("Trunks", "trunks", Colors.BROWN), 
 		BLOUSE("Blouse", "blouse", Colors.OLIVE), 
@@ -152,7 +151,8 @@ public class ClothingType extends GenericAttribute {
 		} else if ("Jacke".equals(name)) {
 			setWeights(Value.JACKET);
 		} else {
-			setWeights(Value.UNKNOWN);
+			// just to make sure app doesn't crash
+			setWeights(Value.TOP);
 		}
 	}
 

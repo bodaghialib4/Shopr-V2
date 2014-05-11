@@ -6,10 +6,17 @@ import java.util.Locale;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
+import android.text.style.CharacterStyle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -92,13 +99,14 @@ public class ItemDetailsActivity extends Activity {
 	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.explanation_activity_item_details);
+		
 
 		recommendation = RecommendationDisplayHelper.recommendation;
 		if (recommendation == null) {
 			finish();
 			return;
 		}
-
+		setTitle(recommendation.item().name());
 		setupViews();
 	}
 
@@ -130,13 +138,36 @@ public class ItemDetailsActivity extends Activity {
 		Explanation explanation = recommendation.explanation();
 		LinearLayout explanations = (LinearLayout) findViewById(R.id.explanations);
 		
+		SpannableString plus = new SpannableString("+ ");
+		plus.setSpan(new Style(android.graphics.Color.GREEN), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+		
+		SpannableString minus = new SpannableString("- ");
+		minus.setSpan(new Style(android.graphics.Color.RED), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+		
 		for(CharSequence reason: explanation.positiveReasons()) {
-			explanations.addView(generateTextView("+ " + reason));
+			explanations.addView(generateTextView(TextUtils.concat(plus, reason)));
 		}
 		
 		for(CharSequence reason: explanation.negativeReasons()) {
-			explanations.addView(generateTextView("-" + reason));
-		}			
+			explanations.addView(generateTextView(TextUtils.concat(minus, reason)));
+		}	
+	}
+	
+	class Style extends CharacterStyle {
+		int color;
+		
+		public Style(int color) {
+			this.color = color;
+		}
+
+		@Override
+		public void updateDrawState(TextPaint tp) {
+			tp.setColor(color);
+			tp.setTypeface(Typeface.DEFAULT_BOLD);
+			tp.setUnderlineText(false);
+			
+		}
+		
 	}
 	
 	private TextView generateTextView(CharSequence text) {
@@ -144,6 +175,7 @@ public class ItemDetailsActivity extends Activity {
 		view.setLayoutParams(new LayoutParams(
 				LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 		view.setText(text);
+		view.setMovementMethod(LinkMovementMethod.getInstance());
 		return view;
 	}
 

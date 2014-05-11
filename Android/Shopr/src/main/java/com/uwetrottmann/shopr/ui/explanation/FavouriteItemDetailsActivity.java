@@ -88,7 +88,7 @@ public class FavouriteItemDetailsActivity extends Activity {
 			finish();
 			return;
 		}
-
+		setTitle(item.name());
 		setupViews();
 	}
 

@@ -28,7 +28,7 @@ public abstract class PreferenceGridActivity extends
 	}	
 	
 	protected final TextView explanationView() {
-		return (TextView) findViewById(R.id.textViewAttributeValuePreference);
+		TextView explanation = (TextView) findViewById(R.id.textViewAttributeValuePreference);
 	}
 
 	protected final Button updatePreferenceButton() {

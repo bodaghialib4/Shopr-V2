@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Random;
 
 import com.adiguzel.shopr.explanation.model.AbstractExplanation;
-import com.adiguzel.shopr.explanation.model.AbstractExplanation.Category;
 import com.adiguzel.shopr.explanation.model.DimensionArgument;
 import com.adiguzel.shopr.explanation.model.Explanation;
 import com.adiguzel.shopr.explanation.model.LocationContext;

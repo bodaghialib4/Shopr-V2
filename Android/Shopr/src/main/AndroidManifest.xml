@@ -70,17 +70,11 @@
             android:name="com.uwetrottmann.shopr.ui.CritiqueActivity"
             android:label="@string/title_activity_critique"
             android:parentActivityName="com.uwetrottmann.shopr.ui.explanation.MainActivityExplanation" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.uwetrottmann.shopr.ui.MainActivity" />
         </activity>
         <activity
             android:name="com.uwetrottmann.shopr.importer.ImporterActivity"
             android:label="@string/title_activity_importer"
             android:parentActivityName="com.uwetrottmann.shopr.ui.explanation.MainActivityExplanation" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.uwetrottmann.shopr.ui.MainActivity" />
         </activity>
         <activity android:name="com.uwetrottmann.shopr.ui.SettingsActivity" >
         </activity>
@@ -99,11 +93,13 @@
         </activity>
         <activity
             android:name="com.uwetrottmann.shopr.ui.basic.ItemDetailsActivityBasic"
-            android:label="@string/title_activity_item_details" >
+            android:label="@string/title_activity_item_details" 
+            android:parentActivityName="com.uwetrottmann.shopr.ui.basic.MainActivityBasic" >
         </activity>
         <activity
             android:name="com.uwetrottmann.shopr.ui.explanation.ItemDetailsActivity"
-            android:label="@string/title_activity_item_details" >
+            android:label="@string/title_activity_item_details" 
+            android:parentActivityName="com.uwetrottmann.shopr.ui.explanation.MainActivityExplanation" >
         </activity>
         <activity
             android:name="com.uwetrottmann.shopr.ui.explanation.ClothingTypePreferenceActivity"
