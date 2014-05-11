@@ -63,8 +63,8 @@ public class ShoprDatabase extends SQLiteOpenHelper {
             + Items.PRICE + " REAL,"
 
             + Items.SEX + " TEXT,"
-
-            + Items.IMAGE_URL + " TEXT"
+            
+            + Items.IMAGE_URLS + " TEXT"
 
             + ");";
 

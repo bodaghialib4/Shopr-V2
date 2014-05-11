@@ -26,6 +26,7 @@ import com.uwetrottmann.shopr.provider.ShoprContract.Shops;
 import com.uwetrottmann.shopr.settings.AppSettings;
 import com.uwetrottmann.shopr.utils.ShopUtils;
 import com.uwetrottmann.shopr.utils.ShoprLocalizer;
+import com.uwetrottmann.shopr.utils.Utils;
 import com.uwetrottmann.shopr.utils.ValueConverter;
 
 /**
@@ -82,18 +83,17 @@ public class ItemLoader extends Loader<List<Item>> {
 		Cursor query = getContext().getContentResolver().query(
 				Items.CONTENT_URI,
 				new String[] { Items._ID, Items.CLOTHING_TYPE, Items.BRAND,
-						Items.PRICE, Items.IMAGE_URL, Items.COLOR, Items.SEX,
-						Shops.REF_SHOP_ID }, null, null, null);
+						Items.PRICE, Items.COLOR, Items.SEX,
+						Shops.REF_SHOP_ID, Items.IMAGE_URLS, }, null, null, null);
 
 		if (query != null) {
 			while (query.moveToNext()) {
-				int shopId = query.getInt(7);
+				int shopId = query.getInt(6);
 				if (nearbyShops.get(shopId) != null) {
 					Shop shop = nearbyShops.get(shopId);
 					Item item = new Item();
 
 					item.id(query.getInt(0));
-					item.image(query.getString(4));
 					item.shop(shop);
 					// name
 					ClothingType type = new ClothingType(query.getString(1));
@@ -107,9 +107,11 @@ public class ItemLoader extends Loader<List<Item>> {
 					item.brand(brand);
 					// critiquable attributes
 					item.attributes(new Attributes().putAttribute(type)
-							.putAttribute(new Color(query.getString(5)))
+							.putAttribute(new Color(query.getString(4)))
 							.putAttribute(new Price(price))
-							.putAttribute(new Sex(query.getString(6))));
+							.putAttribute(new Sex(query.getString(5))));
+					
+					item.imageUrls(Utils.extractUrls(query.getString(7)));
 
 					items.add(item);
 

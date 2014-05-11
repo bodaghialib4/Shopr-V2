@@ -17,6 +17,7 @@ import com.uwetrottmann.shopr.algorithm.model.Sex;
 import com.uwetrottmann.shopr.provider.ShoprContract.Favourites;
 import com.uwetrottmann.shopr.provider.ShoprContract.Items;
 import com.uwetrottmann.shopr.provider.ShoprContract.Shops;
+import com.uwetrottmann.shopr.utils.Utils;
 import com.uwetrottmann.shopr.utils.ValueConverter;
 
 /**
@@ -63,7 +64,7 @@ public class FavouriteItemLoader extends Loader<List<Item>> {
 			Cursor query = getContext().getContentResolver().query(
 					Items.CONTENT_URI,
 					new String[] { Items._ID, Items.CLOTHING_TYPE, Items.BRAND,
-							Items.PRICE, Items.IMAGE_URL, Items.COLOR,
+							Items.PRICE, Items.IMAGE_URLS, Items.COLOR,
 							Items.SEX, Shops.REF_SHOP_ID },
 					Items._ID + "='" + id + "'", null, null);
 
@@ -72,7 +73,7 @@ public class FavouriteItemLoader extends Loader<List<Item>> {
 					item = new Item();
 
 					item.id(query.getInt(0));
-					item.image(query.getString(4));
+					item.imageUrls(Utils.extractUrls(query.getString(4)));
 					item.shopId(query.getInt(7));
 					// name
 					ClothingType type = new ClothingType(query.getString(1));

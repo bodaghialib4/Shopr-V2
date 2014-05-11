@@ -106,5 +106,10 @@ public class ShoprLocalizer implements ExplanationLocalizer {
 	public String getGoodAverageTemplate() {
 		return mContext.getString(R.string.explanation_template_average_item);
 	}
+	
+	@Override
+	public String getLastCritiqueTemplate() {
+		return mContext.getString(R.string.explanation_last_critique);
+	}
 
 }

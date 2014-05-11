@@ -1,21 +1,6 @@
 
 package com.uwetrottmann.shopr.importer;
 
-import android.content.ContentValues;
-import android.content.Context;
-import android.net.Uri;
-import android.os.AsyncTask;
-import android.util.Log;
-import android.widget.Toast;
-
-import au.com.bytecode.opencsv.CSVReader;
-
-import com.uwetrottmann.androidutils.Lists;
-import com.uwetrottmann.shopr.R;
-import com.uwetrottmann.shopr.provider.ShoprContract.Items;
-import com.uwetrottmann.shopr.provider.ShoprContract.Shops;
-import com.uwetrottmann.shopr.utils.Utils;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,6 +8,19 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
+
+import android.content.ContentValues;
+import android.content.Context;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.util.Log;
+import android.widget.Toast;
+import au.com.bytecode.opencsv.CSVReader;
+
+import com.uwetrottmann.androidutils.Lists;
+import com.uwetrottmann.shopr.R;
+import com.uwetrottmann.shopr.provider.ShoprContract.Items;
+import com.uwetrottmann.shopr.provider.ShoprContract.Shops;
 
 /**
  * Imports items or shops from a CSV file into the database.
@@ -111,9 +109,8 @@ public class CsvImportTask extends AsyncTask<Void, Integer, String> {
                         values.put(Items.BRAND, line[3]);
                         values.put(Items.PRICE, line[4]);
                         // extract first image
-                        String imageUrl = line[5];
-                        imageUrl = Utils.extractFirstUrl(imageUrl);
-                        values.put(Items.IMAGE_URL, imageUrl);
+                        String imageUrls = line[5];
+                        values.put(Items.IMAGE_URLS, imageUrls);
                         break;
                 }
                 

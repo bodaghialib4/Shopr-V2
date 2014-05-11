@@ -19,7 +19,7 @@ public class ShoprContract {
 
         String PRICE = "item_price";
 
-        String IMAGE_URL = "item_image";
+        String IMAGE_URLS = "item_images";
     }
 
     interface ShopsColumns {
