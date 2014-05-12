@@ -92,7 +92,7 @@
             android:label="@string/title_activity_results" >
         </activity>
         <activity
-            android:name="com.uwetrottmann.shopr.ui.basic.ItemDetailsActivityBasic"
+            android:name="com.uwetrottmann.shopr.ui.basic.BasicItemDetailsActivity"
             android:label="@string/title_activity_item_details" 
             android:parentActivityName="com.uwetrottmann.shopr.ui.basic.MainActivityBasic" >
         </activity>

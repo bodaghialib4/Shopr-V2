@@ -1,4 +1,3 @@
-
 package com.uwetrottmann.shopr.adapters;
 
 import java.text.NumberFormat;
@@ -27,122 +26,129 @@ import com.uwetrottmann.shopr.utils.ValueConverter;
 
 public class BasicItemAdapter extends ArrayAdapter<Item> {
 
-    private static final int LAYOUT = R.layout.basic_item_layout;
+	private static final int LAYOUT = R.layout.basic_item_layout;
 
-    private LayoutInflater mInflater;
+	private LayoutInflater mInflater;
 
-    private OnItemCritiqueListener mCritiqueListener;
+	private OnItemCritiqueListener mCritiqueListener;
 
-    private OnItemDisplayListener mItemListener;
-    
-    private OnItemFavouriteListener mFavouriteListener;
+	private OnItemDisplayListener mItemListener;
 
-    public BasicItemAdapter(Context context, OnItemCritiqueListener critiqueListener,
-            OnItemDisplayListener itemListener, OnItemFavouriteListener favouriteListener) {
-        super(context, LAYOUT);
-        mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        mCritiqueListener = critiqueListener;
-        mItemListener = itemListener;
-        mFavouriteListener = favouriteListener;
-    }
 
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
-        if (convertView == null) {
-            convertView = mInflater.inflate(LAYOUT, null);
+	public BasicItemAdapter(Context context,
+			OnItemCritiqueListener critiqueListener,
+			OnItemDisplayListener itemListener,
+			OnItemFavouriteListener favouriteListener) {
+		super(context, LAYOUT);
+		mInflater = (LayoutInflater) context
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		mCritiqueListener = critiqueListener;
+		mItemListener = itemListener;
+	}
 
-            holder = new ViewHolder();
-            holder.pictureContainer = convertView.findViewById(R.id.containerItemPicture);
-            holder.picture = (ImageView) convertView.findViewById(R.id.imageViewItemPicture);
-            holder.name = (TextView) convertView.findViewById(R.id.textViewItemName);
-            holder.label = (TextView) convertView.findViewById(R.id.textViewItemLabel);
-            holder.price = (TextView) convertView.findViewById(R.id.textViewItemPrice);
-            holder.buttonLike = (ImageButton) convertView.findViewById(R.id.imageButtonItemLike);
-            holder.buttonDislike = (ImageButton) convertView
-                    .findViewById(R.id.imageButtonItemDislike);
-            holder.buttonFavourite = (ImageButton) convertView.findViewById(R.id.imageButtonItemFavourite);
-            holder.lastCritiqueTag = convertView.findViewById(R.id.textViewItemLastCritiqueLabel);
+	@Override
+	public View getView(int position, View convertView, ViewGroup parent) {
+		ViewHolder holder;
+		if (convertView == null) {
+			convertView = mInflater.inflate(LAYOUT, null);
 
-            convertView.setTag(holder);
-        } else {
-            holder = (ViewHolder) convertView.getTag();
-        }
+			holder = new ViewHolder();
+			holder.pictureContainer = convertView
+					.findViewById(R.id.containerItemPicture);
+			holder.picture = (ImageView) convertView
+					.findViewById(R.id.imageViewItemPicture);
+			holder.name = (TextView) convertView
+					.findViewById(R.id.textViewItemName);
+			holder.label = (TextView) convertView
+					.findViewById(R.id.textViewItemLabel);
+			holder.price = (TextView) convertView
+					.findViewById(R.id.textViewItemPrice);
+			holder.buttonLike = (ImageButton) convertView
+					.findViewById(R.id.imageButtonItemLike);
+			holder.buttonDislike = (ImageButton) convertView
+					.findViewById(R.id.imageButtonItemDislike);
+			holder.buttonFavourite = (ImageButton) convertView
+					.findViewById(R.id.imageButtonItemFavourite);
+			holder.lastCritiqueTag = convertView
+					.findViewById(R.id.textViewItemLastCritiqueLabel);
 
-        final Item item = getItem(position);
-        holder.name.setText(item.name());
-        holder.label.setText(ValueConverter.getLocalizedStringForValue(getContext(), item
-                .attributes().getAttributeById(Color.ID).currentValue()
-                .descriptor()));
-        holder.price.setText(NumberFormat.getCurrencyInstance(Locale.GERMANY).format(
-                item.price().doubleValue()));
-        holder.buttonLike.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mCritiqueListener != null) {
-                    mCritiqueListener.onItemCritique(item, true);
-                }
-            }
-        });
-        CheatSheet.setup(holder.buttonLike, R.string.like);
-        holder.buttonDislike.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mCritiqueListener != null) {
-                    mCritiqueListener.onItemCritique(item, false);
-                }
-            }
-        });
-        CheatSheet.setup(holder.buttonDislike, R.string.dislike);
-        
-        holder.buttonFavourite.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mFavouriteListener != null) {
-                	mFavouriteListener.onItemFavourite(item);
-                }
-            }
-        });
-        CheatSheet.setup(holder.buttonFavourite, R.string.favourite);
+			convertView.setTag(holder);
+		} else {
+			holder = (ViewHolder) convertView.getTag();
+		}
 
-        holder.pictureContainer.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mItemListener != null) {
-                	mItemListener.onItemDisplay(item);
-                }
-            }
-        });
+		final Item item = getItem(position);
+		holder.name.setText(item.name());
+		holder.label.setText(ValueConverter.getLocalizedStringForValue(
+				getContext(), item.attributes().getAttributeById(Color.ID)
+						.currentValue().descriptor()));
+		holder.price.setText(NumberFormat.getCurrencyInstance(Locale.GERMANY)
+				.format(item.price().doubleValue()));
+		holder.buttonLike.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (mCritiqueListener != null) {
+					mCritiqueListener.onItemCritique(item, true);
+				}
+			}
+		});
+		CheatSheet.setup(holder.buttonLike, R.string.like);
+		holder.buttonDislike.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (mCritiqueListener != null) {
+					mCritiqueListener.onItemCritique(item, false);
+				}
+			}
+		});
+		CheatSheet.setup(holder.buttonDislike, R.string.dislike);
+		/*
+		 * holder.buttonFavourite.setOnClickListener(new OnClickListener() {
+		 * 
+		 * @Override public void onClick(View v) { if (mFavouriteListener !=
+		 * null) { mFavouriteListener.onItemFavourite(item); } } });
+		 * CheatSheet.setup(holder.buttonFavourite, R.string.favourite);
+		 */
 
-        // last critique tag
-        int lastCritiquedId = AdaptiveSelection.get().getLastCritiquedItem() != null ?
-                AdaptiveSelection.get().getLastCritiquedItem().id()
-                : -1;
-        holder.lastCritiqueTag.setVisibility(item.id() == lastCritiquedId ? View.VISIBLE
-                : View.GONE);
+		holder.pictureContainer.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (mItemListener != null) {
+					mItemListener.onItemDisplay(item);
+				}
+			}
+		});
 
-        // load picture
-        Picasso.with(getContext())
-                .load(item.mainImage())
-                .placeholder(null)
-                .error(R.drawable.ic_action_tshirt)
-                .resizeDimen(R.dimen.default_image_width, R.dimen.default_image_height)
-                .centerCrop()
-                .into(holder.picture);
+		// last critique tag
+		int lastCritiquedId = AdaptiveSelection.get().getLastCritiquedItem() != null ? AdaptiveSelection
+				.get().getLastCritiquedItem().id()
+				: -1;
+		holder.lastCritiqueTag
+				.setVisibility(item.id() == lastCritiquedId ? View.VISIBLE
+						: View.GONE);
 
-        return convertView;
-    }
+		// load picture
+		Picasso.with(getContext())
+				.load(item.mainImage())
+				.placeholder(null)
+				.error(R.drawable.ic_action_tshirt)
+				.resizeDimen(R.dimen.default_image_width,
+						R.dimen.default_image_height).centerCrop()
+				.into(holder.picture);
 
-    static class ViewHolder {
-        View pictureContainer;
-        ImageView picture;
-        TextView name;
-        TextView label;
-        TextView price;
-        ImageButton buttonLike;
-        ImageButton buttonDislike;
-        ImageButton buttonFavourite;
-        View lastCritiqueTag;
-    }
+		return convertView;
+	}
+
+	static class ViewHolder {
+		View pictureContainer;
+		ImageView picture;
+		TextView name;
+		TextView label;
+		TextView price;
+		ImageButton buttonLike;
+		ImageButton buttonDislike;
+		ImageButton buttonFavourite;
+		View lastCritiqueTag;
+	}
 
 }
