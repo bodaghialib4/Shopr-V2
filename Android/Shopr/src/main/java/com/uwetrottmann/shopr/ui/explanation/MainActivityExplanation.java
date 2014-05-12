@@ -55,6 +55,7 @@ public class MainActivityExplanation extends AbstractNavDrawerActivity {
 						"ic_action_heart", true, this),
 				NavMenuSection.create(200,
 						getString(R.string.drawer_section_title_mind_map)),
+				NavMenuItem.create(201, "Overview", "", false, this),
 				NavMenuItem.create(202, "Clothing Type", "", false, this),
 				NavMenuItem.create(203, "Color", "", false, this),
 				NavMenuItem.create(204, "Gender", "", false, this),
@@ -85,6 +86,9 @@ public class MainActivityExplanation extends AbstractNavDrawerActivity {
 		case 102:
 			replaceContent(FavouritesFragment.newInstance());
 			break;
+		case 201:
+			replaceContent(new MindMapOverviewFragment());
+			break;
 		case 202:
 			replaceContent(new ClothingTypeFragment());
 			break;
@@ -112,7 +116,8 @@ public class MainActivityExplanation extends AbstractNavDrawerActivity {
 			// use fake location (Marienplatz, Munich)
 			locationHandler.setLastLocation(new LatLng(48.137314, 11.575253));
 			// send out location update event immediately
-			EventBus.getDefault().postSticky(locationHandler.newLocationUpdateEvent());
+			EventBus.getDefault().postSticky(
+					locationHandler.newLocationUpdateEvent());
 		} else {
 			locationHandler.connectLocationClient();
 		}
@@ -160,5 +165,5 @@ public class MainActivityExplanation extends AbstractNavDrawerActivity {
 
 		return super.onOptionsItemSelected(item);
 	}
-	
+
 }

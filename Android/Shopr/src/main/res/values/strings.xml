@@ -101,8 +101,8 @@
     <string name="restart_test">Restart test</string>
     <string name="selection_hint">Select one or more</string>
     
-    <string name="mind_map_definition">Below is my understanding of your <b>current preferences</b> that help me recommend you clothes.
-         You can <b>correct</b> me if I am wrong.</string>
+    <string name="mind_map_definition">Below is your inferred <b>current preferences</b> that are used to recommend you clothes.
+         You can <b>update</b> them anytime you want.</string>
     
     <string name="mind_map_section_color">Color</string>
     <string name="mind_map_section_clothing_type">Clothing type</string>

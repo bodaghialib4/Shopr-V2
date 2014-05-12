@@ -17,7 +17,15 @@ import com.adiguzel.shopr.explanation.PreferenceExpositor;
 import com.uwetrottmann.shopr.R;
 import com.uwetrottmann.shopr.algorithm.AdaptiveSelection;
 import com.uwetrottmann.shopr.algorithm.model.Attributes;
+import com.uwetrottmann.shopr.algorithm.model.ClothingType;
+import com.uwetrottmann.shopr.algorithm.model.Color;
+import com.uwetrottmann.shopr.algorithm.model.Price;
+import com.uwetrottmann.shopr.algorithm.model.Sex;
 import com.uwetrottmann.shopr.algorithm.model.Attributes.Attribute;
+import com.uwetrottmann.shopr.ui.explanation.ClothingTypePreferenceActivity;
+import com.uwetrottmann.shopr.ui.explanation.ColorPreferenceActivity;
+import com.uwetrottmann.shopr.ui.explanation.GenderPreferenceActivity;
+import com.uwetrottmann.shopr.ui.explanation.PricePreferenceActivity;
 import com.uwetrottmann.shopr.utils.ShoprLocalizer;
 import com.uwetrottmann.shopr.utils.ShoprTextFormatter;
 
@@ -48,6 +56,24 @@ public abstract class MindMapFragment extends Fragment {
 				onAttributePreferenceChangeRequested();
 			}
 		};
+	}
+	
+	public static Class<?> getPreferenceChangerFor(Attribute attribute) {
+		if(attribute instanceof Color) {
+			return ColorPreferenceActivity.class;
+		}
+		else if(attribute instanceof ClothingType) {
+			return ClothingTypePreferenceActivity.class;
+		}
+		else if(attribute instanceof Sex) {
+			return GenderPreferenceActivity.class;
+		}
+		else if(attribute instanceof Price) {
+			return PricePreferenceActivity.class;
+		}
+		else {
+			return PricePreferenceActivity.class;
+		}
 	}
 
 	protected void startActivity(Class<?> activity) {
