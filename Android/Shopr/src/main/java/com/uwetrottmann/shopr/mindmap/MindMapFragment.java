@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.adiguzel.shopr.explanation.PreferenceExpositor;
 import com.uwetrottmann.shopr.R;
 import com.uwetrottmann.shopr.algorithm.AdaptiveSelection;
+import com.uwetrottmann.shopr.algorithm.model.Attributes;
 import com.uwetrottmann.shopr.algorithm.model.Attributes.Attribute;
 import com.uwetrottmann.shopr.utils.ShoprLocalizer;
 import com.uwetrottmann.shopr.utils.ShoprTextFormatter;
@@ -61,7 +62,7 @@ public abstract class MindMapFragment extends Fragment {
 				.attributes().getAttributeById(attribute().id());
 
 		if (queryAttribute == null)
-			return attribute();
+			return new Attributes().initialize(attribute());
 		return queryAttribute;
 	}
 

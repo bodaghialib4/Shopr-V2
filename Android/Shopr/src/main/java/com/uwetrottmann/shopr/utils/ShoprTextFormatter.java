@@ -39,12 +39,23 @@ public class ShoprTextFormatter implements TextFormatter {
 	}
 
 	@Override
+	public CharSequence renderSimpleClickable(AttributeText attributeText) {
+		SpannableString ss = new SpannableString(attributeText.originalText());
+
+		for (String toRender : attributeText.replacableTexts()) {
+			setSpanOnLink(ss, toRender, new PreferenceClickableSpan(
+					attributeText.attribute(), false));
+		}
+		return ss;
+	}
+
+	@Override
 	public CharSequence renderClickable(AttributeText attributeText) {
 		SpannableString ss = new SpannableString(attributeText.originalText());
 
 		for (String toRender : attributeText.replacableTexts()) {
 			setSpanOnLink(ss, toRender, new PreferenceClickableSpan(
-					attributeText.attribute()));
+					attributeText.attribute(), true));
 		}
 		return ss;
 	}
@@ -64,9 +75,11 @@ public class ShoprTextFormatter implements TextFormatter {
 
 	class PreferenceClickableSpan extends ShoprClickableSpan {
 		private Attribute attribute;
+		private boolean hasExtra;
 
-		public PreferenceClickableSpan(Attribute attribute) {
+		public PreferenceClickableSpan(Attribute attribute, boolean hasExtra) {
 			this.attribute = attribute;
+			this.hasExtra = hasExtra;
 		}
 
 		@Override
@@ -82,9 +95,11 @@ public class ShoprTextFormatter implements TextFormatter {
 				cls = GenderPreferenceActivity.class;
 			}
 			Intent intent = new Intent(fragment.getActivity(), cls);
-			intent.putExtra(PreferenceActivity.EXTRAS_ATTRIBUTE_VALUE,
-					attribute.currentValue().explanatoryDescriptor()
-							.toLowerCase(Locale.ENGLISH));
+			if (hasExtra) {
+				intent.putExtra(PreferenceActivity.EXTRAS_ATTRIBUTE_VALUE,
+						attribute.currentValue().explanatoryDescriptor()
+								.toLowerCase(Locale.ENGLISH));
+			}
 			fragment.startActivityForResult(intent,
 					RecommendationsFragment.REQUEST_CODE);
 		}
@@ -105,7 +120,7 @@ public class ShoprTextFormatter implements TextFormatter {
 	public CharSequence renderClickable(CharSequence originalText,
 			Attribute attribute, String toRender) {
 		SpannableString ss = new SpannableString(originalText);
-		setSpanOnLink(ss, toRender, new PreferenceClickableSpan(attribute));
+		setSpanOnLink(ss, toRender, new PreferenceClickableSpan(attribute, true));
 		return ss;
 	}
 

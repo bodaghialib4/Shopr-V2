@@ -58,7 +58,7 @@ public class PreferenceExpositor {
 		String text = String.format(template,
 				TextUtils.textify(localizer, reasons));
 		CharSequence htmlText = formatter.fromHtml(text);
-		return formatter.renderClickable(new AttributeText(htmlText, attribute,
+		return formatter.renderSimpleClickable(new AttributeText(htmlText, attribute,
 				reasons));
 	}
 
@@ -83,7 +83,7 @@ public class PreferenceExpositor {
 				currentValues = new ArrayList<String>();
 			}
 			currentValues.add(TextUtils.textOf(localizer,
-					attribute.getAttributeValues()[i]));
+					attribute.getAttributeValues()[i].explanatoryDescriptor()));
 			attributeGroups.put(new Double(valueWeights[i]), currentValues);
 		}
 
@@ -96,7 +96,7 @@ public class PreferenceExpositor {
 		for (int i = 0; i < valueWeights.length; i++) {
 			if (valueWeights[i] == 0) {
 				avoided.add(TextUtils.textOf(localizer,
-						attribute.getAttributeValues()[i]));
+						attribute.getAttributeValues()[i].explanatoryDescriptor()));
 			}
 		}
 		return avoided;
@@ -108,7 +108,7 @@ public class PreferenceExpositor {
 		for (int i = 0; i < valueWeights.length; i++) {
 			if (valueWeights[i] > 0) {
 				nonzero.add(TextUtils.textOf(localizer,
-						attribute.getAttributeValues()[i]));
+						attribute.getAttributeValues()[i].explanatoryDescriptor()));
 			}
 
 		}

@@ -8,6 +8,8 @@ import com.uwetrottmann.shopr.algorithm.model.Attributes.Attribute;
 public interface TextFormatter {
 	public CharSequence fromHtml(String html);
 	
+	public CharSequence renderSimpleClickable(AttributeText attributeText);
+	
 	public CharSequence renderClickable(AttributeText attributeText);
 		
 	public CharSequence renderClickable(CharSequence originalText, Attribute attribute, String toRender);

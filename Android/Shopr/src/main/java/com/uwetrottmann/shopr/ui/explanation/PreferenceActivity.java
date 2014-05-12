@@ -29,12 +29,13 @@ public abstract class PreferenceActivity extends Activity implements
 	private Button mButtonUpdatePreferences;
 	private ArrayAdapter<AttributeValue> mAdapter;
 	private AbsListView mAttributeValueListView;
-	private String attributeValue;
+	private String attributeValue = "";
 
 	@Override
 	protected final void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		attributeValue = getIntent().getExtras().getString(EXTRAS_ATTRIBUTE_VALUE, "");
+		if(getIntent().hasExtra(EXTRAS_ATTRIBUTE_VALUE))
+			attributeValue = getIntent().getExtras().getString(EXTRAS_ATTRIBUTE_VALUE);
 		setContentView(layout());
 		setupViews();
 	}
@@ -51,8 +52,9 @@ public abstract class PreferenceActivity extends Activity implements
 	protected final TextView initExplanationView() {
 		TextView explanation = explanationView();
 		String template = getString(R.string.attribute_value_preference_update_explanation_attribute_value);
+		String startTemplate = getString(R.string.attribute_value_preference_update_explanation_start);
 		CharSequence changingAttributeValue = Html.fromHtml(String.format(template, attributeValue));
-		CharSequence exp = attributeValue.isEmpty() ? getPreferenceExplanation() : TextUtils.concat(changingAttributeValue, getPreferenceExplanation());
+		CharSequence exp = attributeValue.isEmpty() ? TextUtils.concat(startTemplate, getPreferenceExplanation()) : TextUtils.concat(changingAttributeValue, getPreferenceExplanation());
 		explanation.setText(exp);
 		return explanation;
 	}
