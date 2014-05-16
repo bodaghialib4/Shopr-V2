@@ -1,3 +1,4 @@
+
 package com.uwetrottmann.shopr.eval;
 
 import android.content.ContentValues;
@@ -12,104 +13,86 @@ import com.uwetrottmann.shopr.provider.ShoprContract.Stats;
  */
 public class Statistics {
 
-	private static Statistics _instance;
+    private static Statistics _instance;
 
-	private long mStartTime;
-	private int mCritiqueCount;
-	private int mExplicitPreferenceChangeCount;
-	private int mCritiquePositiveCount;
-	private String mUserName;
-	private VariantTask mTask;
+    private long mStartTime;
+    private int mCycleCount;
+    private int mCyclePositiveCount;
+    private String mUserName;
+    private boolean mIsDiversity;
 
-	private boolean mIsStarted;
+    private boolean mIsStarted;
 
-	private Statistics() {
+    private Statistics() {
 
-	}
-	
-	public int cycleCount() {
-		return mCritiqueCount + mExplicitPreferenceChangeCount;
-	}
+    }
 
-	public synchronized static Statistics get() {
-		if (_instance == null) {
-			_instance = new Statistics();
-		}
-		return _instance;
-	}
+    public synchronized static Statistics get() {
+        if (_instance == null) {
+            _instance = new Statistics();
+        }
+        return _instance;
+    }
 
-	/**
-	 * Saves the current time, user name and task type until
-	 * {@link #finishTask(Context)} is called.
-	 */
-	public synchronized void startTask(String username, VariantTask task) {
-		mIsStarted = true;
-		mUserName = username;
-		mTask = task;
-		mStartTime = System.currentTimeMillis();
-		mCritiqueCount = 0;
-		mCritiquePositiveCount = 0;
-		mExplicitPreferenceChangeCount = 0;
-	}
-	
-	/**
-	 * Increases the recommendation cycle count by 1. Also the positive cycle
-	 * count if isPositive is true.
-	 */
-	public synchronized void incrementExplicityPreferenceChangeCount() {
-		mExplicitPreferenceChangeCount++;
-	}
+    /**
+     * Saves the current time, user name and task type until
+     * {@link #finishTask(Context)} is called.
+     */
+    public synchronized void startTask(String username, boolean isDiversity) {
+        mIsStarted = true;
+        mUserName = username;
+        mIsDiversity = isDiversity;
+        mStartTime = System.currentTimeMillis();
+        mCycleCount = 0;
+        mCyclePositiveCount = 0;
+    }
 
-	/**
-	 * Increases the recommendation cycle count by 1. Also the positive cycle
-	 * count if isPositive is true.
-	 */
-	public synchronized void incrementCritiqueCount(boolean isPositive) {
-		mCritiqueCount++;
-		if (isPositive) {
-			mCritiquePositiveCount++;
-		}
-	}
+    /**
+     * Increases the recommendation cycle count by 1. Also the positive cycle
+     * count if isPositive is true.
+     */
+    public synchronized void incrementCycleCount(boolean isPositive) {
+        mCycleCount++;
+        if (isPositive) {
+            mCyclePositiveCount++;
+        }
+    }
 
-	/**
-	 * Stops the task and writes all data to the database.
-	 * 
-	 * @return The {@link Uri} pointing to the new data set or {@code null} if
-	 *         {@link #startTask(String, boolean)} was not called before.
-	 */
-	public synchronized Uri finishTask(Context context) {
-		if (!mIsStarted) {
-			return null;
-		}
+    /**
+     * Stops the task and writes all data to the database.
+     * 
+     * @return The {@link Uri} pointing to the new data set or {@code null} if
+     *         {@link #startTask(String, boolean)} was not called before.
+     */
+    public synchronized Uri finishTask(Context context) {
+        if (!mIsStarted) {
+            return null;
+        }
 
-		mIsStarted = false;
-		long duration = System.currentTimeMillis() - mStartTime;
+        mIsStarted = false;
+        long duration = System.currentTimeMillis() - mStartTime;
 
-		// Write to database
-		ContentValues statValues = new ContentValues();
-		statValues.put(Stats.USERNAME, mUserName);
-		statValues.put(Stats.TASK_TYPE, mTask.toString());
-		statValues.put(Stats.CRITIQUE_COUNT, mCritiqueCount);
-		statValues.put(Stats.PREFERENCE_CHANGE_COUNT, mExplicitPreferenceChangeCount);
-		statValues.put(Stats.CYCLE_COUNT, cycleCount());
-		statValues.put(Stats.DURATION, duration);
-		final Uri inserted = context.getContentResolver().insert(
-				Stats.CONTENT_URI, statValues);
+        // Write to database
+        ContentValues statValues = new ContentValues();
+        statValues.put(Stats.USERNAME, mUserName);
+        statValues.put(Stats.TASK_TYPE, mIsDiversity ? "div" : "sim");
+        statValues.put(Stats.CYCLE_COUNT, mCycleCount + "(" + mCyclePositiveCount + "+)");
+        statValues.put(Stats.DURATION, duration);
+        final Uri inserted = context.getContentResolver().insert(Stats.CONTENT_URI, statValues);
 
-		EasyTracker.getTracker().sendEvent("Results", "Type", mTask.toString(),
-				(long) 0);
-		EasyTracker.getTracker().sendEvent("Results", "Value", "Cycles",
-				(long) mCritiqueCount);
-		EasyTracker.getTracker().sendEvent("Results", "Value",
-				"Cycles (positive)", (long) mCritiquePositiveCount);
-		EasyTracker.getTracker().sendEvent("Results", "Value", "Duration",
-				duration);
+        EasyTracker.getTracker().sendEvent("Results", "Type",
+                mIsDiversity ? "Diversity" : "Similarity",
+                (long) 0);
+        EasyTracker.getTracker().sendEvent("Results", "Value", "Cycles", (long) mCycleCount);
+        EasyTracker.getTracker().sendEvent("Results", "Value", "Cycles (positive)",
+                (long) mCyclePositiveCount);
+        EasyTracker.getTracker().sendEvent("Results", "Value", "Duration", duration);
 
-		return inserted;
-	}
+        return inserted;
+    }
 
-	public synchronized String getUserName() {
-		return mUserName;
-	}
+    public synchronized String getUserName() {
+        return mUserName;
+    }
 
 }
