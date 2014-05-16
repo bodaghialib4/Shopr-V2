@@ -26,14 +26,34 @@ public class SurfaceGenerator {
 		Explanation explanation = new Explanation();
 		CharSequence dimensionArguments = renderDimensionArguments(abstractExplanation);
 		CharSequence contextArguments = renderContextArguments(abstractExplanation);
+		
 
 		explanation.addPositiveReason(dimensionArguments);
 		if (!contextArguments.toString().isEmpty())
 			explanation.addPositiveReason(contextArguments);
+		
+		if(!abstractExplanation.negativeArguments().isEmpty()){
+			CharSequence negativeArguments = renderNegativeArguments(abstractExplanation);
+			explanation.addNegativeReason(negativeArguments);
+		}
 
 		explanation.simple(formatter.concat(dimensionArguments,
 				contextArguments));
 		return explanation;
+	}
+
+	private CharSequence renderNegativeArguments(
+			AbstractExplanation abstractExplanation) {
+		String template = localizer.getNegativeArgumentTemplate();
+		String text = String.format(template, textifyForNegativeArguments(abstractExplanation.negativeArguments()));
+		CharSequence formatted = formatter.fromHtml(text);
+		for (DimensionArgument argument : abstractExplanation.negativeArguments()) {
+			formatted = formatter.renderClickable(formatted, argument
+					.dimension().attribute(), com.adiguzel.shopr.explanation.util.TextUtils
+					.textOf(localizer, argument.dimension().attribute()
+							.getCurrentValue()));
+		}
+		return formatted;
 	}
 
 	private CharSequence renderDimensionArguments(
@@ -91,6 +111,19 @@ public class SurfaceGenerator {
 							.getCurrentValue()));
 		}
 		return formatted;
+	}
+	
+	private String textifyForNegativeArguments(Collection<DimensionArgument> arguments) {
+		Iterator<DimensionArgument> iterator = arguments.iterator();
+
+		List<String> argumentValues = new ArrayList<String>();
+		while (iterator.hasNext()) {
+			DimensionArgument arg = iterator.next();
+			argumentValues.add(arg.dimension()
+					.attribute().currentValue().descriptor().toLowerCase(Locale.ENGLISH));
+		}
+		return com.adiguzel.shopr.explanation.util.TextUtils.textify(localizer,
+				argumentValues);
 	}
 
 	private String textify(Collection<DimensionArgument> arguments) {

@@ -11,6 +11,7 @@ public class AbstractExplanation {
 	private Set<DimensionArgument> primaryArguments;
 	private Set<DimensionArgument> supportingArguments;
 	private Set<ContextArgument> contextArguments;
+	private Set<DimensionArgument> negativeArguments;
 	private Category category;
 	
 	public AbstractExplanation(Item item) {
@@ -18,6 +19,7 @@ public class AbstractExplanation {
 		primaryArguments = new LinkedHashSet<DimensionArgument>();
 		supportingArguments = new LinkedHashSet<DimensionArgument>();
 		contextArguments = new LinkedHashSet<ContextArgument>();
+		negativeArguments = new LinkedHashSet<DimensionArgument>();
 	}
 	
 	public AbstractExplanation category(Category category) {
@@ -41,6 +43,10 @@ public class AbstractExplanation {
 		return contextArguments;
 	}
 	
+	public Set<DimensionArgument> negativeArguments() {
+		return negativeArguments;
+	}
+	
 	public DimensionArgument mainArgument() {
 		if (primaryArguments.iterator().hasNext())
 			return primaryArguments.iterator().next();
@@ -54,6 +60,10 @@ public class AbstractExplanation {
 	
 	public void addPrimaryArguments(Collection<DimensionArgument> arguments) {
 		primaryArguments.addAll(arguments);
+	}
+	
+	public void addNegativeArguments(Collection<DimensionArgument> arguments) {
+		negativeArguments.addAll(arguments);
 	}
 	
 	public void addSupportingArgument(DimensionArgument argument) {

@@ -14,6 +14,7 @@ public interface ExplanationLocalizer extends LocalizationModule {
 	public String[] getWeakArgumentTemplates();
 	public String[] getSerendipitousityTemplates();
 	public String[] getContextArgumentTemplates();
+	public String getNegativeArgumentTemplate();
 	
 	public String getSupportingArgumentTemplate();
 	public String getGoodAverageTemplate();

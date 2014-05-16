@@ -146,7 +146,9 @@
     
     <string name="explanation_template_serendipidity_1">This might help us discovering your preferences.</string>
     <string name="explanation_template_serendipidity_2">Might let us learn about what you like.</string>
-    <string name="explanation_template_serendipidity_3">A serendipitous item that you maybe like.</string>
+    <string name="explanation_template_serendipidity_3">A serendipitous item that you perhaps like .</string>
+    
+    <string name="explanation_template_negative">However, it has the following feature(s) you don\'t like: %s.</string>
     
     <string name="explanation_last_critique">Kept to keep track of your progress.</string>
     

@@ -18,7 +18,7 @@ public class Explanation {
 	}
 
 	public Explanation addNegativeReason(CharSequence negative) {
-		positiveReasons.add(negative);
+		negativeReasons.add(negative);
 		return this;
 	}
 

@@ -95,6 +95,11 @@ public class ShoprLocalizer implements ExplanationLocalizer {
 				mContext.getString(R.string.explanation_template_context_location),
 				mContext.getString(R.string.explanation_template_context_location_average) };
 	}
+	
+	@Override
+	public String getNegativeArgumentTemplate() {
+		return mContext.getString(R.string.explanation_template_negative);
+	}
 
 	@Override
 	public String getSupportingArgumentTemplate() {

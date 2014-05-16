@@ -22,8 +22,10 @@ public class ArgumentGenerator {
 	public static double ALPHA = 0.11;// 0.6;
 	// µ - second criteria for explanation score (µ < α)
 	public static double MU = 0.09;// 0.51;
+	// Ɵ - compares information score
+	public static double TETA = 0.03;
 	// β - compares global score
-	public static double BETA = 0.6;
+	public static double BETA = 0.11;
 	// γ - compares information score
 	public static double GAMMA = 0.5;
 	
@@ -39,7 +41,13 @@ public class ArgumentGenerator {
 
 		List<DimensionArgument> weakPrimaryArguments = filterBy(
 				sortedInitialArguments, new WeakPrimaryArgumentFilter());
-
+		
+		List<DimensionArgument> negativeArguments = generateNegativeArguments(item, query, recommendedItems);
+		
+		if(negativeArguments.size() > 0) {
+			explanation.addNegativeArguments(negativeArguments);
+		}
+		
 		// Select context arguments
 		for (Context context : contexts) {
 			if (context.isValidArgument(item, recommendedItems))
@@ -89,7 +97,7 @@ public class ArgumentGenerator {
 
 		return explanation;
 	}
-
+/*
 	public AbstractExplanation selectLegacy(Item item, Query query,
 			List<Item> recommendedItems) {
 
@@ -135,7 +143,7 @@ public class ArgumentGenerator {
 
 		return explanation;
 	}
-
+*/
 	private List<DimensionArgument> generateSortedInitialArguments(Item item,
 			Query query, List<Item> recommendedItems) {
 		List<DimensionArgument> arguments = new ArrayList<DimensionArgument>();
@@ -149,6 +157,21 @@ public class ArgumentGenerator {
 			arguments.add(new DimensionArgument(dimension, true));
 		}
 		sortDesc(arguments);
+		return arguments;
+	}
+	
+	private List<DimensionArgument> generateNegativeArguments(Item item,
+			Query query, List<Item> recommendedItems) {
+		List<DimensionArgument> arguments = new ArrayList<DimensionArgument>();
+
+		for (Attribute attribute : item.attributes().values()) {
+			Dimension dimension = new Dimension(attribute);
+			dimension.explanationScore(Valuator.explanationScore(item, query,
+					dimension));
+			
+			if(dimension.explanationScore() < TETA)
+				arguments.add(new DimensionArgument(dimension, false));
+		}
 		return arguments;
 	}
 
