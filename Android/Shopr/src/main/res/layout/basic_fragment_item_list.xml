@@ -18,9 +18,9 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:horizontalSpacing="4dp"
+        android:horizontalSpacing="3dp"
         android:numColumns="@integer/gridview_basic_num_columns"
-        android:verticalSpacing="4dp"
+        android:verticalSpacing="3dp"
         android:paddingLeft="4dp"
         android:paddingRight="4dp"
         android:visibility="gone" >

@@ -4,18 +4,18 @@
 		<shape android:shape="rectangle"
 			android:dither="true">
  
-			<corners android:radius="6dp"/>
+			<corners android:radius="1dp"/>
  
 			<solid android:color="#ccc" />
  
 		</shape>
 	</item>
  
-	<item android:bottom="2dp">
+	<item>
 		<shape android:shape="rectangle"
 			android:dither="true">
  
-			<corners android:radius="6dp" />
+			<corners android:radius="1dp" />
  
 			<solid android:color="@android:color/white" />
 
