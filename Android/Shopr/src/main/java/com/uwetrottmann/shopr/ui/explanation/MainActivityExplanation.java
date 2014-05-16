@@ -2,6 +2,7 @@ package com.uwetrottmann.shopr.ui.explanation;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -41,6 +42,10 @@ public class MainActivityExplanation extends AbstractNavDrawerActivity {
 					.replace(R.id.content,
 							RecommendationsTabFragment.newInstance()).commit();
 		}
+
+		// Use fake location unless otherwise stated
+		PreferenceManager.getDefaultSharedPreferences(this).edit()
+				.putBoolean(AppSettings.KEY_USING_DIVERSITY, true).commit();
 	}
 
 	@Override

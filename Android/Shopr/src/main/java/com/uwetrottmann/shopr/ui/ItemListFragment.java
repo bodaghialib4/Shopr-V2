@@ -101,7 +101,7 @@ OnItemCritiqueListener, OnItemDisplayListener, OnItemFavouriteListener{
         }
         LatLng location = LocationHandler.getInstance(getActivity()).getLastLocation();
         
-        return new ItemLoader(getActivity(), this, location, isInit);
+        return new ItemLoader(getActivity(), location, isInit);
     }
 
     @Override

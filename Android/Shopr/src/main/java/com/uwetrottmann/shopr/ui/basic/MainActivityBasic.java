@@ -9,6 +9,7 @@ import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -63,7 +64,11 @@ public class MainActivityBasic extends FragmentActivity implements
 		// Set up the action bar.
 		final ActionBar actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-		
+
+		// Use fake location unless otherwise stated
+		PreferenceManager.getDefaultSharedPreferences(this).edit()
+				.putBoolean(AppSettings.KEY_USING_DIVERSITY, true).commit();
+
 		locationHandler = LocationHandler.getInstance(this);
 		locationHandler.initLocationClientOrExit();
 
@@ -97,6 +102,10 @@ public class MainActivityBasic extends FragmentActivity implements
 					.setText(mSectionsPagerAdapter.getPageTitle(i))
 					.setTabListener(this));
 		}
+
+		// Use fake location unless otherwise stated
+		PreferenceManager.getDefaultSharedPreferences(this).edit()
+				.putBoolean(AppSettings.KEY_USING_DIVERSITY, true).commit();
 	}
 
 	@Override
@@ -106,7 +115,8 @@ public class MainActivityBasic extends FragmentActivity implements
 			// use fake location (Marienplatz, Munich)
 			locationHandler.setLastLocation(new LatLng(48.137314, 11.575253));
 			// send out location update event immediately
-			EventBus.getDefault().postSticky(locationHandler.newLocationUpdateEvent());
+			EventBus.getDefault().postSticky(
+					locationHandler.newLocationUpdateEvent());
 		} else {
 			locationHandler.connectLocationClient();
 		}
@@ -184,39 +194,45 @@ public class MainActivityBasic extends FragmentActivity implements
 			super(fm);
 			this.fragmentSectionMap = toMap(createFragmentSections());
 		}
-		
-		private Map<Integer, Tuple<Fragment, String>> toMap(List<Tuple<Fragment, String>> fragmentSections){
-			Map<Integer, Tuple<Fragment, String>> fragmentSectionMap = Maps.newHashMap();
-			
+
+		private Map<Integer, Tuple<Fragment, String>> toMap(
+				List<Tuple<Fragment, String>> fragmentSections) {
+			Map<Integer, Tuple<Fragment, String>> fragmentSectionMap = Maps
+					.newHashMap();
+
 			int index = 0;
-			for(Tuple<Fragment, String> fragmentSection : fragmentSections){
+			for (Tuple<Fragment, String> fragmentSection : fragmentSections) {
 				fragmentSectionMap.put(index, fragmentSection);
 				index++;
 			}
 			return fragmentSectionMap;
 		}
 
-		private List<Tuple<Fragment, String>> createFragmentSections(){
+		private List<Tuple<Fragment, String>> createFragmentSections() {
 			Locale l = Locale.getDefault();
-        	Tuple<Fragment, String> itemFragment = 
-        			new Tuple<Fragment, String>(ItemListFragmentBasic.newInstance(), getString(R.string.title_list).toUpperCase(l));
-        	Tuple<Fragment, String> shopMapFragment = 
-        			new Tuple<Fragment, String>(RecommendationsShopMapBasic.newInstance(), getString(R.string.title_map).toUpperCase(l));
-        	/* Tuple<Fragment, String> favouritesFragment = 
-        			new Tuple<Fragment, String>(FavouriteItemListFragment.newInstance(), getString(R.string.title_favourites).toUpperCase(l)); 
-        			*/
-        	List<Tuple<Fragment, String>> fragmentSections = new ArrayList<Tuple<Fragment, String>>();	
-        	//fragmentSections.add(favouritesFragment);
-        	fragmentSections.add(itemFragment);
-        	fragmentSections.add(shopMapFragment);
-        	
-    	
-        	return fragmentSections;   	
+			Tuple<Fragment, String> itemFragment = new Tuple<Fragment, String>(
+					ItemListFragmentBasic.newInstance(), getString(
+							R.string.title_list).toUpperCase(l));
+			Tuple<Fragment, String> shopMapFragment = new Tuple<Fragment, String>(
+					RecommendationsShopMapBasic.newInstance(), getString(
+							R.string.title_map).toUpperCase(l));
+			/*
+			 * Tuple<Fragment, String> favouritesFragment = new Tuple<Fragment,
+			 * String>(FavouriteItemListFragment.newInstance(),
+			 * getString(R.string.title_favourites).toUpperCase(l));
+			 */
+			List<Tuple<Fragment, String>> fragmentSections = new ArrayList<Tuple<Fragment, String>>();
+			// fragmentSections.add(favouritesFragment);
+			fragmentSections.add(itemFragment);
+			fragmentSections.add(shopMapFragment);
+
+			return fragmentSections;
 		}
 
 		@Override
 		public Fragment getItem(int position) {
-			Tuple<Fragment, String> fragmentSection = fragmentSectionMap.get(position);
+			Tuple<Fragment, String> fragmentSection = fragmentSectionMap
+					.get(position);
 			Fragment fragment = fragmentSection._1;
 			return fragment;
 		}
@@ -228,10 +244,11 @@ public class MainActivityBasic extends FragmentActivity implements
 
 		@Override
 		public CharSequence getPageTitle(int position) {
-			Tuple<Fragment, String> fragmentSection = fragmentSectionMap.get(position);
+			Tuple<Fragment, String> fragmentSection = fragmentSectionMap
+					.get(position);
 			String title = fragmentSection._2;
 			return title;
 		}
 	}
-	
+
 }

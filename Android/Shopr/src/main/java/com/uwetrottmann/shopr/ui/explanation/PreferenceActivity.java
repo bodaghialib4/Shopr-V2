@@ -20,6 +20,7 @@ import com.uwetrottmann.shopr.algorithm.AdaptiveSelection;
 import com.uwetrottmann.shopr.algorithm.Preference;
 import com.uwetrottmann.shopr.algorithm.model.Attributes.Attribute;
 import com.uwetrottmann.shopr.algorithm.model.Attributes.AttributeValue;
+import com.uwetrottmann.shopr.eval.Statistics;
 
 public abstract class PreferenceActivity extends Activity implements
 		OnItemClickListener {
@@ -112,6 +113,9 @@ public abstract class PreferenceActivity extends Activity implements
 			}
 		}
 		AdaptiveSelection.get().submitPreference(preference);
+		
+		// Record cycles
+        Statistics.get().incrementExplicityPreferenceChangeCount();
 		onPreferencesUpdateFinish();
 	}
 

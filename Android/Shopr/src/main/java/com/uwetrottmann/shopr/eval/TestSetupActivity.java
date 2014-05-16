@@ -1,4 +1,3 @@
-
 package com.uwetrottmann.shopr.eval;
 
 import java.util.Random;
@@ -13,93 +12,117 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.CheckBox;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.uwetrottmann.shopr.R;
+import com.uwetrottmann.shopr.model.RecommendationAlgorithm;
 import com.uwetrottmann.shopr.settings.AppSettings;
 import com.uwetrottmann.shopr.ui.SettingsActivity;
-import com.uwetrottmann.shopr.ui.basic.MainActivityBasic;
 
-public class TestSetupActivity extends Activity {
+public class TestSetupActivity extends Activity implements
+		OnItemSelectedListener {
 
-    private static final String TAG = "Test Setup";
+	private static final String TAG = "Test Setup";
 
-    private EditText mNameEditText;
-    private CheckBox mDiversityCheckBox;
+	private EditText mNameEditText;
+	private Spinner taskSpinner;
+	private VariantTask selectedTask;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.common_activity_test_setup);
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.common_activity_test_setup);
 
-        setupViews();
-        setupActionBar();
-    }
+		setupViews();
+		setupActionBar();
+		selectedTask = VariantTask.all()[0];
+	}
 
-    private void setupViews() {
-        View startButton = findViewById(R.id.buttonTestSetupStart);
-        startButton.setOnClickListener(new OnClickListener() {
+	private void setupViews() {
+		View startButton = findViewById(R.id.buttonTestSetupStart);
+		startButton.setOnClickListener(new OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-                onStartTest();
-            }
-        });
+			@Override
+			public void onClick(View v) {
+				onStartTest();
+			}
+		});
 
-        mNameEditText = (EditText) findViewById(R.id.editTextTestSetupName);
-        String prevUserName = Statistics.get().getUserName();
-        mNameEditText.setText(TextUtils.isEmpty(prevUserName) ? "thisis"
-                + new Random().nextInt(999999) : prevUserName);
+		mNameEditText = (EditText) findViewById(R.id.editTextTestSetupName);
+		String prevUserName = Statistics.get().getUserName();
+		mNameEditText.setText(TextUtils.isEmpty(prevUserName) ? "thisis"
+				+ new Random().nextInt(999999) : prevUserName);
 
-        mDiversityCheckBox = (CheckBox) findViewById(R.id.checkBoxTestSetupDiversity);
-        mDiversityCheckBox.setChecked(AppSettings.isUsingDiversity(this));
-    }
-    
-    /**
-     * Set up the {@link android.app.ActionBar}.
-     */
-    private void setupActionBar() {
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-    }
+		taskSpinner = (Spinner) findViewById(R.id.taskSpinner);
+		ArrayAdapter<String> taskAdapter = new ArrayAdapter<String>(this,
+				android.R.layout.simple_spinner_item,
+				VariantTask.allTaskNames());
+		taskAdapter
+				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		taskSpinner.setAdapter(taskAdapter);
+		taskSpinner.setOnItemSelectedListener(this);
+	}
 
-    protected void onStartTest() {
-        if (TextUtils.isEmpty(mNameEditText.getText())) {
-            Toast.makeText(this, "Please supply a name or pseudonym.", Toast.LENGTH_LONG).show();
-            return;
-        }
+	/**
+	 * Set up the {@link android.app.ActionBar}.
+	 */
+	private void setupActionBar() {
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+	}
 
-        // set diversity on or off
-        PreferenceManager.getDefaultSharedPreferences(this).edit()
-                .putBoolean(AppSettings.KEY_USING_DIVERSITY, mDiversityCheckBox.isChecked())
-                .commit();
-        Log.d(TAG, "Setting diversity to : " + (mDiversityCheckBox.isChecked() ? "ON" : "OFF"));
+	protected void onStartTest() {
+		if (TextUtils.isEmpty(mNameEditText.getText())) {
+			Toast.makeText(this, "Please supply a name or pseudonym.",
+					Toast.LENGTH_LONG).show();
+			return;
+		}
 
-        // record name, time and type, start task
-        Statistics.get().startTask(mNameEditText.getText().toString(),
-                mDiversityCheckBox.isChecked());
+		// set diversity on
+		PreferenceManager.getDefaultSharedPreferences(this).edit()
+				.putBoolean(AppSettings.KEY_USING_DIVERSITY, true).commit();
+		Log.d(TAG, "Setting diversity to checked.");
 
-        // start the task
-        startActivity(new Intent(this, MainActivityBasic.class));
-    }
+		// record name, time and type, start task
+		Statistics.get().startTask(mNameEditText.getText().toString(),
+				selectedTask);
+		
+		RecommendationAlgorithm.restart(this);
+		selectedTask.getTaskListener().onStart(this);
+	}
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.test_setup, menu);
-        return true;
-    }
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.test_setup, menu);
+		return true;
+	}
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_settings:
-                startActivity(new Intent(this, SettingsActivity.class));
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.action_settings:
+			startActivity(new Intent(this, SettingsActivity.class));
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+
+	@Override
+	public void onItemSelected(AdapterView<?> parent, View view, int position,
+			long id) {
+		taskSpinner.setSelection(position);
+		selectedTask = VariantTask.all()[position];
+	}
+
+	@Override
+	public void onNothingSelected(AdapterView<?> parent) {
+		// we ensure the first is always selected by default at least
+	}
 
 }

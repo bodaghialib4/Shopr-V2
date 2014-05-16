@@ -183,7 +183,7 @@ public class CritiqueActivity extends Activity {
         AdaptiveSelection.get().submitCritique(critique);
 
         // Record critiquing cycle
-        Statistics.get().incrementCycleCount(mIsPositiveCritique);
+        Statistics.get().incrementCritiqueCount(mIsPositiveCritique);
         
         setResult(RESULT_OK);
         finish();

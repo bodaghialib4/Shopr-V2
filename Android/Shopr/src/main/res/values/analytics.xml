@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="TypographyDashes">
 
     <!-- Replace placeholder ID with your tracking ID -->
-    <string name="ga_trackingId">UA-42520913-1</string>
+    <string name="ga_trackingId">UA-51055774-1</string>
 
     <!-- Enable Activity tracking -->
     <bool name="ga_autoActivityTracking">true</bool>
@@ -14,8 +14,10 @@
     <bool name="ga_anonymizeIp">false</bool>
 
     <!-- The screen names that will appear in the reports -->
-    <string name="com.uwetrottmann.shopr.ui.MainActivity">Home</string>
-    <string name="com.uwetrottmann.shopr.ui.ItemDetailsActivity">Details</string>
+    <string name="com.uwetrottmann.shopr.ui.basic.MainActivityBasic">Home - BASE</string>
+    <string name="com.uwetrottmann.shopr.ui.explanation.MainActivityExplanation">Home - EXP</string>
+    <string name="com.uwetrottmann.shopr.ui.basic.BasicItemDetailsActivity">Details- BASE</string>
+    <string name="com.uwetrottmann.shopr.ui.explanation.ItemDetailsActivity">Details - EXP</string>
     <string name="com.uwetrottmann.shopr.ui.CritiqueActivity">Critique</string>
-
+	<string name="com.uwetrottmann.shopr.explanation.PreferenceActivity">Preference Activity</string>
 </resources>

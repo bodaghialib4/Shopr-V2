@@ -6,7 +6,6 @@ import java.util.Map;
 import android.content.Context;
 import android.database.Cursor;
 import android.location.Location;
-import android.support.v4.app.Fragment;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.uwetrottmann.androidutils.Lists;
@@ -38,13 +37,11 @@ public class ShopUtils {
 		return shops;
 	}
 
-	public static Map<Integer, ShoprShop> getNearbyShops(Context context,
-			Fragment fragment) {
+	public static Map<Integer, ShoprShop> getNearbyShops(Context context) {
 		Map<Integer, ShoprShop> nearbyShops = Maps.newHashMap();
 
 		for (ShoprShop shop : ShopUtils.getShops(context)) {
-			if (isShopWithinRadiusInMeters(shop, Constraints.RADIUS_METERS,
-					fragment)) {
+			if (isShopWithinRadiusInMeters(shop, Constraints.RADIUS_METERS, context)) {
 				nearbyShops.put(Integer.valueOf(shop.id()), shop);
 			}
 		}
@@ -53,9 +50,8 @@ public class ShopUtils {
 	}
 
 	private static boolean isShopWithinRadiusInMeters(ShoprShop shop,
-			int radiusInMeters, Fragment fragment) {
-		LatLng userPosition = LocationHandler.getInstance(
-				fragment.getActivity()).getLastLocation();
+			int radiusInMeters, Context context) {
+		LatLng userPosition = LocationHandler.getInstance(context).getLastLocation();
 
 		float[] results = new float[1];
 		Location.distanceBetween(userPosition.latitude, userPosition.longitude,

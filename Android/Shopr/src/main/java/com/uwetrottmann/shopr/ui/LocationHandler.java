@@ -1,10 +1,10 @@
 package com.uwetrottmann.shopr.ui;
 
-import android.app.Dialog;
+import android.app.Activity;
+import android.content.Context;
 import android.content.IntentSender;
 import android.location.Location;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -18,7 +18,7 @@ import de.greenrobot.event.EventBus;
 
 public class LocationHandler {
 	private static String TAG = "LocationHandler";
-	private FragmentActivity activity;
+	private Context context;
 	private LatLng mLastLocation;
 	private LocationClient mLocationClient;
 	private static LocationHandler instance;
@@ -30,13 +30,13 @@ public class LocationHandler {
 	 */
 	public static final int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
 	
-	private LocationHandler(FragmentActivity activity) {
-		this.activity = activity;
+	private LocationHandler(Context context) {
+		this.context = context;
 	}
 	
-	public static LocationHandler getInstance(FragmentActivity activity) {
+	public static LocationHandler getInstance(Context context) {
 		if(instance == null)
-			instance = new LocationHandler(activity);
+			instance = new LocationHandler(context);
 		return instance;
 	}
 	
@@ -61,9 +61,9 @@ public class LocationHandler {
 		 * Create a new location client, using the enclosing class to handle
 		 * callbacks.
 		 */
-		mLocationClient = new LocationClient(activity,
+		mLocationClient = new LocationClient(context,
 				new GoogleServicesConnectionCallbacks(),
-				GoogleServicesConnectionFailedListener.newInstance(activity));
+				GoogleServicesConnectionFailedListener.newInstance(context));
 	}
 	
 	/**
@@ -75,7 +75,7 @@ public class LocationHandler {
 
 		// Check that Google Play services is available
 		int resultCode = GooglePlayServicesUtil
-				.isGooglePlayServicesAvailable(activity);
+				.isGooglePlayServicesAvailable(context);
 
 		// If Google Play services is available
 		if (ConnectionResult.SUCCESS == resultCode) {
@@ -87,13 +87,15 @@ public class LocationHandler {
 			// Google Play services was not available for some reason
 		} else {
 			// Display an error dialog
-			Dialog dialog = GooglePlayServicesUtil.getErrorDialog(resultCode,
-					activity, 0);
+			/*Dialog dialog = GooglePlayServicesUtil.getErrorDialog(resultCode,
+					context, 0);
 			if (dialog != null) {
 				ErrorDialogFragment errorFragment = new ErrorDialogFragment();
 				errorFragment.setDialog(dialog);
 				errorFragment.show(activity.getSupportFragmentManager(), TAG);
 			}
+			return false;
+			*/
 			return false;
 		}
 	}
@@ -143,17 +145,17 @@ public class LocationHandler {
 
 	private static class GoogleServicesConnectionFailedListener implements
 			GooglePlayServicesClient.OnConnectionFailedListener {
-		private FragmentActivity activity;
+		private Context context;
 
 		public static GoogleServicesConnectionFailedListener newInstance(
-				FragmentActivity activity) {
+				Context context) {
 			return new GoogleServicesConnectionFailedListener()
-					.setActivity(activity);
+					.setActivity(context);
 		}
 
 		public GoogleServicesConnectionFailedListener setActivity(
-				FragmentActivity activity) {
-			this.activity = activity;
+				Context context) {
+			this.context = context;
 			return this;
 		}
 
@@ -167,7 +169,7 @@ public class LocationHandler {
 			if (connectionResult.hasResolution()) {
 				try {
 					// Start an Activity that tries to resolve the error
-					connectionResult.startResolutionForResult(activity,
+					connectionResult.startResolutionForResult((Activity) context,
 							CONNECTION_FAILURE_RESOLUTION_REQUEST);
 					/*
 					 * Thrown if Google Play services canceled the original
@@ -194,6 +196,7 @@ public class LocationHandler {
 		 *            An error code returned from onConnectionFailed
 		 */
 		private void showErrorDialog(int errorCode) {
+			/*
 			// Get the error dialog from Google Play services
 			Dialog errorDialog = GooglePlayServicesUtil.getErrorDialog(
 					errorCode, activity, CONNECTION_FAILURE_RESOLUTION_REQUEST);
@@ -207,6 +210,7 @@ public class LocationHandler {
 				// Show the error dialog in the DialogFragment
 				errorFragment.show(activity.getSupportFragmentManager(), TAG);
 			}
+			*/
 		}
 	}
 

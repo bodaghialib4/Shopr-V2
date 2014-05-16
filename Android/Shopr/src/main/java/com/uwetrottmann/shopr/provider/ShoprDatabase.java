@@ -1,4 +1,3 @@
-
 package com.uwetrottmann.shopr.provider;
 
 import android.content.Context;
@@ -13,140 +12,145 @@ import com.uwetrottmann.shopr.provider.ShoprContract.Stats;
 
 public class ShoprDatabase extends SQLiteOpenHelper {
 
-    public static final String DATABASE_NAME = "shopr.db";
+	public static final String DATABASE_NAME = "shopr.db";
 
-    public static final int DBVER_INITIAL = 1;
+	public static final int DBVER_INITIAL = 1;
 
-    public static final int DBVER_ITEM_COLUMNS = 2;
+	public static final int DBVER_ITEM_COLUMNS = 2;
 
-    public static final int DBVER_STATS = 3;
+	public static final int DBVER_STATS = 3;
 
-    public static final int DATABASE_VERSION = 4;
-    
-    public interface Clauses {
-    	String DEFAULT = "DEFAULT";
-    	
-    	String CURRENT_TIMESTAMP = "CURRENT_TIMESTAMP";
-    	
-    	String CREATE_TABLE = "CREATE TABLE ";
-    }
+	public static final int DATABASE_VERSION = 4;
 
-    public interface Tables {
-        String ITEMS = "items";
+	public interface Clauses {
+		String DEFAULT = "DEFAULT";
 
-        String SHOPS = "shops";
+		String CURRENT_TIMESTAMP = "CURRENT_TIMESTAMP";
 
-        String STATS = "stats";
-        
-        String FAVOURITES = "favourites";
-    }
+		String CREATE_TABLE = "CREATE TABLE ";
+	}
 
-    public interface References {
-        String SHOP_ID = "REFERENCES " + Tables.SHOPS + "(" + Shops._ID + ")";
-        
-        String ITEM_ID = "REFERENCES " + Tables.ITEMS + "(" + Items._ID + ")";
-    }
+	public interface Tables {
+		String ITEMS = "items";
 
-    private static final String CREATE_ITEMS_TABLE = Clauses.CREATE_TABLE
-            + Tables.ITEMS + " ("
+		String SHOPS = "shops";
 
-            + Items._ID + " INTEGER PRIMARY KEY,"
+		String STATS = "stats";
 
-            + Shops.REF_SHOP_ID + " INTEGER " + References.SHOP_ID + ","
+		String FAVOURITES = "favourites";
+	}
 
-            + Items.BRAND + " TEXT,"
+	public interface References {
+		String SHOP_ID = "REFERENCES " + Tables.SHOPS + "(" + Shops._ID + ")";
 
-            + Items.CLOTHING_TYPE + " TEXT,"
+		String ITEM_ID = "REFERENCES " + Tables.ITEMS + "(" + Items._ID + ")";
+	}
 
-            + Items.COLOR + " TEXT,"
+	private static final String CREATE_ITEMS_TABLE = Clauses.CREATE_TABLE
+			+ Tables.ITEMS + " ("
 
-            + Items.PRICE + " REAL,"
+			+ Items._ID + " INTEGER PRIMARY KEY,"
 
-            + Items.SEX + " TEXT,"
-            
-            + Items.IMAGE_URLS + " TEXT"
+			+ Shops.REF_SHOP_ID + " INTEGER " + References.SHOP_ID + ","
 
-            + ");";
+			+ Items.BRAND + " TEXT,"
 
-    private static final String CREATE_SHOPS_TABLE = Clauses.CREATE_TABLE
-            + Tables.SHOPS + " ("
+			+ Items.CLOTHING_TYPE + " TEXT,"
 
-            + Shops._ID + " INTEGER PRIMARY KEY,"
+			+ Items.COLOR + " TEXT,"
 
-            + Shops.NAME + " TEXT NOT NULL,"
+			+ Items.PRICE + " REAL,"
 
-            + Shops.OPENING_HOURS + " TEXT,"
+			+ Items.SEX + " TEXT,"
 
-            + Shops.LAT + " REAL,"
+			+ Items.IMAGE_URLS + " TEXT"
 
-            + Shops.LONG + " REAL"
+			+ ");";
 
-            + ");";
+	private static final String CREATE_SHOPS_TABLE = Clauses.CREATE_TABLE
+			+ Tables.SHOPS + " ("
 
-    private static final String CREATE_STATS_TABLE = Clauses.CREATE_TABLE
-            + Tables.STATS + " ("
+			+ Shops._ID + " INTEGER PRIMARY KEY,"
 
-            + Stats._ID + " INTEGER PRIMARY KEY,"
+			+ Shops.NAME + " TEXT NOT NULL,"
 
-            + Stats.USERNAME + " TEXT,"
+			+ Shops.OPENING_HOURS + " TEXT,"
 
-            + Stats.DURATION + " INTEGER,"
+			+ Shops.LAT + " REAL,"
 
-            + Stats.CYCLE_COUNT + " INTEGER,"
+			+ Shops.LONG + " REAL"
 
-            + Stats.TASK_TYPE + " TEXT"
+			+ ");";
 
-            + ");";
-    
-    private static final String CREATE_FAVOURITES_TABLE = Clauses.CREATE_TABLE
-            + Tables.FAVOURITES + " ("
+	private static final String CREATE_STATS_TABLE = Clauses.CREATE_TABLE
+			+ Tables.STATS + " ("
 
-            + Favourites._ID + " INTEGER PRIMARY KEY,"
+			+ Stats._ID + " INTEGER PRIMARY KEY,"
 
-            + Favourites.ITEM_ID + " INTEGER " + References.ITEM_ID + ","
-            
-            + Favourites.TIMESTAMP + " TEXT " + Clauses.DEFAULT + " " + Clauses.CURRENT_TIMESTAMP
+			+ Stats.USERNAME + " TEXT,"
 
-            + ");";
+			+ Stats.DURATION + " INTEGER,"
 
-    private static final String TAG = "ShoprDatabase";
+			+ Stats.CYCLE_COUNT + " INTEGER,"
 
-    public ShoprDatabase(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
-    }
+			+ Stats.PREFERENCE_CHANGE_COUNT + " INTEGER,"
 
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-    	Log.w(TAG, "Creating databases");
-    	
-        db.execSQL(CREATE_SHOPS_TABLE);
+			+ Stats.CRITIQUE_COUNT + " INTEGER,"
 
-        // items refs shop ids, so create shops table first
-        db.execSQL(CREATE_ITEMS_TABLE);
+			+ Stats.TASK_TYPE + " TEXT"
 
-        db.execSQL(CREATE_STATS_TABLE);
-        
-        db.execSQL(CREATE_FAVOURITES_TABLE);
-    }
+			+ ");";
 
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // always start from scratch
-        onResetDatabase(db);
-    }
+	private static final String CREATE_FAVOURITES_TABLE = Clauses.CREATE_TABLE
+			+ Tables.FAVOURITES + " ("
 
-    /**
-     * Drops all tables and creates an empty database.
-     */
-    private void onResetDatabase(SQLiteDatabase db) {
-        Log.w(TAG, "Database has incompatible version, starting from scratch");
+			+ Favourites._ID + " INTEGER PRIMARY KEY,"
 
-        db.execSQL("DROP TABLE IF EXISTS " + Tables.ITEMS);
-        db.execSQL("DROP TABLE IF EXISTS " + Tables.SHOPS);
-        db.execSQL("DROP TABLE IF EXISTS " + Tables.STATS);
-        db.execSQL("DROP TABLE IF EXISTS " + Tables.FAVOURITES);
-        
-        onCreate(db);
-    }
+			+ Favourites.ITEM_ID + " INTEGER " + References.ITEM_ID + ","
+
+			+ Favourites.TIMESTAMP + " TEXT " + Clauses.DEFAULT + " "
+			+ Clauses.CURRENT_TIMESTAMP
+
+			+ ");";
+
+	private static final String TAG = "ShoprDatabase";
+
+	public ShoprDatabase(Context context) {
+		super(context, DATABASE_NAME, null, DATABASE_VERSION);
+	}
+
+	@Override
+	public void onCreate(SQLiteDatabase db) {
+		Log.w(TAG, "Creating databases");
+
+		db.execSQL(CREATE_SHOPS_TABLE);
+
+		// items refs shop ids, so create shops table first
+		db.execSQL(CREATE_ITEMS_TABLE);
+
+		db.execSQL(CREATE_STATS_TABLE);
+
+		db.execSQL(CREATE_FAVOURITES_TABLE);
+	}
+
+	@Override
+	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+		// always start from scratch
+		onResetDatabase(db);
+	}
+
+	/**
+	 * Drops all tables and creates an empty database.
+	 */
+	private void onResetDatabase(SQLiteDatabase db) {
+		Log.w(TAG, "Database has incompatible version, starting from scratch");
+
+		db.execSQL("DROP TABLE IF EXISTS " + Tables.ITEMS);
+		db.execSQL("DROP TABLE IF EXISTS " + Tables.SHOPS);
+		db.execSQL("DROP TABLE IF EXISTS " + Tables.STATS);
+		db.execSQL("DROP TABLE IF EXISTS " + Tables.FAVOURITES);
+
+		onCreate(db);
+	}
 
 }

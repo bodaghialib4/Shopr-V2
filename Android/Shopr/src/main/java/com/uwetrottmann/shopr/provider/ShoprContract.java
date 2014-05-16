@@ -41,6 +41,10 @@ public class ShoprContract {
         String DURATION = "stats_duration";
 
         String CYCLE_COUNT = "stats_cycles";
+        
+        String CRITIQUE_COUNT = "stats_critiques";
+        
+        String PREFERENCE_CHANGE_COUNT = "stats_explicit_preference_change";
 
         String TASK_TYPE = "stats_tasktype";
     }

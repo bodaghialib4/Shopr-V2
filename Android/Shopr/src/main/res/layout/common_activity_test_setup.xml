@@ -25,21 +25,17 @@
         <requestFocus />
     </EditText>
 
-    <CheckBox
-        android:id="@+id/checkBoxTestSetupDiversity"
-        android:layout_width="wrap_content"
+    <Spinner
+        android:id="@+id/taskSpinner"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textViewTestSetup"
-        android:layout_below="@+id/editTextTestSetupName"
-        android:layout_marginBottom="@dimen/default_margin"
-        android:layout_marginTop="@dimen/default_margin"
-        android:text="@string/diversity_on_negative_progress" />
+        android:layout_below="@+id/editTextTestSetupName" />
 
     <Button
         android:id="@+id/buttonTestSetupStart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/checkBoxTestSetupDiversity"
+        android:layout_below="@+id/taskSpinner"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/default_margin"
         android:text="@string/start" />
