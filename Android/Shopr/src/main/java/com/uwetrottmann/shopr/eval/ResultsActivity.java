@@ -75,21 +75,22 @@ public class ResultsActivity extends Activity {
 		final Cursor query = getContentResolver().query(
 				Stats.buildStatUri(mStatId),
 				new String[] { Stats._ID, Stats.USERNAME, Stats.TASK_TYPE,
-						Stats.DURATION, Stats.CYCLE_COUNT }, null, null, null);
+						Stats.DURATION, Stats.CYCLE_COUNT, Stats.PREFERENCE_CHANGE_COUNT }, null, null, null);
 		if (query != null) {
 			if (query.moveToFirst()) {
 				final String username = query.getString(1);
 				final String task = query.getString(2);
 				final long durationInMillis = query.getLong(3);
 				final String numCycles = query.getString(4);
-
+				final String explicitChanges = query.getString(5);
+				
 				textViewUserName.setText(username);
 				textViewTaskType.setText(task);
 				long duration = durationInMillis / DateUtils.SECOND_IN_MILLIS;
 				textViewDuration.setText(String.format("%dh:%02dm:%02ds",
 						duration / 3600, (duration % 3600) / 60,
 						(duration % 60)) + " ("+ duration + " seconds)");
-				textViewCycles.setText(numCycles);
+				textViewCycles.setText(numCycles + " (" + explicitChanges + " explicit)");
 				exit.setOnLongClickListener(new View.OnLongClickListener() {
 					
 					@Override
