@@ -7,7 +7,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -19,8 +22,10 @@ import au.com.bytecode.opencsv.CSVReader;
 
 import com.uwetrottmann.androidutils.Lists;
 import com.uwetrottmann.shopr.R;
+import com.uwetrottmann.shopr.model.ShoprShop;
 import com.uwetrottmann.shopr.provider.ShoprContract.Items;
 import com.uwetrottmann.shopr.provider.ShoprContract.Shops;
+import com.uwetrottmann.shopr.utils.ShopUtils;
 
 /**
  * Imports items or shops from a CSV file into the database.
@@ -87,6 +92,9 @@ public class CsvImportTask extends AsyncTask<Void, Integer, String> {
             Random random = new Random(123456); // seed to get fixed
                                                 // distribution
             int id = 1;
+            Map<Integer, ShoprShop> idToShops = ShopUtils.getNearbyShops(mContext);
+            ShoprShop[] nearbyShops = idToShops.values().toArray(new ShoprShop[idToShops.size()]);
+       
             while ((line = reader.readNext()) != null) {
                 ContentValues values = new ContentValues();
                 
@@ -102,7 +110,7 @@ public class CsvImportTask extends AsyncTask<Void, Integer, String> {
                     case IMPORT_ITEMS:
                         // add values for one item
                         values.put(Items._ID, id);
-                        values.put(Shops.REF_SHOP_ID, random.nextInt(129));
+                        values.put(Shops.REF_SHOP_ID, nearbyShops[random.nextInt(nearbyShops.length)].id());
                         values.put(Items.CLOTHING_TYPE, line[0]);
                         values.put(Items.SEX, line[1]);
                         values.put(Items.COLOR, line[2]);

@@ -19,8 +19,6 @@ import com.uwetrottmann.shopr.R;
 import com.uwetrottmann.shopr.algorithm.AdaptiveSelection;
 import com.uwetrottmann.shopr.algorithm.model.Item;
 import com.uwetrottmann.shopr.provider.ShoprContract.Stats;
-import com.uwetrottmann.shopr.ui.basic.MainActivityBasic;
-import com.uwetrottmann.shopr.ui.explanation.MainActivityExplanation;
 
 /**
  * Displays the given stats and allows to start a new task.

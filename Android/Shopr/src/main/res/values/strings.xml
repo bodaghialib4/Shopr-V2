@@ -150,7 +150,7 @@
     
     <string name="explanation_template_negative">However, it has the following feature(s) you don\'t like: %s.</string>
     
-    <string name="explanation_last_critique">Kept to keep track of your progress.</string>
+    <string name="explanation_last_critique">Kept so that you can keep track of your critiques.</string>
     
     <string name="conjunction_And">And\u0020</string>
     <string name="conjunction_Also">Also\u0020</string>
