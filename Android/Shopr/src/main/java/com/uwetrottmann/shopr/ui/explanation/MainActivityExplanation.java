@@ -30,6 +30,8 @@ import de.greenrobot.event.EventBus;
 public class MainActivityExplanation extends AbstractNavDrawerActivity {
 	private LocationHandler locationHandler;
 	private NavDrawerActivityConfiguration navDrawerActivityConfiguration;
+	private Fragment currentFragment = RecommendationsFragment.newInstance();
+	private int recommendationsNavDrawerItemPos;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +52,6 @@ public class MainActivityExplanation extends AbstractNavDrawerActivity {
 
 	@Override
 	protected NavDrawerActivityConfiguration getNavDrawerConfiguration() {
-
 		NavDrawerItem[] menu = new NavDrawerItem[] {
 				NavMenuItem.create(101,
 						getString(R.string.drawer_section_title_home),
@@ -65,6 +66,8 @@ public class MainActivityExplanation extends AbstractNavDrawerActivity {
 				NavMenuItem.create(203, "Color", "", false, this),
 				NavMenuItem.create(204, "Gender", "", false, this),
 				NavMenuItem.create(205, "Price Range", "", false, this) };
+		
+		recommendationsNavDrawerItemPos = 0;
 
 		navDrawerActivityConfiguration = new NavDrawerActivityConfiguration();
 		navDrawerActivityConfiguration
@@ -86,25 +89,32 @@ public class MainActivityExplanation extends AbstractNavDrawerActivity {
 	protected void onNavItemSelected(int id) {
 		switch ((int) id) {
 		case 101:
-			replaceContent(RecommendationsTabFragment.newInstance());
+			currentFragment = RecommendationsTabFragment.newInstance();
+			replaceContent(currentFragment);
 			break;
 		case 102:
-			replaceContent(FavouritesFragment.newInstance());
+			currentFragment = FavouritesFragment.newInstance();
+			replaceContent(currentFragment);
 			break;
 		case 201:
-			replaceContent(new MindMapOverviewFragment());
+			currentFragment = new MindMapOverviewFragment();
+			replaceContent(currentFragment);
 			break;
 		case 202:
-			replaceContent(new ClothingTypeFragment());
+			currentFragment = new ClothingTypeFragment();
+			replaceContent(currentFragment);
 			break;
 		case 203:
-			replaceContent(new ColorFragment());
+			currentFragment = new ColorFragment();
+			replaceContent(currentFragment);
 			break;
 		case 204:
-			replaceContent(new SexFragment());
+			currentFragment = new SexFragment();
+			replaceContent(currentFragment);
 			break;
 		case 205:
-			replaceContent(new PriceRangeFragment());
+			currentFragment = new PriceRangeFragment();
+			replaceContent(currentFragment);
 			break;
 		}
 	}
@@ -142,8 +152,15 @@ public class MainActivityExplanation extends AbstractNavDrawerActivity {
 
 	@Override
 	public void onBackPressed() {
-		// do nothing, prevents accidental back presses
+		if (!(currentFragment instanceof RecommendationsTabFragment)) {
+			getSupportFragmentManager()
+					.beginTransaction()
+					.replace(R.id.content,
+							RecommendationsTabFragment.newInstance()).commit();
+			selectItem(0);
+		}
 	}
+	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

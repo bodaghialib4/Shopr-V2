@@ -10,8 +10,8 @@ public class Sex extends GenericAttribute {
 
 	public enum Value implements AttributeValue {
 		FEMALE("Female", "female", Colors.PINK), 
-		MALE("Male", "male", Colors.BLUE), 
-		UNISEX("Unisex", "unisex", Colors.GREEN);
+		MALE("Male", "male", Colors.BLUE);
+		//UNISEX("Unisex", "unisex", Colors.GREEN);
 
 		private String mDescriptor;
 		private String mColor;
@@ -68,9 +68,9 @@ public class Sex extends GenericAttribute {
 			setWeights(Sex.Value.FEMALE);
 		} else if ("Männlich".equals(value) || "M�nnlich".equals(value)) {
 			setWeights(Sex.Value.MALE);
-		} else if ("Beide".equals(value)) {
+		} /*else if ("Beide".equals(value)) {
 			setWeights(Sex.Value.UNISEX);
-		}
+		}*/
 	}
 
 	private void setWeights(Value value) {

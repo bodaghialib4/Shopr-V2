@@ -33,6 +33,8 @@ public class BasicItemAdapter extends ArrayAdapter<Item> {
 	private OnItemCritiqueListener mCritiqueListener;
 
 	private OnItemDisplayListener mItemListener;
+	
+	private OnItemFavouriteListener mFavouriteListener;
 
 
 	public BasicItemAdapter(Context context,
@@ -44,6 +46,7 @@ public class BasicItemAdapter extends ArrayAdapter<Item> {
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mCritiqueListener = critiqueListener;
 		mItemListener = itemListener;
+		mFavouriteListener = favouriteListener;
 	}
 
 	@Override
@@ -102,13 +105,13 @@ public class BasicItemAdapter extends ArrayAdapter<Item> {
 			}
 		});
 		CheatSheet.setup(holder.buttonDislike, R.string.dislike);
-		/*
-		 * holder.buttonFavourite.setOnClickListener(new OnClickListener() {
-		 * 
-		 * @Override public void onClick(View v) { if (mFavouriteListener !=
-		 * null) { mFavouriteListener.onItemFavourite(item); } } });
-		 * CheatSheet.setup(holder.buttonFavourite, R.string.favourite);
-		 */
+		
+		 holder.buttonFavourite.setOnClickListener(new OnClickListener() {
+		  
+		  @Override public void onClick(View v) { if (mFavouriteListener !=
+		 null) { mFavouriteListener.onItemFavourite(item); } } });
+		 CheatSheet.setup(holder.buttonFavourite, R.string.favourite);
+		 
 
 		holder.pictureContainer.setOnClickListener(new OnClickListener() {
 			@Override

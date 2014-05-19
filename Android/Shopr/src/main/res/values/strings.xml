@@ -103,7 +103,9 @@
     <string name="selection_hint">Select one or more</string>
     
     <string name="mind_map_definition">Below is your inferred <b>current preferences</b> that are used to recommend you clothes from <b>nearby shops</b>.
-         You can <b>update</b> them anytime you want.</string>
+         You can <b>update</b> them anytime you want by <b>tapping</b> on them.</string>
+    
+    <string name="mind_map_hint_change_preference">Hint: <b>Tap</b> on the chart to change your preference.</string>
     
     <string name="mind_map_section_color">Color</string>
     <string name="mind_map_section_clothing_type">Clothing type</string>
@@ -114,7 +116,7 @@
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
     
-    <string name="drawer_section_title_home">Home</string>
+    <string name="drawer_section_title_home">Recommendations</string>
     <string name="drawer_section_title_favourites">Favourites</string>
     <string name="drawer_section_title_mind_map">Mindmap</string>
     

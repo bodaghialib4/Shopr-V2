@@ -103,7 +103,7 @@
             android:layout_weight="1"
             android:background="@drawable/selectable_background_shopr"
             android:contentDescription="@string/favourite"
-            android:src="@drawable/ic_action_star_10" />
+            android:src="@drawable/ic_action_heart" />
 
     </LinearLayout>
 
