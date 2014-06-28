@@ -3,22 +3,9 @@ Shopr
 
 ![Shopr screenshot](/hero.png)
 
-Suggests clothing shops to you based on Active Learning strategies. Just a research project!
+Provides the user with interactive explanations for recommendations and her preferences. Just a research project based on [UweTrottmann's Shopr](https://github.com/UweTrottmann/Shopr)!
 
-The conversation-based active learning critiquing algorithm used is heavily based on
-
-> Tweaking Critiquing, Lorraine McGinty and Barry Smyth, 2003.
-
-> [PDF](http://www.researchgate.net/publication/230875729_Tweaking_Critiquing/file/9fcfd50f3fa6c955ff.pdf) (as of June 2013)
-
-It differs by allowing negative critiques and uses these as an indicator of positive or negative progress. Why? Imagine a clothing item selection: you may not always say 'Hey, I like this color!', but also 'OMG, this color looks bad!'. It also helps limit the options for use on a smaller screen.
-
-
-How to add a new attribute
---------------------------
-
-1. Create a new class in shopr.algorithm.model extending GenericAttribute.
-2. Define end-user name in CritiqueActivity's ItemFeatureAdapter.getView().
+A human analogue of *interactive explanations*: Imagine one of your friends explains that she recommends you a blue shirt because she thinks you like the color blue. You could correct her saying that you don't like blue but are interested in green instead. Then you would except a new suggestion. 
 
 License
 -------
