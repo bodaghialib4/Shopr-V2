@@ -22,12 +22,12 @@ public class ArgumentGenerator {
 	public static double ALPHA = 0.11;// 0.6;
 	// µ - second criteria for explanation score (µ < α)
 	public static double MU = 0.09;// 0.51;
-	// Ɵ - compares information score
-	public static double TETA = 0.03;
 	// β - compares global score
 	public static double BETA = 0.11;
-	// γ - compares information score
+	// γ - compares desired lowest information score
 	public static double GAMMA = 0.5;
+	// Ɵ - compares the information score for negative arguments
+	public static double TETA = 0.03;
 	
 	public AbstractExplanation select(Item item, Query query,
 			List<Item> recommendedItems, List<Context> contexts) {

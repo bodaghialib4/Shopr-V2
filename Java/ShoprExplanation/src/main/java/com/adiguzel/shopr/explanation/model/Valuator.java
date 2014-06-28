@@ -30,8 +30,7 @@ public class Valuator {
 			List<Item> recommendations, Dimension dimension) {
 		int n = recommendations.size();
 		int h = calculateH(item, recommendations, dimension);// findNumMostFrequentX(recommendations,
-																// query,
-																// dimension);
+																// query,															// dimension);
 		return (n - h) / (n - 1);
 	}
 

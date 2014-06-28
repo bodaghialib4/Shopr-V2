@@ -14,6 +14,14 @@
 	    android:layout_height="wrap_content"
 	    android:text="@string/mind_map_definition"
 	    android:textAppearance="@style/TextAppearance.Medium"/>
+  
+  <TextView
+	    android:id="@+id/preferenceChangeHint"
+	    android:paddingTop="3dp"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:text="@string/mind_map_hint_change_preference"
+	    android:textAppearance="@style/TextAppearance.Small.Dim"/>
 
 	
 	<LinearLayout  

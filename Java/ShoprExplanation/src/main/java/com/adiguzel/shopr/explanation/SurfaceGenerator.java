@@ -27,7 +27,6 @@ public class SurfaceGenerator {
 		CharSequence dimensionArguments = renderDimensionArguments(abstractExplanation);
 		CharSequence contextArguments = renderContextArguments(abstractExplanation);
 		
-
 		explanation.addPositiveReason(dimensionArguments);
 		if (!contextArguments.toString().isEmpty())
 			explanation.addPositiveReason(contextArguments);
