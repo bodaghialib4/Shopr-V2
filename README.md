@@ -5,7 +5,7 @@ Shopr
 
 Provides the user with interactive explanations for recommendations and her preferences. The user can always tap on the highlighted parts of the explanations to correct the system assumptions. Just a research project based on [UweTrottmann's Shopr](https://github.com/UweTrottmann/Shopr)!
 
-A human analogue of *interactive explanations*: Imagine one of your friends explains that she recommends you a blue shirt because she thinks you like the color blue. You could correct her saying that you don't like blue but are interested in green instead. Then you would except a new suggestion. 
+A human analogue of *interactive explanations*: Imagine one of your friends explains that she recommends you a blue shirt because she thinks you like the color blue. You could correct her saying that you don't like blue but are interested in green instead. Then you would expect new suggestions. 
 
 More screenshots
 ----------------
