@@ -15,43 +15,41 @@ import com.google.android.gms.maps.model.LatLng;
 
 import de.greenrobot.event.EventBus;
 
-
 public class LocationHandler {
 	private static String TAG = "LocationHandler";
 	private Context context;
 	private LatLng mLastLocation;
 	private LocationClient mLocationClient;
 	private static LocationHandler instance;
-	
-	
+
 	/*
 	 * Define a request code to send to Google Play services. This code is
 	 * returned in Activity.onActivityResult.
 	 */
 	public static final int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
-	
+
 	private LocationHandler(Context context) {
 		this.context = context;
 	}
-	
+
 	public static LocationHandler getInstance(Context context) {
-		if(instance == null)
+		if (instance == null)
 			instance = new LocationHandler(context);
 		return instance;
 	}
-	
+
 	public void setLastLocation(LatLng lastLocation) {
 		mLastLocation = lastLocation;
 	}
-	
+
 	public void connectLocationClient() {
 		mLocationClient.connect();
 	}
-	
+
 	public void disconnectLocationClient() {
 		mLocationClient.disconnect();
 	}
-	
+
 	public void initLocationClientOrExit() {
 		// Check if Google Play services is installed
 		if (!servicesConnected()) {
@@ -65,7 +63,7 @@ public class LocationHandler {
 				new GoogleServicesConnectionCallbacks(),
 				GoogleServicesConnectionFailedListener.newInstance(context));
 	}
-	
+
 	/**
 	 * Verify that Google Play services is available before making a request.
 	 * 
@@ -87,15 +85,14 @@ public class LocationHandler {
 			// Google Play services was not available for some reason
 		} else {
 			// Display an error dialog
-			/*Dialog dialog = GooglePlayServicesUtil.getErrorDialog(resultCode,
-					context, 0);
-			if (dialog != null) {
-				ErrorDialogFragment errorFragment = new ErrorDialogFragment();
-				errorFragment.setDialog(dialog);
-				errorFragment.show(activity.getSupportFragmentManager(), TAG);
-			}
-			return false;
-			*/
+			/*
+			 * Dialog dialog = GooglePlayServicesUtil.getErrorDialog(resultCode,
+			 * context, 0); if (dialog != null) { ErrorDialogFragment
+			 * errorFragment = new ErrorDialogFragment();
+			 * errorFragment.setDialog(dialog);
+			 * errorFragment.show(activity.getSupportFragmentManager(), TAG); }
+			 * return false;
+			 */
 			return false;
 		}
 	}
@@ -110,20 +107,22 @@ public class LocationHandler {
 		if (servicesConnected()) {
 			// Get the current location
 			Location lastLocation = mLocationClient.getLastLocation();
-			mLastLocation = new LatLng(lastLocation.getLatitude(),
-					lastLocation.getLongitude());
-			EventBus.getDefault().postSticky(new LocationUpdateEvent());
+			if (lastLocation != null) {
+				mLastLocation = new LatLng(lastLocation.getLatitude(),
+						lastLocation.getLongitude());
+				EventBus.getDefault().postSticky(new LocationUpdateEvent());
+			}
 		}
 	}
 
 	public LatLng getLastLocation() {
 		return mLastLocation;
 	}
-	
+
 	public LocationUpdateEvent newLocationUpdateEvent() {
 		return new LocationUpdateEvent();
 	}
-	
+
 	public class LocationUpdateEvent {
 	}
 
@@ -169,7 +168,8 @@ public class LocationHandler {
 			if (connectionResult.hasResolution()) {
 				try {
 					// Start an Activity that tries to resolve the error
-					connectionResult.startResolutionForResult((Activity) context,
+					connectionResult.startResolutionForResult(
+							(Activity) context,
 							CONNECTION_FAILURE_RESOLUTION_REQUEST);
 					/*
 					 * Thrown if Google Play services canceled the original
@@ -197,20 +197,18 @@ public class LocationHandler {
 		 */
 		private void showErrorDialog(int errorCode) {
 			/*
-			// Get the error dialog from Google Play services
-			Dialog errorDialog = GooglePlayServicesUtil.getErrorDialog(
-					errorCode, activity, CONNECTION_FAILURE_RESOLUTION_REQUEST);
-
-			// If Google Play services can provide an error dialog
-			if (errorDialog != null) {
-				// Create a new DialogFragment in which to show the error dialog
-				ErrorDialogFragment errorFragment = new ErrorDialogFragment();
-				// Set the dialog in the DialogFragment
-				errorFragment.setDialog(errorDialog);
-				// Show the error dialog in the DialogFragment
-				errorFragment.show(activity.getSupportFragmentManager(), TAG);
-			}
-			*/
+			 * // Get the error dialog from Google Play services Dialog
+			 * errorDialog = GooglePlayServicesUtil.getErrorDialog( errorCode,
+			 * activity, CONNECTION_FAILURE_RESOLUTION_REQUEST);
+			 * 
+			 * // If Google Play services can provide an error dialog if
+			 * (errorDialog != null) { // Create a new DialogFragment in which
+			 * to show the error dialog ErrorDialogFragment errorFragment = new
+			 * ErrorDialogFragment(); // Set the dialog in the DialogFragment
+			 * errorFragment.setDialog(errorDialog); // Show the error dialog in
+			 * the DialogFragment
+			 * errorFragment.show(activity.getSupportFragmentManager(), TAG); }
+			 */
 		}
 	}
 
